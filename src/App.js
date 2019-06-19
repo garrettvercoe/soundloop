@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { Stage, Layer, Rect, Text } from "react-konva";
+import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
 import Tone from "tone";
 
-class ColoredRect extends React.Component {
+class ColoredCirc extends React.Component {
   state = {
     color: "green"
   };
@@ -15,11 +15,11 @@ class ColoredRect extends React.Component {
   };
   render() {
     return (
-      <Rect
-        x={20}
-        y={20}
-        width={900}
-        height={900}
+      <Circle
+        x={300}
+        y={300}
+        width={500}
+        height={500}
         fill={this.state.color}
         shadowBlur={5}
         onClick={this.handleClick}
@@ -36,8 +36,8 @@ export default class App extends Component {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Text text="Try click on rect" />
-          <ColoredRect />
+          <Text text="Try clicking on the circle!" />
+          <ColoredCirc />
         </Layer>
       </Stage>
     );
