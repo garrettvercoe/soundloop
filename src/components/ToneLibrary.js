@@ -17,7 +17,7 @@ const LibListItemStyle = {
 const card = {
   position: "absolute",
   top: "30%",
-  left: "20%",
+  left: "5%",
   width: "15rem",
   height: "14rem",
   backgroundColor: "#fff",
