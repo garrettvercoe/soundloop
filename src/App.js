@@ -4,6 +4,7 @@ import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
 import Tone from "tone";
 import LibraryContainer from "./components/ToneLibrary";
+import Loop from "./components/Loop";
 
 export default class App extends Component {
   constructor(props) {
@@ -29,9 +30,12 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <LibraryContainer />
+        
         <Stage width={window.innerWidth} height={window.innerHeight}>
           <Layer>
+            <Loop />
             <Text text="Konva Stage" />
+            
           </Layer>
         </Stage>
       </React.Fragment>
