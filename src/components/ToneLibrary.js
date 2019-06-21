@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/index.css";
 
 const LibListStyle = {
   textAlign: "left",
@@ -61,7 +62,7 @@ export default class LibraryContainer extends React.Component {
     return (
       <div style={card}>
         <div style={contentContainer}>
-          <h3> TONES</h3>
+          <h3 className="light"> TONES</h3>
           <Library
             colors={[
               "#fe6b12",
