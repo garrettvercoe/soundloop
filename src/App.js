@@ -29,11 +29,7 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <LibraryContainer />
-        <Stage
-          style={{ zIndex: -99 }}
-          width={window.innerWidth}
-          height={window.innerHeight}
-        >
+        <Stage width={window.innerWidth} height={window.innerHeight}>
           <Layer>
             <Text text="Konva Stage" />
           </Layer>
