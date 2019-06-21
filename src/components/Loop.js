@@ -42,7 +42,7 @@ export default class Loop extends React.Component{
     }
 }
 
-class Loop2 extends React.Component{
+class AnchorPoint extends React.Component{
     render(){
         var rect = new Konva.Rect({})
         var minim = Math.min(window.innerWidth/3, window.innerHeight/3);

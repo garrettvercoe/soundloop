@@ -1,11 +1,49 @@
+/* global styles here */
+@font-face {
+  font-family: "RelevantBold";
+  src: local("RelevantBold"),
+    url("../fonts/Relevant-Bold-wf.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "RelevantMedium";
+  src: local("RelevantMedium"),
+    url("../fonts/Relevant-Medium-wf.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   background-color: #fcf6ec;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "RelevantMedium", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.konvajs-content {
+  z-index: -99 !important;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "RelevantBold", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+}
+
+.light {
+  color: #808080;
+}
+
+h3 {
+  font-size: 1rem;
+  letter-spacing: 1px;
 }
 
 code {

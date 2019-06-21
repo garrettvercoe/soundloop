@@ -14,10 +14,10 @@ export default class App extends Component {
   }
   componentDidMount() {
     this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    window.addEventListener("resize", this.updateWindowDimensions);
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener("resize", this.updateWindowDimensions);
   }
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
@@ -30,8 +30,10 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <LibraryContainer />
-        
-        <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Stage
+          width={window.innerWidth}
+          height={window.innerHeight}
+        >
           <Layer>
             <Loop />
             <Text text="Konva Stage" />
