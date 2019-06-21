@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
 import Tone from "tone";
+import LibraryContainer from "./components/ToneLibrary";
 
 export default class App extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class App extends Component {
     // And then we have canvas shapes inside the Layer
     return (
       <React.Fragment>
-        <div>container placeholder</div>
+        <LibraryContainer />
         <Stage width={window.innerWidth} height={window.innerHeight}>
           <Layer>
             <Text text="Konva Stage" />
