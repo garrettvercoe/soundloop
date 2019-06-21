@@ -21,7 +21,8 @@ const card = {
   width: "15rem",
   height: "14rem",
   backgroundColor: "#fff",
-  borderRadius: "1%"
+  borderRadius: "1%",
+  boxShadow: "0 20px 10px rgba(0,0,0,0.01), 0 6px 6px rgba(0,0,0,0.05)"
 };
 
 const contentContainer = { padding: "2rem" };
