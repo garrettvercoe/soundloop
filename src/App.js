@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
-import Tone from "tone";
-import LibraryContainer from "./components/ToneLibrary";
+
+import ToneLibrary from "./components/ToneLibrary";
 import Loop from "./components/Loop";
 import Portal from "./components/Portal";
 
@@ -30,7 +30,6 @@ export default class App extends Component {
     // And then we have canvas shapes inside the Layer
     return (
       <React.Fragment>
-        
         <Stage width={window.innerWidth} height={window.innerHeight}>
         <Loop />
           <Layer>
@@ -41,6 +40,8 @@ export default class App extends Component {
               <LibraryContainer />
             </Portal> 
             <Text text="Konva Stage" />
+              <ToneLibrary />
+            </Portal>
           </Layer>
         </Stage>
       </React.Fragment>

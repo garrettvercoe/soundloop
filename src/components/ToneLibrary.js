@@ -1,5 +1,8 @@
 import React from "react";
 import "../styles/index.css";
+import NewToneMenu from "./NewToneMenu";
+import Tone from "tone";
+import Draggable from "react-draggable"; // The default
 
 const LibListStyle = {
   textAlign: "left",
@@ -14,7 +17,7 @@ const LibListItemStyle = {
   padding: ".25rem"
 };
 
-const card = {
+const CardStyle = {
   position: "absolute",
   top: "30%",
   left: "5%",
@@ -31,15 +34,17 @@ class ToneButton extends React.Component {
   render() {
     return (
       <button
+        className="hover-shadow"
         style={{
           borderRadius: "100%",
-          cursor: "pointer",
+          cursor: "grab",
           backgroundColor: this.props.color,
           width: "2rem",
           height: "2rem",
           border: "none",
           outline: "none"
         }}
+        //onClick={this.CreateTone.bind(this)}
       />
     );
   }
@@ -62,9 +67,11 @@ class Library extends React.Component {
 export default class LibraryContainer extends React.Component {
   render() {
     return (
-      <div style={card}>
+      <div style={CardStyle}>
         <div style={contentContainer}>
-          <h3 className="light"> TONES</h3>
+          <h3 className="light inl-blk"> TONES</h3>
+          <NewToneMenu />
+
           <Library
             colors={[
               "#fe6b12",

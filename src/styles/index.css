@@ -46,3 +46,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.hover-shadow:hover {
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.03), 0 3px 3px rgba(0, 0, 0, 0.1);
+  transform: translatey(-2px);
+  opacity: 0.94;
+  transition: all 0.2s ease-in-out;
+}
+
+.plus-icon {
+  color: #808080;
+  padding-left: 0.75rem;
+  right: 0px;
+}
+
+.plus-icon:hover {
+  transition: all 0.2s ease-in-out;
+  color: #692d55;
+  cursor: pointer;
+  transform: translatey(-1px);
+}
+
+.inl-blk {
+  display: inline-block;
+}
