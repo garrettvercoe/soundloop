@@ -35,11 +35,6 @@ export default class App extends Component {
           <Layer>
           
             <Portal>
-              {" "}
-              
-              <LibraryContainer />
-            </Portal> 
-            <Text text="Konva Stage" />
               <ToneLibrary />
             </Portal>
           </Layer>

@@ -20,6 +20,7 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
         onClick={onSelect}
         ref={shapeRef}
         {...shapeProps}
+        x={window.innerWidth/2}
         onDragEnd={e => {
           onChange({
             ...shapeProps,
@@ -55,6 +56,16 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
           anchorFill={"black"}
           anchorCornerRadius={2}
           anchorStrokeWidth={0}
+          ignoreStroke={true}
+          boundBoxFunc={function(oldBoundBox, newBoundBox) {
+            if (Math.abs(newBoundBox.width) > Math.min(window.innerHeight*(4/5), window.innerWidth*(4/5))) {
+              return oldBoundBox;
+            }
+            else if (Math.abs(newBoundBox.width) < Math.min(window.innerHeight/5, window.innerWidth/5)){
+                return oldBoundBox;
+            }
+            return newBoundBox;}
+        }
         />
       )}
     </React.Fragment>
@@ -68,8 +79,8 @@ const initialCircles = [
     y: window.innerHeight / 2,
     offsetX: 0,
     offsetY: 0,
-    width: 500,
-    height: 500,
+    width: window.innerWidth * (2/3),
+    height: window.innerHeight * (2/3),
     fill: "transparent",
     id: "loop",
     stroke: "black",
@@ -82,7 +93,15 @@ const Loop = () => {
   const [selectedId, selectShape] = React.useState(null);
 
   return (
-      <Layer>
+      <Layer 
+        // deselect when clicked on empty area, currently doesn't work within layer of circle size
+        onMouseDown={e => {
+            const clickedOnEmpty = e.target === e.target.getStage();
+            if (clickedOnEmpty) {
+            selectShape(null);
+            }
+        }}
+      >
         {circles.map((circle, i) => {
           return (
             <LoopScale
