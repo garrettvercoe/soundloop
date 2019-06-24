@@ -30,19 +30,16 @@ export default class App extends Component {
     // And then we have canvas shapes inside the Layer
     return (
       <React.Fragment>
-        <LibraryContainer />
-        <Stage
-          width={window.innerWidth}
-          height={window.innerHeight}
-          offsetX={-100}
-        >
+        
         <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Loop />
           <Layer>
-            <Loop />
+          
             <Portal>
               {" "}
+              
               <LibraryContainer />
-            </Portal>
+            </Portal> 
             <Text text="Konva Stage" />
           </Layer>
         </Stage>

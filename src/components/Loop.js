@@ -20,7 +20,6 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
         onClick={onSelect}
         ref={shapeRef}
         {...shapeProps}
-        draggable
         onDragEnd={e => {
           onChange({
             ...shapeProps,
@@ -46,17 +45,31 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
           });
         }}
       />
-      {isSelected && <Transformer ref={trRef} />}
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          enabledAnchors={["top-right", "bottom-left"]}
+          centeredScaling={true}
+          rotateEnabled={false}
+          borderStrokeWidth={0}
+          anchorFill={"black"}
+          anchorCornerRadius={2}
+          anchorStrokeWidth={0}
+        />
+      )}
     </React.Fragment>
   );
 };
 
+// need to change to singular
 const initialCircles = [
   {
-    x: 70,
-    y: 70,
-    width: 100,
-    height: 100,
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+    offsetX: 0,
+    offsetY: 0,
+    width: 500,
+    height: 500,
     fill: "transparent",
     id: "loop",
     stroke: "black",
@@ -64,22 +77,11 @@ const initialCircles = [
   }
 ];
 
-export const LoopTest = () => {
+const Loop = () => {
   const [circles, setCircles] = React.useState(initialCircles);
   const [selectedId, selectShape] = React.useState(null);
 
   return (
-    <Stage
-      width={window.innerWidth}
-      height={window.innerHeight}
-      onMouseDown={e => {
-        // deselect when clicked on empty area
-        const clickedOnEmpty = e.target === e.target.getStage();
-        if (clickedOnEmpty) {
-          selectShape(null);
-        }
-      }}
-    >
       <Layer>
         {circles.map((circle, i) => {
           return (
@@ -99,12 +101,11 @@ export const LoopTest = () => {
           );
         })}
       </Layer>
-    </Stage>
   );
 };
 
-export default class Loop extends React.Component{
+export default class LoopExport extends React.Component{
     render(){
-        return(<LoopTest />)
+        return(<Loop />)
     };
 };
