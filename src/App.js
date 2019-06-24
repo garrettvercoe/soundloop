@@ -33,6 +33,7 @@ export default class App extends Component {
         <Stage
           width={window.innerWidth}
           height={window.innerHeight}
+          offsetX={-100}
         >
           <Layer>
             <Loop />

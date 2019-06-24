@@ -25,10 +25,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.konvajs-content {
-  z-index: -99 !important;
-}
-
 h1,
 h2,
 h3 {
