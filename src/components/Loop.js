@@ -2,6 +2,8 @@ import React from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Transformer, Circle } from "react-konva";
 
+const LoopStyles = {};
+
 const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
@@ -20,7 +22,7 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
         onClick={onSelect}
         ref={shapeRef}
         {...shapeProps}
-        x={window.innerWidth/2}
+        x={window.innerWidth / 2}
         onDragEnd={e => {
           onChange({
             ...shapeProps,
@@ -53,19 +55,27 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
           centeredScaling={true}
           rotateEnabled={false}
           borderStrokeWidth={0}
-          anchorFill={"black"}
+          anchorFill={"#ed1e79"}
           anchorCornerRadius={2}
           anchorStrokeWidth={0}
           ignoreStroke={true}
           boundBoxFunc={function(oldBoundBox, newBoundBox) {
-            if (Math.abs(newBoundBox.width) > Math.min(window.innerHeight*(4/5), window.innerWidth*(4/5))) {
+            if (
+              Math.abs(newBoundBox.width) >
+              Math.min(
+                window.innerHeight * (4 / 5),
+                window.innerWidth * (4 / 5)
+              )
+            ) {
+              return oldBoundBox;
+            } else if (
+              Math.abs(newBoundBox.width) <
+              Math.min(window.innerHeight / 5, window.innerWidth / 5)
+            ) {
               return oldBoundBox;
             }
-            else if (Math.abs(newBoundBox.width) < Math.min(window.innerHeight/5, window.innerWidth/5)){
-                return oldBoundBox;
-            }
-            return newBoundBox;}
-        }
+            return newBoundBox;
+          }}
         />
       )}
     </React.Fragment>
@@ -79,12 +89,12 @@ const initialCircles = [
     y: window.innerHeight / 2,
     offsetX: 0,
     offsetY: 0,
-    width: window.innerWidth * (2/3),
-    height: window.innerHeight * (2/3),
+    width: window.innerWidth * (2 / 3),
+    height: window.innerHeight * (2 / 3),
     fill: "transparent",
     id: "loop",
-    stroke: "black",
-    strokeWidth: 3
+    stroke: "#ed1e79",
+    strokeWidth: 1.5
   }
 ];
 
@@ -93,38 +103,38 @@ const Loop = () => {
   const [selectedId, selectShape] = React.useState(null);
 
   return (
-      <Layer 
-        // deselect when clicked on empty area, currently doesn't work within layer of circle size
-        onMouseDown={e => {
-            const clickedOnEmpty = e.target === e.target.getStage();
-            if (clickedOnEmpty) {
-            selectShape(null);
-            }
-        }}
-      >
-        {circles.map((circle, i) => {
-          return (
-            <LoopScale
-              key={i}
-              shapeProps={circle}
-              isSelected={circle.id === selectedId}
-              onSelect={() => {
-                selectShape(circle.id);
-              }}
-              onChange={newAttrs => {
-                const circs = circles.slice();
-                circs[i] = newAttrs;
-                setCircles(circs);
-              }}
-            />
-          );
-        })}
-      </Layer>
+    <Layer
+      // deselect when clicked on empty area, currently doesn't work within layer of circle size
+      onMouseDown={e => {
+        const clickedOnEmpty = e.target === e.target.getStage();
+        if (clickedOnEmpty) {
+          selectShape(null);
+        }
+      }}
+    >
+      {circles.map((circle, i) => {
+        return (
+          <LoopScale
+            key={i}
+            shapeProps={circle}
+            isSelected={circle.id === selectedId}
+            onSelect={() => {
+              selectShape(circle.id);
+            }}
+            onChange={newAttrs => {
+              const circs = circles.slice();
+              circs[i] = newAttrs;
+              setCircles(circs);
+            }}
+          />
+        );
+      })}
+    </Layer>
   );
 };
 
-export default class LoopExport extends React.Component{
-    render(){
-        return(<Loop />)
-    };
-};
+export default class LoopExport extends React.Component {
+  render() {
+    return <Loop />;
+  }
+}

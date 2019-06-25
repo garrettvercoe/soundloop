@@ -49,8 +49,6 @@ code {
 
 .hover-shadow:hover {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.03), 0 3px 3px rgba(0, 0, 0, 0.1);
-  transform: translatey(-2px);
-  opacity: 0.94;
   transition: all 0.2s ease-in-out;
 }
 
