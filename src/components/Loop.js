@@ -56,7 +56,8 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
           rotateEnabled={false}
           borderStrokeWidth={0}
           anchorFill={"#ed1e79"}
-          anchorCornerRadius={2}
+          anchorCornerRadius={80}
+          anchorSize={20}
           anchorStrokeWidth={0}
           ignoreStroke={true}
           boundBoxFunc={function(oldBoundBox, newBoundBox) {

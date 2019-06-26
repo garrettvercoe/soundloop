@@ -6,6 +6,7 @@ import Konva from "konva";
 import ToneLibrary from "./components/ToneLibrary";
 import Loop from "./components/Loop";
 import Portal from "./components/Portal";
+import BottomNav from "./components/BottomNav";
 
 export default class App extends Component {
   constructor(props) {
@@ -31,13 +32,11 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Loop />
-          <Layer>
-          
-            <Portal>
-              <ToneLibrary />
-            </Portal>
-          </Layer>
+          <Loop />
+          <Portal>
+            <ToneLibrary />
+            <BottomNav />
+          </Portal>
         </Stage>
       </React.Fragment>
     );

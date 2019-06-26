@@ -12,14 +12,6 @@ const LibListStyle = {
   position: "relative"
 };
 
-const UnderListStyle = {
-  textAlign: "left",
-  margin: 0,
-  zIndex: 0,
-  padding: 0,
-  position: "relative"
-};
-
 const LibListItemStyle = {
   display: "inline-block",
   verticalAlign: "top",
@@ -62,42 +54,37 @@ class ToneButton extends React.Component {
 
   render() {
     return (
-      <Draggable position={this.state.deltaPosition} onStop={this.handleStop}>
+      <React.Fragment>
         <button
           className="hover-shadow"
           style={{
             borderRadius: "100%",
-            backgroundColor: this.props.color,
+            border: "2px solid",
+            borderColor: this.props.color,
+            backgroundColor: "transparent",
             width: "2rem",
-            zIndex: 1,
             height: "2rem",
-            border: "none",
-            outline: "none"
+            position: "absolute",
+            outline: "none",
+            pointerEvents: "none"
           }}
         />
-      </Draggable>
-    );
-  }
-}
+        <Draggable position={this.state.deltaPosition} onStop={this.handleStop}>
+          <button
+            className="hover-shadow"
+            style={{
+              borderRadius: "100%",
+              backgroundColor: this.props.color,
+              width: "2rem",
+              zIndex: 1,
 
-class ToneUnderlay extends React.Component {
-  render() {
-    return (
-      <button
-        className="hover-shadow"
-        style={{
-          borderRadius: "100%",
-          border: "2px solid",
-          borderColor: this.props.color,
-          backgroundColor: "transparent",
-          width: "2rem",
-          height: "2rem",
-          position: "relative",
-          top: "-83px",
-          outline: "none",
-          pointerEvents: "none"
-        }}
-      />
+              height: "2rem",
+              border: "none",
+              outline: "none"
+            }}
+          />
+        </Draggable>
+      </React.Fragment>
     );
   }
 }
@@ -105,23 +92,13 @@ class ToneUnderlay extends React.Component {
 class Library extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        <ul style={LibListStyle}>
-          {this.props.colors.map(color => (
-            <li style={LibListItemStyle} key={color}>
-              <ToneButton color={color} />
-            </li>
-          ))}
-        </ul>
-
-        <ul style={UnderListStyle}>
-          {this.props.colors.map(color => (
-            <li style={LibListItemStyle} key={color}>
-              <ToneUnderlay color={color} />
-            </li>
-          ))}
-        </ul>
-      </React.Fragment>
+      <ul style={LibListStyle}>
+        {this.props.colors.map(color => (
+          <li style={LibListItemStyle} key={color}>
+            <ToneButton color={color} />
+          </li>
+        ))}
+      </ul>
     );
   }
 }
