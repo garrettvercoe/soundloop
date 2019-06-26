@@ -7,6 +7,7 @@ import ToneLibrary from "./components/ToneLibrary";
 import Loop from "./components/Loop";
 import Portal from "./components/Portal";
 import BottomNav from "./components/BottomNav";
+import MountedTones from "./components/MountedTones";
 
 export default class App extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ export default class App extends Component {
       <React.Fragment>
         <Stage width={window.innerWidth} height={window.innerHeight}>
           <Loop />
+          <MountedTones />
           <Portal>
             <ToneLibrary />
             <BottomNav />
