@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
-
 import ToneLibrary from "./components/ToneLibrary";
 import Loop from "./components/Loop";
 import Portal from "./components/Portal";

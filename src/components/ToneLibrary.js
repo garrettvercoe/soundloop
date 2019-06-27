@@ -69,7 +69,7 @@ class ToneButton extends React.Component {
             pointerEvents: "none"
           }}
         />
-        <Draggable position={this.state.deltaPosition} onStop={this.handleStop}>
+        <Draggable>
           <button
             className="hover-shadow"
             style={{
