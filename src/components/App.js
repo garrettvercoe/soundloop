@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
-import ToneLibrary from "./components/ToneLibrary";
-import Loop from "./components/Loop";
-import Portal from "./components/Portal";
-import BottomNav from "./components/BottomNav";
-import MountedTones from "./components/MountedTones";
+import ToneLibrary from "./ToneLibrary";
+import Loop from "./Loop";
+import Portal from "./Portal";
+import BottomNav from "./BottomNav";
+import MountedTones from "./MountedTones";
 
 export default class App extends Component {
   constructor(props) {
