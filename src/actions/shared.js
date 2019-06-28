@@ -1,0 +1,3 @@
+//OVERALL
+export const TOGGLE_PLAY = "TOGGLE_PLAY";
+export const TOGGLE_RESTART = "TOGGLE_RESTART";
