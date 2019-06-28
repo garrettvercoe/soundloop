@@ -4,6 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlayCircle, faPauseCircle } from "@fortawesome/free-solid-svg-icons";
+import { connect } from "react-redux";
 
 const NavStyle = {
   top: "auto",
@@ -62,8 +63,7 @@ class PlayButton extends React.Component {
     );
   }
 }
-
-export default class BottomNav extends React.Component {
+class BottomNav extends React.Component {
   render() {
     return (
       <AppBar style={NavStyle} position="fixed" color="white">
@@ -74,3 +74,5 @@ export default class BottomNav extends React.Component {
     );
   }
 }
+
+export default BottomNav;

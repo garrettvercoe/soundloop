@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Transformer, Circle } from "react-konva";
+import { connect } from "react-redux";
 
 const LoopStyles = {};
 
@@ -134,8 +135,4 @@ const Loop = () => {
   );
 };
 
-export default class LoopExport extends React.Component {
-  render() {
-    return <Loop />;
-  }
-}
+export default Loop;

@@ -7,8 +7,9 @@ import Loop from "./Loop";
 import Portal from "./Portal";
 import BottomNav from "./BottomNav";
 import MountedTones from "./MountedTones";
+import { connect } from "react-redux";
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = { width: 0, height: 0 };
@@ -43,3 +44,4 @@ export default class App extends Component {
     );
   }
 }
+export default connect()(App);
