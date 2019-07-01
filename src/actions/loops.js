@@ -6,17 +6,14 @@ export const RECEIVE_LOOPS = "RECEIVE_LOOPS";
 export function addLoop(loop) {
   return {
     type: ADD_LOOP,
-    loop,
-    id
+    loop
   };
 }
 
 export function updateLoop(loop) {
   return {
     type: UPDATE_LOOP,
-    loop,
-    id,
-    radius
+    loop
   };
 }
 

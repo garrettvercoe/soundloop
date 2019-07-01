@@ -1,8 +1,10 @@
+import loops from "./loops";
+import tones from "./tones";
+import shared from "./shared";
 import { combineReducers } from "redux";
-//import * as reducers from "./reducers";
 
-export default function reducer(state = {}, action) {
-  // For now, don't handle any actions
-  // and just return the state given to us.
-  return state;
-}
+export default combineReducers({
+  loops,
+  tones,
+  shared
+});

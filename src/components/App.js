@@ -8,24 +8,13 @@ import Portal from "./Portal";
 import BottomNav from "./BottomNav";
 import MountedTones from "./MountedTones";
 import { connect } from "react-redux";
+import reducer from "../reducers";
+import middleware from "../middleware";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 
+const store = createStore(reducer, middleware);
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { width: 0, height: 0 };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-  }
-  componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener("resize", this.updateWindowDimensions);
-  }
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateWindowDimensions);
-  }
-  updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
-    console.log(this.state);
-  }
   render() {
     // Stage is a div container
     // Layer is actual canvas element (so you may have several canvases in the stage)
@@ -33,15 +22,19 @@ class App extends Component {
     return (
       <React.Fragment>
         <Stage width={window.innerWidth} height={window.innerHeight}>
-          <Loop />
-          <MountedTones />
+          <Provider store={store}>
+            <Loop />
+            <MountedTones />
+          </Provider>
           <Portal>
-            <ToneLibrary />
-            <BottomNav />
+            <Provider store={store}>
+              <ToneLibrary />
+              <BottomNav />
+            </Provider>
           </Portal>
         </Stage>
       </React.Fragment>
     );
   }
 }
-export default connect()(App);
+export default App;

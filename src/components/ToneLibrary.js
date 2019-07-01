@@ -3,7 +3,7 @@ import "../styles/index.css";
 import NewToneMenu from "./NewToneMenu";
 import Tone from "tone";
 import Draggable from "react-draggable"; // The default
-
+import { connect } from "react-redux";
 const LibListStyle = {
   textAlign: "left",
   margin: 0,
@@ -103,7 +103,7 @@ class Library extends React.Component {
   }
 }
 
-export default class LibraryContainer extends React.Component {
+class LibraryContainer extends React.Component {
   render() {
     return (
       <div style={CardStyle}>
@@ -126,3 +126,5 @@ export default class LibraryContainer extends React.Component {
     );
   }
 }
+
+export default LibraryContainer;

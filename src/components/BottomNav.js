@@ -1,9 +1,9 @@
 import React from "react";
 import "../styles/index.css";
 import AppBar from "@material-ui/core/AppBar";
+import PlayButton from "./PlayButton";
 import Toolbar from "@material-ui/core/Toolbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlayCircle, faPauseCircle } from "@fortawesome/free-solid-svg-icons";
+
 import { connect } from "react-redux";
 
 const NavStyle = {
@@ -18,61 +18,18 @@ const ToolbarStyle = {
   transform: "translateY(-50%)"
 };
 
-const PlayButtonStyle = {
-  color: "#692d55",
-  position: "relative",
-  paddingLeft: "45rem"
-};
-
-class PlayButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { playing: false };
-
-    this.start = this.start.bind(this);
-    this.stop = this.stop.bind(this);
-  }
-
-  start() {
-    this.setState({ playing: true });
-  }
-
-  stop() {
-    this.setState({ playing: false });
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        {this.state.playing ? (
-          <FontAwesomeIcon
-            className="inl-blk fa-4x"
-            style={PlayButtonStyle}
-            icon={faPauseCircle}
-            onClick={this.stop}
-          />
-        ) : (
-          <FontAwesomeIcon
-            className="inl-blk fa-4x"
-            style={PlayButtonStyle}
-            icon={faPlayCircle}
-            onClick={this.start}
-          />
-        )}
-      </React.Fragment>
-    );
-  }
-}
 class BottomNav extends React.Component {
   render() {
     return (
       <AppBar style={NavStyle} position="fixed" color="white">
         <Toolbar style={ToolbarStyle}>
-          <PlayButton style={PlayButtonStyle} color={"#692d55"} />
+          <PlayButton color={"#692d55"} />
         </Toolbar>
       </AppBar>
     );
   }
 }
 
-export default BottomNav;
+const ConnectedBottomNav = connect()(BottomNav);
+
+export default ConnectedBottomNav;
