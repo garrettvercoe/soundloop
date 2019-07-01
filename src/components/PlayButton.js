@@ -12,22 +12,6 @@ const PlayButtonStyle = {
 };
 
 class PlayButton extends React.Component {
-  //   constructor(props) {
-  //     super(props);
-  //     this.state = { playing: false };
-
-  //     this.start = this.start.bind(this);
-  //     this.stop = this.stop.bind(this);
-  //   }
-
-  //   start() {
-  //     this.setState({ playing: true });
-  //   }
-
-  //   stop() {
-  //     this.setState({ playing: false });
-  //   }
-
   render() {
     return (
       <React.Fragment>
