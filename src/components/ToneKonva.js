@@ -37,7 +37,7 @@ class ToneKonva extends React.Component {
         fill={this.props.color}
         radius={16}
         offset={{
-          x: -100,
+          x: -305,
           y: 0
         }}
         ref={node => {
