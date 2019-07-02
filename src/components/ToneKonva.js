@@ -6,16 +6,25 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import Portal from "./Portal";
 import { connect } from "react-redux";
 import Konva from "konva";
-
+import { addTone } from "../actions/tones";
 class ToneKonva extends React.Component {
   componentDidMount() {
-    var angularSpeed = 90;
-    var anim = new Konva.Animation(frame => {
+    var angularSpeed = 75;
+    this.anim = new Konva.Animation(frame => {
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
       this.circle.rotate(angleDiff);
-    }, this.circle.getLayer);
+    }, this.circle.getLayer());
 
-    anim.start();
+    this.props.dispatch(addTone("#ababab", 0, 20, 300));
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.playing !== this.props.playing) {
+      if (this.props.playing) {
+        this.anim.start();
+      } else {
+        this.anim.isRunning() && this.anim.stop();
+      }
+    }
   }
 
   constructor(props) {

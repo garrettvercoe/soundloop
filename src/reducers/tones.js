@@ -1,32 +1,27 @@
 import { ADD_TONE, RECEIVE_TONES, RESIZE_TONE } from "../actions/tones";
 
-export default function tones(state = {}, action) {
+export default function tones(state = [], action) {
   switch (action.type) {
     case ADD_TONE:
-      const tone = action.tone;
-      const {
-        id,
-        color,
-        sound,
-        attachedLoop,
-        radius,
-        timeToActivate,
-        InitPosition,
-        CurrPosition
-      } = tone;
-      return {
+      return [
         ...state,
-        [id]: {
-          ...state[id],
-          color: state[id].color,
-          sound: state[id].sound,
-          attachedLoop: state[id].attachedLoop,
-          radius: state[id].radius,
-          timeToActivate: state[id].timeToActivate,
-          initPosition: state[id].initPosition,
-          currPosition: state[id].currPosition
+        {
+          id: action.id,
+          color: action.color,
+          // sound: "idk",
+          attachedLoop: action.attachedLoop,
+          radius: action.radius,
+          timeToAct: 300.0
+          //   InitPosition: {
+          //       x: 300,
+          //       y: 478
+          //   },
+          //   CurrPosition: {
+          //     x: 300,
+          //     y: 478
+          // }
         }
-      };
+      ];
 
     case RESIZE_TONE:
       return { state };

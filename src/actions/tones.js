@@ -3,10 +3,15 @@ export const ADD_TONE = "ADD_TONE";
 export const RESIZE_TONE = "RESIZE_TONE";
 export const RECEIVE_TONES = "RECEIVE_TONES";
 
-export function addTone(tone) {
+let nextToneId = 0;
+export function addTone(colorCode, attLoop, rad, time) {
   return {
     type: ADD_TONE,
-    tone
+    id: nextToneId++,
+    color: colorCode,
+    attachedLoop: attLoop,
+    radius: rad,
+    timeToAct: time
   };
 }
 
@@ -19,7 +24,7 @@ export function resizeTone(tone) {
 
 export function receiveTones(tones) {
   return {
-    type: RESIZE_TONE,
+    type: RECEIVE_TONES,
     tones
   };
 }
