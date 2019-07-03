@@ -74,11 +74,12 @@ class ToneButton extends React.Component {
 
       this.props.dispatch(
         addTone(
-          snapCoords.x,
-          snapCoords.y,
+          cx,
+          cy,
           this.props.color,
           newA,
           newB,
+
           0,
           20,
           300
