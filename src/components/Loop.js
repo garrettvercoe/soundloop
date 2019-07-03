@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Transformer, Circle } from "react-konva";
 import { connect } from "react-redux";
-import {addLoop, updateLoop} from "../actions/loops"
+import { addLoop, updateLoop } from "../actions/loops";
 
 const LoopStyles = {};
 
 const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
-
   const shapeRef = React.useRef();
   const trRef = React.useRef();
 
@@ -18,8 +17,6 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [isSelected]);
-
-  
 
   return (
     <React.Fragment>
@@ -105,7 +102,6 @@ const initialCircles = [
 ];
 
 const Loop = () => {
-
   const [circles, setCircles] = React.useState(initialCircles);
   const [selectedId, selectShape] = React.useState(null);
   return (
@@ -139,25 +135,23 @@ const Loop = () => {
   );
 };
 
-function mapStateToProps(state){
-  console.log(state)
-  return{
+function mapStateToProps(state) {
+  console.log(state);
+  return {
     //pass through loopExport
     radius: state.loops.radius
-  }
+  };
 }
 
 // temporary component to handle componentDidMount and test state
-class LoopExport extends React.Component{
-  componentDidMount(){
-    console.log("Mounted")
-    this.props.dispatch(updateLoop())
-    //this.props.dispatch(addLoop(1));
-  };
-  render(){
-    return(
-      <Loop radius={this.props.radius}/>
-    )
+class LoopExport extends React.Component {
+  componentDidMount() {
+    console.log("Mounted");
+    //this.props.dispatch(updateLoop())
+    this.props.dispatch(addLoop(1));
+  }
+  render() {
+    return <Loop radius={this.props.radius} />;
   }
 }
 

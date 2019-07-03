@@ -11,15 +11,9 @@ export default function tones(state = [], action) {
           // sound: "idk",
           attachedLoop: action.attachedLoop,
           radius: action.radius,
-          timeToAct: 300.0
-          //   InitPosition: {
-          //       x: 300,
-          //       y: 478
-          //   },
-          //   CurrPosition: {
-          //     x: 300,
-          //     y: 478
-          // }
+          timeToAct: action.timeToAct,
+          position: action.position,
+          offset: action.offset
         }
       ];
 

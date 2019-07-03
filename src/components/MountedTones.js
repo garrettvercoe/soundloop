@@ -4,37 +4,38 @@ import { Circle, Layer } from "react-konva";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import Portal from "./Portal";
-import { connect } from "tls";
+import { connect } from "react-redux";
 import ToneKonva from "./ToneKonva";
 
-export default class MountedTones extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tones: ["red"]
-    };
-    this.generateTone = this.generateTone.bind(this);
-  }
+class MountedTones extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     tones: ["red"]
+  //   };
+  //   this.generateTone = this.generateTone.bind(this);
+  // }
 
-  generateTone() {
-    this.setState(previousState => ({
-      tones: [...previousState.tones, "blue"]
-    }));
-  }
+  // generateTone() {
+  //   this.setState(previousState => ({
+  //     tones: [...previousState.tones, "blue"]
+  //   }));
+  // }
 
   render() {
     return (
       <Layer>
-        {this.state.tones.map(function(item) {
+        {this.props.tones.map(function(item) {
           return (
             <ToneKonva
-              color={item}
-              x={window.innerWidth / 2}
-              y={window.innerHeight / 2}
+              color={item.color}
+              x={item.position.x}
+              y={item.position.y}
+              offset={item.offset}
             />
           );
         })}
-        <Portal>
+        {/* <Portal>
           <FontAwesomeIcon
             className="plus-icon inl-blk fa-lg"
             icon={faPlusCircle}
@@ -45,8 +46,17 @@ export default class MountedTones extends React.Component {
               left: "80%"
             }}
           />
-        </Portal>
+        </Portal> */}
       </Layer>
     );
   }
 }
+
+function mapStateToProps(state) {
+  console.log(state); // state
+  return {
+    tones: state.tones
+  };
+}
+
+export default connect(mapStateToProps)(MountedTones);

@@ -1,17 +1,13 @@
-import { ADD_LOOP, UPDATE_LOOP, RECEIVE_LOOPS, receiveLoops } from "../actions/loops";
+import { ADD_LOOP, UPDATE_LOOP } from "../actions/loops";
 
-export default function loops(state = {}, action) {
+export default function loops(state = [], action) {
   switch (action.type) {
     case ADD_LOOP:
       return [
         ...state,
         {
-          id: action.id,
-          color: action.color,
-          // sound: "idk",
-          attachedLoop: action.attachedLoop,
-          radius: action.radius,
-          timeToAct: 300.0
+          radius: action.radius
+
           //   InitPosition: {
           //       x: 300,
           //       y: 478
@@ -22,7 +18,7 @@ export default function loops(state = {}, action) {
           // }
         }
       ];
-      
+
     case UPDATE_LOOP:
       return {
         ...state

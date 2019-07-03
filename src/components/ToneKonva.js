@@ -14,8 +14,6 @@ class ToneKonva extends React.Component {
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
       this.circle.rotate(angleDiff);
     }, this.circle.getLayer());
-
-    this.props.dispatch(addTone("#ababab", 0, 20, 300));
   }
   componentDidUpdate(prevProps) {
     if (prevProps.playing !== this.props.playing) {
@@ -31,8 +29,8 @@ class ToneKonva extends React.Component {
     super(props);
     this.state = {
       isDragging: false,
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
+      // x: window.innerWidth / 2,
+      // y: window.innerHeight / 2,
       active: false
     };
   }
@@ -42,13 +40,10 @@ class ToneKonva extends React.Component {
       <Circle
         x={this.props.x}
         y={this.props.y}
-        draggable
+        // draggable
         fill={this.props.color}
         radius={16}
-        offset={{
-          x: -305,
-          y: 0
-        }}
+        offset={this.props.offset}
         ref={node => {
           this.circle = node;
         }}

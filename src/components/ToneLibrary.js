@@ -4,6 +4,7 @@ import NewToneMenu from "./NewToneMenu";
 import Tone from "tone";
 import Draggable from "react-draggable"; // The default
 import { connect } from "react-redux";
+import ToneButton from "./ToneButton";
 const LibListStyle = {
   textAlign: "left",
   margin: 0,
@@ -30,64 +31,6 @@ const CardStyle = {
 };
 
 const contentContainer = { padding: "2rem" };
-
-class ToneButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      deltaPosition: {
-        x: 0,
-        y: 0
-      }
-    };
-    this.handleStop = this.handleStop.bind(this);
-  }
-
-  handleStop() {
-    this.setState({
-      deltaPosition: {
-        x: 0,
-        y: 0
-      }
-    });
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <button
-          className="hover-shadow"
-          style={{
-            borderRadius: "100%",
-            border: "2px solid",
-            borderColor: this.props.color,
-            backgroundColor: "transparent",
-            width: "2rem",
-            height: "2rem",
-            position: "absolute",
-            outline: "none",
-            pointerEvents: "none"
-          }}
-        />
-        <Draggable>
-          <button
-            className="hover-shadow"
-            style={{
-              borderRadius: "100%",
-              backgroundColor: this.props.color,
-              width: "2rem",
-              zIndex: 1,
-
-              height: "2rem",
-              border: "none",
-              outline: "none"
-            }}
-          />
-        </Draggable>
-      </React.Fragment>
-    );
-  }
-}
 
 class Library extends React.Component {
   render() {
