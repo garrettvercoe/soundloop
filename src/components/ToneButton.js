@@ -5,6 +5,9 @@ import Draggable from "react-draggable"; // The default
 import { connect } from "react-redux";
 import { addTone } from "../actions/tones";
 
+function toDegrees(angle) {
+  return angle * (180 / Math.PI);
+}
 class ToneButton extends React.Component {
   constructor(props) {
     super(props);
@@ -44,10 +47,10 @@ class ToneButton extends React.Component {
     }
   }
 
-  findSnapCoordinates(opposite, hypotenuse, cx, cy, distance) {
-    var angle = Math.asin(opposite / hypotenuse);
-    const x2 = cx + Math.cos(angle) * distance;
-    const y2 = cy - Math.sin(angle) * distance;
+  findSnapCoordinates(x1, y1, cx, cy, distance) {
+    var angle = Math.atan2(y1, x1);
+    const x2 = cx - Math.cos(angle) * distance;
+    const y2 = cy + Math.sin(angle) * distance;
     return { x: x2, y: y2 };
   }
 
@@ -61,13 +64,7 @@ class ToneButton extends React.Component {
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
     if (loopToSnap) {
-      var snapCoords = this.findSnapCoordinates(
-        a,
-        distToCenter,
-        cx,
-        cy,
-        loopToSnap.value
-      );
+      var snapCoords = this.findSnapCoordinates(a, b, cx, cy, loopToSnap.value);
 
       var newA = (snapCoords.y - cy) * -1;
       var newB = snapCoords.x - cx;

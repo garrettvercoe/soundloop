@@ -97,7 +97,7 @@ const initialCircles = [
     fill: "transparent",
     id: "loop",
     stroke: "#ed1e79",
-    strokeWidth: 1.5
+    strokeWidth: 2
   }
 ];
 
