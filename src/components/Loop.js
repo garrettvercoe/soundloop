@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { Stage, Layer, Transformer, Circle } from "react-konva";
+import { Layer, Transformer, Circle } from "react-konva";
 import { connect } from "react-redux";
-import { addLoop, updateLoop } from "../actions/loops";
+import {addLoop, updateLoop} from "../actions/loops"
 
-const LoopStyles = {};
+function LoopScale ({ shapeProps, isSelected, onSelect, onChange }){
 
-const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
+  // shape state reference
   const shapeRef = React.useRef();
+  // transformer state reference
   const trRef = React.useRef();
 
   React.useEffect(() => {
@@ -17,36 +18,34 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [isSelected]);
-
+  // return circle and transformer when selected
   return (
     <React.Fragment>
+      
       <Circle
         onClick={onSelect}
+        
         ref={shapeRef}
         {...shapeProps}
-        x={window.innerWidth / 2}
-        onDragEnd={e => {
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y()
-          });
-        }}
+        x={window.innerWidth/2}
+        y={window.innerHeight/2}
+        fill={"transparent"}
+        stroke={"#ed1e79"}
+        strokeWidth={1.5}
+        // onTransformEnd: change properties based on scale and reset scale of shapeProps
         onTransformEnd={e => {
           // transformer is changing scale
           const node = shapeRef.current;
           const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
 
-          // we will reset it back
+          // reset the scale of the node back to 1
           node.scaleX(1);
           node.scaleY(1);
           onChange({
             ...shapeProps,
             x: node.x(),
             y: node.y(),
-            width: node.width() * scaleX,
-            height: node.height() * scaleY
+            radius: node.radius() * scaleX,
           });
         }}
       />
@@ -85,35 +84,42 @@ const LoopScale = ({ shapeProps, isSelected, onSelect, onChange }) => {
   );
 };
 
-// need to change to singular
-const initialCircles = [
-  {
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2,
-    offsetX: 0,
-    offsetY: 0,
+class LoopTest extends React.Component{
+  componentDidMount(){
+    console.log("Mounted")
+    //this.props.dispatch(updateLoop())
+    this.props.dispatch(addLoop(1));
+  };
+
+  render(){
+    return(
+      <Layer>
+        <LoopScale shapeProps={this.props.circle}/>
+      </Layer>
+    )
+  }
+}
+
+function Loop(){
+  // need to change to singular
+  const initialCircles = [
+    {
+      radius: Math.min(window.innerWidth*(1/3), window.innerHeight*(1/3)),
+      id: "loop"
+    }
+  ];
+
+  const circleTest = {
     width: window.innerWidth * (2 / 3),
     height: window.innerHeight * (2 / 3),
-    fill: "transparent",
-    id: "loop",
-    stroke: "#ed1e79",
-    strokeWidth: 2
+    id: "loop"
   }
-];
 
-const Loop = () => {
   const [circles, setCircles] = React.useState(initialCircles);
   const [selectedId, selectShape] = React.useState(null);
+  const [circle, setCircle] = React.useState(circleTest)
   return (
-    <Layer
-      // deselect when clicked on empty area, currently doesn't work within layer of circle size
-      onMouseDown={e => {
-        const clickedOnEmpty = e.target === e.target.getStage();
-        if (clickedOnEmpty) {
-          selectShape(null);
-        }
-      }}
-    >
+    <Layer>
       {circles.map((circle, i) => {
         return (
           <LoopScale
@@ -129,30 +135,33 @@ const Loop = () => {
               setCircles(circs);
             }}
           />
-        );
+          );
       })}
     </Layer>
   );
 };
 
-function mapStateToProps(state) {
-  console.log(state);
-  return {
+function mapStateToProps(state){
+  console.log(state)
+  return{
     //pass through loopExport
     radius: state.loops.radius
-  };
+  }
 }
 
 // temporary component to handle componentDidMount and test state
-class LoopExport extends React.Component {
-  componentDidMount() {
-    console.log("Mounted");
+class LoopExport extends React.Component{
+  componentDidMount(){
+    console.log("Mounted")
     //this.props.dispatch(updateLoop())
     this.props.dispatch(addLoop(1));
-  }
-  render() {
-    return <Loop radius={this.props.radius} />;
+  };
+  render(){
+    return(
+      <Loop radius={this.props.radius}/>
+    )
   }
 }
 
 export default connect(mapStateToProps)(LoopExport);
+//export default connect(mapStateToProps)(LoopTest)
