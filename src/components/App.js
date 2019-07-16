@@ -12,6 +12,7 @@ import reducer from "../reducers";
 import middleware from "../middleware";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
+import Cord from "../components/Cord";
 
 const store = createStore(reducer, middleware);
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
       <React.Fragment>
         <Stage width={window.innerWidth} height={window.innerHeight}>
           <Provider store={store}>
+            <Cord />
             <Loop />
             <MountedTones />
           </Provider>

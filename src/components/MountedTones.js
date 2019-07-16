@@ -17,6 +17,7 @@ class MountedTones extends React.Component {
               y={item.position.y}
               offset={item.offset}
               radius={item.radius}
+              sound={item.sound}
             />
           );
         })}

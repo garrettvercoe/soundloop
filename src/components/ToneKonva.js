@@ -7,6 +7,7 @@ import Portal from "./Portal";
 import { connect } from "react-redux";
 import Konva from "konva";
 import { addTone } from "../actions/tones";
+import { playTone } from "../actions/cord";
 
 class ToneKonva extends React.Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class ToneKonva extends React.Component {
         timerInit - 10 < frame.time &&
         frame.time < timerInit + 10
       ) {
-        this.circle.fill("#fff");
+        this.props.dispatch(playTone(this.props.sound));
         played = true;
       } else if (
         played &&
@@ -67,7 +68,7 @@ class ToneKonva extends React.Component {
         frame.time % timerLoop > timerInit
       ) {
         console.log("checking");
-        this.circle.fill("#fff");
+        this.props.dispatch(playTone(this.props.sound));
       } else {
         this.circle.fill(this.props.color);
       }

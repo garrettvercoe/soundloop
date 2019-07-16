@@ -2,7 +2,8 @@ import { TOGGLE_PLAY, TOGGLE_STOP, TOGGLE_RESTART } from "../actions/shared";
 
 export default function shared(
   state = {
-    playing: false
+    playing: false,
+    center: { x: window.innerWidth / 2, y: window.innerHeight / 2 }
   },
   action
 ) {
