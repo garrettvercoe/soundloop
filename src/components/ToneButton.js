@@ -61,7 +61,6 @@ class ToneButton extends React.Component {
     //c
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
-    console.log("loopToSnap: " + loopToSnap.index)
     if (loopToSnap) {
       var snapCoords = this.findSnapCoordinates(a, b, cx, cy, loopToSnap.value);
 
