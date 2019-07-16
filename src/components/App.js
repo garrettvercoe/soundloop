@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import MountedLoops from "./MountedLoops";
 import NewLoop from "./NewLoop";
+import Cord from "../components/Cord";
 
 const store = createStore(reducer, middleware);
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
         <Stage width={window.innerWidth} height={window.innerHeight}>
           <Provider store={store}>
             <MountedLoops />
+            <Cord />
             <MountedTones />
           </Provider>
           <Portal>

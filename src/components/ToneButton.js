@@ -5,9 +5,6 @@ import Draggable from "react-draggable"; // The default
 import { connect } from "react-redux";
 import { addTone } from "../actions/tones";
 
-function toDegrees(angle) {
-  return angle * (180 / Math.PI);
-}
 class ToneButton extends React.Component {
   constructor(props) {
     super(props);
@@ -81,7 +78,7 @@ class ToneButton extends React.Component {
 
           loopToSnap.index,
           20,
-          300
+          this.props.sound
         )
       );
     }

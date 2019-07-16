@@ -11,7 +11,7 @@ export default function tones(state = [], action) {
           // sound: "idk",
           attachedLoop: action.attachedLoop,
           radius: action.radius,
-          timeToAct: action.timeToAct,
+          sound: action.sound,
           position: action.position,
           offset: action.offset
         }
@@ -19,6 +19,7 @@ export default function tones(state = [], action) {
 
     case RESIZE_TONE:
       return { state };
+
     case RECEIVE_TONES:
       return {
         ...state,

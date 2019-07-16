@@ -12,7 +12,7 @@ export function addTone(
   offsety,
   attLoop,
   rad,
-  time
+  sound
 ) {
   return {
     type: ADD_TONE,
@@ -28,7 +28,7 @@ export function addTone(
     color: colorCode,
     attachedLoop: attLoop,
     radius: rad,
-    timeToAct: time
+    sound: sound
   };
 }
 
