@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/index.css";
-import { Circle, Layer } from "react-konva";
+import { Layer } from "react-konva";
 
 import { connect } from "react-redux";
 import ToneKonva from "./ToneKonva";
@@ -17,6 +17,7 @@ class MountedTones extends React.Component {
               y={item.position.y}
               offset={item.offset}
               radius={item.radius}
+              attachedLoop={item.attachedLoop}
             />
           );
         })}

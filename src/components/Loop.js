@@ -154,7 +154,7 @@ class LoopExport extends React.Component{
   componentDidMount(){
     console.log("Mounted")
     //this.props.dispatch(updateLoop())
-    this.props.dispatch(addLoop(1));
+    this.props.dispatch(addLoop(window.innerHeight * 2/3));
   };
   render(){
     return(

@@ -8,7 +8,8 @@ export function addLoop(rad) {
   return {
     type: ADD_LOOP,
     id: nextLoopId++,
-    radius: rad
+    radius: rad,
+    speed: 15000/rad
   };
 }
 

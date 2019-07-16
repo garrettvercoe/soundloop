@@ -53,7 +53,6 @@ class LibraryContainer extends React.Component {
         <div style={contentContainer}>
           <h3 className="light inl-blk"> TONES</h3>
           <NewToneMenu />
-
           <Library
             colors={[
               "#fe6b12",

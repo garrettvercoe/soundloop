@@ -6,16 +6,9 @@ export default function loops(state = [], action) {
       return [
         ...state,
         {
-          radius: action.radius
-
-          //   InitPosition: {
-          //       x: 300,
-          //       y: 478
-          //   },
-          //   CurrPosition: {
-          //     x: 300,
-          //     y: 478
-          // }
+          id: action.id,
+          radius: action.radius,
+          speed: action.speed
         }
       ];
 

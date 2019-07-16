@@ -25,17 +25,18 @@ class ToneButton extends React.Component {
   }
 
   findClosestLoop(distToCenter) {
+    // iterate through loops array and compare radii
     var acceptableRange = 50;
-    var radii = [300];
+    var loopArray = this.props.loops;
     var id = 0;
-    var curr = radii[id];
+    var curr = loopArray[id].radius;
     var diff = Math.abs(distToCenter - curr);
 
-    for (var i = 0; i < radii.length; i++) {
-      var newdiff = Math.abs(distToCenter - radii[i]);
+    for (var i = 0; i < loopArray.length; i++) {
+      var newdiff = Math.abs(distToCenter - loopArray[i].radius);
       if (newdiff < diff) {
         diff = newdiff;
-        curr = radii[i];
+        curr = loopArray[i].radius;
         id = i;
       }
     }
@@ -63,6 +64,7 @@ class ToneButton extends React.Component {
     //c
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
+    console.log("loopToSnap: " + loopToSnap.index)
     if (loopToSnap) {
       var snapCoords = this.findSnapCoordinates(a, b, cx, cy, loopToSnap.value);
 
@@ -77,7 +79,7 @@ class ToneButton extends React.Component {
           newA,
           newB,
 
-          0,
+          loopToSnap.index,
           20,
           300
         )
@@ -137,4 +139,11 @@ class ToneButton extends React.Component {
   }
 }
 
-export default connect()(ToneButton);
+function mapStateToProps(state) {
+  console.log(state); // state
+  return {
+    loops: state.loops
+  };
+}
+
+export default connect(mapStateToProps)(ToneButton);

@@ -41,7 +41,8 @@ class ToneKonva extends React.Component {
   }
 
   componentDidMount() {
-    var angularSpeed = 75;
+    var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
+    //var angularSpeed = 75;
     var angle = this.getAngle();
     var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
 
@@ -118,7 +119,8 @@ class ToneKonva extends React.Component {
 function mapStateToProps(state) {
   console.log(state); // state
   return {
-    playing: state.shared.playing
+    playing: state.shared.playing,
+    loops: state.loops
   };
 }
 
