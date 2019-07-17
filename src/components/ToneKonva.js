@@ -22,7 +22,7 @@ class ToneKonva extends React.Component {
   }
 
   getAngle() {
-    var radius = (window.innerHeight * (2 / 3)) / 2;
+    var radius = this.props.loops[this.props.attachedLoop].radius;
 
     var x1 = this.props.x - this.props.offset.x;
     var y1 = this.props.y + this.props.offset.y;
@@ -47,13 +47,17 @@ class ToneKonva extends React.Component {
     var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
     this.circle.opacity(((this.circle.rotation() + angle) % 360) / 1080 + 0.66);
     var timerLoop = (360 / angularSpeed) * 1000;
-
+    console.log("TIMERLOOP: " + timerLoop)
+      console.log("TIMERINIT: " + timerInit)
+      console.log("ANGULARSPEED: " + angularSpeed)
+      console.log("ANGLE: " + angle)
     var played = false;
 
     this.anim = new Konva.Animation(frame => {
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
       this.circle.rotate(angleDiff);
-
+      console.log("FRAMETIME: " + frame.time)
+      console.log("TO1: " + ((this.circle.rotation() + angle) % 360) / 1080 + 0.66)
       this.circle.opacity(
         ((this.circle.rotation() + angle) % 360) / 1080 + 0.66
       );
