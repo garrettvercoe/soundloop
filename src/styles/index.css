@@ -65,6 +65,18 @@ code {
   transform: translatey(-1px);
 }
 
+.tone-add:hover {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  transform: translatey(-2px);
+}
+
+.tone-add:hover .plus-icon {
+  color: #692d55;
+}
+.tone-add:hover h3 {
+  color: #692d55;
+}
 
 .inl-blk {
   display: inline-block;

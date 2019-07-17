@@ -23,7 +23,6 @@ class ToneKonva extends React.Component {
 
   getAngle() {
     var radius = (window.innerHeight * (2 / 3)) / 2;
-    console.log("radius is: " + radius);
 
     var x1 = this.props.x - this.props.offset.x;
     var y1 = this.props.y + this.props.offset.y;
@@ -46,16 +45,18 @@ class ToneKonva extends React.Component {
     //var angularSpeed = 75;
     var angle = this.getAngle();
     var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
-
+    this.circle.opacity(((this.circle.rotation() + angle) % 360) / 1080 + 0.66);
     var timerLoop = (360 / angularSpeed) * 1000;
-    console.log("timer init: " + timerInit);
-    console.log("timer loop: " + timerLoop);
+
     var played = false;
 
     this.anim = new Konva.Animation(frame => {
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
       this.circle.rotate(angleDiff);
 
+      this.circle.opacity(
+        ((this.circle.rotation() + angle) % 360) / 1080 + 0.66
+      );
       if (
         !played &&
         timerInit - 10 < frame.time &&
@@ -68,7 +69,6 @@ class ToneKonva extends React.Component {
         frame.time % timerLoop < timerInit + 20 &&
         frame.time % timerLoop > timerInit
       ) {
-        console.log("checking");
         this.props.dispatch(playTone(this.props.sound));
       } else {
         this.circle.fill(this.props.color);
@@ -93,7 +93,6 @@ class ToneKonva extends React.Component {
       <Circle
         x={this.props.x}
         y={this.props.y}
-        // draggable
         fill={this.props.color}
         radius={this.props.radius}
         offset={this.props.offset}

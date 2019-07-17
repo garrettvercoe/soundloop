@@ -14,29 +14,29 @@ class Cord extends React.Component {
     //playing around with creating a sound
 
     //create a synth and connect it to the master output (your speakers)
-    // var distortion = new Tone.Distortion(3.5);
+    // var distortion = new Tone.Distortion(1.5);
     // var tremolo = new Tone.Tremolo().start();
-    // this.synth = new Tone.Synth().chain(distortion, tremolo, Tone.Master);
+    // this.synth = new Tone.PolySynth().chain(distortion, tremolo, Tone.Master);
 
-    this.synth = new Tone.Synth().toMaster();
-    var max = window.innerHeight/2-50;
-    var interval = max/2;
+    this.synth = new Tone.PolySynth().toMaster();
+    var max = window.innerHeight / 2 - 50;
+    var interval = max / 2;
     var pts = [];
     var prevX = this.props.center.x;
     var flux = 8;
     var prevY = this.props.center.y;
-    for (var i=0; i<3; i++){
+    for (var i = 0; i < 3; i++) {
       pts.push(prevX);
       pts.push(prevY);
       prevX = prevX + flux;
       prevY = prevY - interval;
       flux = -flux;
     }
-    
+
     //var tl = new TimelineLite();
     this.tween = new Konva.Tween({
       node: this.line,
-      duration: .1,
+      duration: 0.1,
       easing: Konva.Easings.EaseOut,
       points: pts,
       // points: [
@@ -44,18 +44,18 @@ class Cord extends React.Component {
       //   this.props.center.y,
       //   this.props.center.x + 10,
       //   this.props.center.y - 200,
-        // this.props.center.x - 5,
-        // this.props.center.y - 100,
-        // this.props.center.x + 5,
-        // this.props.center.y - 150,
-        // this.props.center.x - 5,
-        // this.props.center.y - 200,
-        // this.props.center.x + 5,
-        // this.props.center.y - 250,
-        // this.props.center.x - 5,
-        // this.props.center.y - 300,
-        // this.props.center.x + 5,
-        // this.props.center.y - 350,
+      // this.props.center.x - 5,
+      // this.props.center.y - 100,
+      // this.props.center.x + 5,
+      // this.props.center.y - 150,
+      // this.props.center.x - 5,
+      // this.props.center.y - 200,
+      // this.props.center.x + 5,
+      // this.props.center.y - 250,
+      // this.props.center.x - 5,
+      // this.props.center.y - 300,
+      // this.props.center.x + 5,
+      // this.props.center.y - 350,
       //   this.props.center.x,
       //   this.props.center.y - 400
       // ],
@@ -86,12 +86,12 @@ class Cord extends React.Component {
   }
 
   render() {
-    var max = window.innerHeight/2-50;
-    var interval = max/2;
+    var max = window.innerHeight / 2 - 50;
+    var interval = max / 2;
     var pts = [];
     var prevX = this.props.center.x;
     var prevY = this.props.center.y;
-    for (var i=0; i<3; i++){
+    for (var i = 0; i < 3; i++) {
       pts.push(prevX);
       pts.push(prevY);
       prevY = prevY - interval;
@@ -107,30 +107,30 @@ class Cord extends React.Component {
         <Circle
           x={this.props.center.x}
           y={this.props.center.y}
-          radius={15}
+          radius={11}
           fill="#692D55"
         />
         <Line
           points={pts}
-        //   points={[
-        //     this.props.center.x,
-        // this.props.center.y,
-        // this.props.center.x,
-        // this.props.center.y - 50,
-        // this.props.center.x + 5,
-        // this.props.center.y - 100,
-        // this.props.center.x - 5,
-        // this.props.center.y - 150,
-        // this.props.center.x + 5,
-        // this.props.center.y - 200,
-        // this.props.center.x - 5,
-        // this.props.center.y - 250,
-        // this.props.center.x + 5,
-        // this.props.center.y - 300,
-        // this.props.center.x - 5,
-        // this.props.center.y - 350,
-        // this.props.center.x,
-        // this.props.center.y - 400
+          //   points={[
+          //     this.props.center.x,
+          // this.props.center.y,
+          // this.props.center.x,
+          // this.props.center.y - 50,
+          // this.props.center.x + 5,
+          // this.props.center.y - 100,
+          // this.props.center.x - 5,
+          // this.props.center.y - 150,
+          // this.props.center.x + 5,
+          // this.props.center.y - 200,
+          // this.props.center.x - 5,
+          // this.props.center.y - 250,
+          // this.props.center.x + 5,
+          // this.props.center.y - 300,
+          // this.props.center.x - 5,
+          // this.props.center.y - 350,
+          // this.props.center.x,
+          // this.props.center.y - 400
           // ]}
           stroke="#692D55"
           strokeWidth={2}

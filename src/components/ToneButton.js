@@ -4,7 +4,7 @@ import "../styles/index.css";
 import Draggable from "react-draggable"; // The default
 import { connect } from "react-redux";
 import { addTone } from "../actions/tones";
-
+import { playTone } from "../actions/cord";
 class ToneButton extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +19,7 @@ class ToneButton extends React.Component {
     this.snap = this.snap.bind(this);
     this.findSnapCoordinates = this.findSnapCoordinates.bind(this);
     this.findClosestLoop = this.findClosestLoop.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   findClosestLoop(distToCenter) {
@@ -98,6 +99,10 @@ class ToneButton extends React.Component {
     });
   }
 
+  handleClick() {
+    this.props.dispatch(playTone(this.props.sound));
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -119,6 +124,7 @@ class ToneButton extends React.Component {
           <button
             ref={this.selector}
             className="hover-shadow"
+            onClick={this.handleClick}
             style={{
               borderRadius: "100%",
               backgroundColor: this.props.color,

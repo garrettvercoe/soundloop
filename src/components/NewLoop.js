@@ -6,38 +6,50 @@ import { connect } from "react-redux";
 import LoopKonva from "./LoopKonva";
 import { addLoop } from "../actions/loops";
 
-class NewLoop extends React.Component{
-    handleClick = () => {
-        
-        var loopArray = this.props.loops;
-        if (loopArray.length < 5){
-        //loopArray[loopArray.length].radius-50
-        this.props.dispatch(addLoop(loopArray[loopArray.length-1].radius/2));
-        }
-    };
-    render(){
-        return(
-            <React.Fragment>
+const contentContainer = { padding: "1rem 0  0 2rem" };
+
+class NewLoop extends React.Component {
+  handleClick = () => {
+    var loopArray = this.props.loops;
+    //loopArray[loopArray.length].radius-50
+    this.props.dispatch(addLoop(loopArray[loopArray.length - 1].radius / 2));
+  };
+  render() {
+    return (
+      <React.Fragment>
+        <div
+          className="tone-add"
+          style={{
+            position: "absolute",
+            top: "57%",
+            left: "5%",
+            width: "15rem",
+            height: "5rem",
+            backgroundColor: "#fff",
+            borderRadius: "1%",
+            boxShadow:
+              "0 20px 10px rgba(0,0,0,0.01), 0 6px 6px rgba(0,0,0,0.05)"
+          }}
+          onClick={this.handleClick}
+        >
+          <div style={contentContainer}>
+            <h3 className="light inl-blk">ADD LOOP</h3>
             <FontAwesomeIcon
-                className="plus-icon inl-blk fa-lg"
-                icon={faPlusCircle}
-                onClick={this.handleClick}
-                style={{
-                    position: "absolute",
-                    top: "80%",
-                    left: "80%"
-                }}
+              className="plus-icon inl-blk fa-lg"
+              icon={faPlusCircle}
             />
-            </React.Fragment>
-        )
-    }
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-    console.log(state); // state
-    return {
-      loops: state.loops
-    };
-  }
+  console.log(state); // state
+  return {
+    loops: state.loops
+  };
+}
 
-export default connect(mapStateToProps)(NewLoop)
+export default connect(mapStateToProps)(NewLoop);

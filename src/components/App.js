@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
-import ToneLibrary from "./ToneLibrary";
+
 import Loop from "./Loop";
 import Portal from "./Portal";
 import BottomNav from "./BottomNav";
@@ -15,6 +15,7 @@ import { createStore } from "redux";
 import MountedLoops from "./MountedLoops";
 import NewLoop from "./NewLoop";
 import Cord from "../components/Cord";
+import LeftNav from "../components/LeftNav";
 
 const store = createStore(reducer, middleware);
 class App extends Component {
@@ -32,8 +33,7 @@ class App extends Component {
           </Provider>
           <Portal>
             <Provider store={store}>
-              <NewLoop />
-              <ToneLibrary />
+              <LeftNav />
               <BottomNav />
             </Provider>
           </Portal>

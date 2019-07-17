@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Layer, Transformer, Circle } from "react-konva";
 import { connect } from "react-redux";
-import {addLoop, updateLoop} from "../actions/loops"
+import { addLoop, updateLoop } from "../actions/loops";
 
-function LoopScale ({ shapeProps, isSelected, onSelect, onChange }){
-
+function LoopScale({ shapeProps, isSelected, onSelect, onChange }) {
   // shape state reference
   const shapeRef = React.useRef();
   // transformer state reference
@@ -21,14 +20,12 @@ function LoopScale ({ shapeProps, isSelected, onSelect, onChange }){
   // return circle and transformer when selected
   return (
     <React.Fragment>
-      
       <Circle
         onClick={onSelect}
-        
         ref={shapeRef}
         {...shapeProps}
-        x={window.innerWidth/2}
-        y={window.innerHeight/2}
+        x={window.innerWidth / 2}
+        y={window.innerHeight / 2}
         fill={"transparent"}
         stroke={"#ed1e79"}
         strokeWidth={1.5}
@@ -45,7 +42,7 @@ function LoopScale ({ shapeProps, isSelected, onSelect, onChange }){
             ...shapeProps,
             x: node.x(),
             y: node.y(),
-            radius: node.radius() * scaleX,
+            radius: node.radius() * scaleX
           });
         }}
       />
@@ -82,29 +79,32 @@ function LoopScale ({ shapeProps, isSelected, onSelect, onChange }){
       )}
     </React.Fragment>
   );
-};
+}
 
-class LoopTest extends React.Component{
-  componentDidMount(){
-    console.log("Mounted")
+class LoopTest extends React.Component {
+  componentDidMount() {
+    console.log("Mounted");
     //this.props.dispatch(updateLoop())
     this.props.dispatch(addLoop(1));
-  };
+  }
 
-  render(){
-    return(
+  render() {
+    return (
       <Layer>
-        <LoopScale shapeProps={this.props.circle}/>
+        <LoopScale shapeProps={this.props.circle} />
       </Layer>
-    )
+    );
   }
 }
 
-function Loop(){
+function Loop() {
   // need to change to singular
   const initialCircles = [
     {
-      radius: Math.min(window.innerWidth*(1/3), window.innerHeight*(1/3)),
+      radius: Math.min(
+        window.innerWidth * (1 / 3),
+        window.innerHeight * (1 / 3)
+      ),
       id: "loop"
     }
   ];
@@ -113,11 +113,11 @@ function Loop(){
     width: window.innerWidth * (2 / 3),
     height: window.innerHeight * (2 / 3),
     id: "loop"
-  }
+  };
 
   const [circles, setCircles] = React.useState(initialCircles);
   const [selectedId, selectShape] = React.useState(null);
-  const [circle, setCircle] = React.useState(circleTest)
+  const [circle, setCircle] = React.useState(circleTest);
   return (
     <Layer>
       {circles.map((circle, i) => {
@@ -135,31 +135,29 @@ function Loop(){
               setCircles(circs);
             }}
           />
-          );
+        );
       })}
     </Layer>
   );
-};
+}
 
-function mapStateToProps(state){
-  console.log(state)
-  return{
+function mapStateToProps(state) {
+  console.log(state);
+  return {
     //pass through loopExport
     radius: state.loops.radius
-  }
+  };
 }
 
 // temporary component to handle componentDidMount and test state
-class LoopExport extends React.Component{
-  componentDidMount(){
-    console.log("Mounted")
+class LoopExport extends React.Component {
+  componentDidMount() {
+    console.log("Mounted");
     //this.props.dispatch(updateLoop())
-    this.props.dispatch(addLoop(window.innerHeight * 2/3));
-  };
-  render(){
-    return(
-      <Loop radius={this.props.radius}/>
-    )
+    this.props.dispatch(addLoop((window.innerHeight * 2) / 3));
+  }
+  render() {
+    return <Loop radius={this.props.radius} />;
   }
 }
 

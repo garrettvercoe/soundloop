@@ -3,7 +3,7 @@ import "../styles/index.css";
 import AppBar from "@material-ui/core/AppBar";
 import PlayButton from "./PlayButton";
 import Toolbar from "@material-ui/core/Toolbar";
-
+import InstrumentSelect from "./InstrumentSelect";
 import { connect } from "react-redux";
 
 const NavStyle = {
@@ -23,6 +23,7 @@ class BottomNav extends React.Component {
     return (
       <AppBar style={NavStyle} position="fixed" color="white">
         <Toolbar style={ToolbarStyle}>
+          {/* <InstrumentSelect /> */}
           <PlayButton color={"#692d55"} />
         </Toolbar>
       </AppBar>
