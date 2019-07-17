@@ -60,7 +60,6 @@ class Cord extends React.Component {
       //   this.props.center.y - 400
       // ],
       onFinish: function() {
-        console.log("CDU TWEEN PTS: " + this.tween.points);
         // for (var i = 0; i < 18; i += 2){
         //   this.tween.points[i] = -this.tween.points[i];
         // }
@@ -72,15 +71,17 @@ class Cord extends React.Component {
     });
   }
 
-  playTween() {}
-
   componentDidUpdate(prevProps) {
     if (prevProps.sounds !== this.props.sounds) {
       this.synth.triggerAttackRelease(
         this.props.sounds[this.props.index],
         "4n"
       );
-      this.tween.play();
+
+      if (this.props.playing) {
+        this.tween.play();
+      }
+
       //console.log("CDU Tween points: " + this.tween.points)
     }
   }

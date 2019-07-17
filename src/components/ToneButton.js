@@ -13,7 +13,8 @@ class ToneButton extends React.Component {
       deltaPosition: {
         x: 0,
         y: 0
-      }
+      },
+      snapped: false
     };
     this.handleStop = this.handleStop.bind(this);
     this.snap = this.snap.bind(this);
@@ -67,7 +68,7 @@ class ToneButton extends React.Component {
 
       var newA = (snapCoords.y - cy) * -1;
       var newB = snapCoords.x - cx;
-
+      this.setState({ snapped: true });
       this.props.dispatch(
         addTone(
           cx,
@@ -100,7 +101,9 @@ class ToneButton extends React.Component {
   }
 
   handleClick() {
-    this.props.dispatch(playTone(this.props.sound));
+    if (!this.props.playing) {
+      this.props.dispatch(playTone(this.props.sound));
+    }
   }
 
   render() {
@@ -121,7 +124,7 @@ class ToneButton extends React.Component {
           }}
         />
         <Draggable position={this.state.deltaPosition} onStop={this.handleStop}>
-          <button
+          <div
             ref={this.selector}
             className="hover-shadow"
             onClick={this.handleClick}
@@ -144,7 +147,8 @@ class ToneButton extends React.Component {
 function mapStateToProps(state) {
   console.log(state); // state
   return {
-    loops: state.loops
+    loops: state.loops,
+    playing: state.shared.playing
   };
 }
 

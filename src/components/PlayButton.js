@@ -8,10 +8,26 @@ import { togglePlay, toggleStop } from "../actions/shared";
 const PlayButtonStyle = {
   color: "#692d55",
   position: "relative",
-  paddingLeft: "32.5rem"
+  margin: "0 auto"
 };
 
 class PlayButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.spacePress = this.spacePress.bind(this);
+  }
+
+  componentWillMount() {
+    document.addEventListener("keyup", this.spacePress);
+  }
+
+  spacePress(e) {
+    if (e.keyCode === 32) {
+      this.props.playing
+        ? this.props.dispatch(toggleStop())
+        : this.props.dispatch(togglePlay());
+    }
+  }
   render() {
     return (
       <React.Fragment>

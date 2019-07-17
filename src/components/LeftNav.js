@@ -61,7 +61,7 @@ class LibraryContainer extends React.Component {
       <div style={CardStyle}>
         <div style={contentContainer}>
           <h3 className="light inl-blk"> TONES</h3>
-          <NewToneMenu />
+          {/* <NewToneMenu /> */}
 
           <Library colors={Buttons} />
         </div>
@@ -74,6 +74,16 @@ class LeftNav extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <img
+          alt="logo"
+          src={require("../Logo.png")}
+          style={{
+            position: "absolute",
+            top: "7.5%",
+            left: "5%",
+            width: "7.5rem"
+          }}
+        />
         <LibraryContainer />
         <NewLoop />
       </React.Fragment>
