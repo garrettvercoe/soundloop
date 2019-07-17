@@ -8,9 +8,12 @@ import { addLoop } from "../actions/loops";
 
 class NewLoop extends React.Component{
     handleClick = () => {
+        
         var loopArray = this.props.loops;
+        if (loopArray.length < 5){
         //loopArray[loopArray.length].radius-50
-        this.props.dispatch(addLoop(loopArray[loopArray.length-1].radius-50));
+        this.props.dispatch(addLoop(loopArray[loopArray.length-1].radius/2));
+        }
     };
     render(){
         return(
