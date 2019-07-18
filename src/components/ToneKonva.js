@@ -47,17 +47,13 @@ class ToneKonva extends React.Component {
     var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
     this.circle.opacity(((this.circle.rotation() + angle) % 360) / 1080 + 0.66);
     var timerLoop = (360 / angularSpeed) * 1000;
-    console.log("TIMERLOOP: " + timerLoop)
-      console.log("TIMERINIT: " + timerInit)
-      console.log("ANGULARSPEED: " + angularSpeed)
-      console.log("ANGLE: " + angle)
+
     var played = false;
 
     this.anim = new Konva.Animation(frame => {
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
       this.circle.rotate(angleDiff);
-      console.log("FRAMETIME: " + frame.time)
-      console.log("TO1: " + ((this.circle.rotation() + angle) % 360) / 1080 + 0.66)
+
       this.circle.opacity(
         ((this.circle.rotation() + angle) % 360) / 1080 + 0.66
       );
@@ -66,14 +62,14 @@ class ToneKonva extends React.Component {
         timerInit - 10 < frame.time &&
         frame.time < timerInit + 10
       ) {
-        this.props.dispatch(playTone(this.props.sound));
+        this.props.dispatch(playTone(this.props.sound, this.props.color));
         played = true;
       } else if (
         played &&
         frame.time % timerLoop < timerInit + 20 &&
         frame.time % timerLoop > timerInit
       ) {
-        this.props.dispatch(playTone(this.props.sound));
+        this.props.dispatch(playTone(this.props.sound, this.props.color));
       } else {
         this.circle.fill(this.props.color);
       }

@@ -1,10 +1,11 @@
 export const PLAY_TONE = "PLAY_TONE";
 
 let index = 0;
-export function playTone(sound) {
+export function playTone(sound, color) {
   return {
     type: PLAY_TONE,
     sound: sound,
-    index: index++
+    index: index++,
+    color: color
   };
 }
