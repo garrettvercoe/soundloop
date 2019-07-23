@@ -4,7 +4,16 @@ import NewLoop from "./NewLoop";
 import "../styles/index.css";
 import NewToneMenu from "./NewToneMenu";
 import ToneButton from "./ToneButton";
-
+import Download from "./Download";
+import TextField from "@material-ui/core/TextField";
+import Upload from "./Upload";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlusCircle,
+  faGlobeAmericas
+} from "@fortawesome/free-solid-svg-icons";
+import { tsConstructorType } from "@babel/types";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 const LibListStyle = {
   textAlign: "left",
   margin: 0,
@@ -13,6 +22,23 @@ const LibListStyle = {
   position: "relative"
 };
 
+const MenuItemStyle = {
+  display: "block",
+  margin: "0 auto",
+  color: "#AB8FA2",
+  paddingBottom: "2rem "
+};
+const MenuItemStyleActive = {
+  display: "block",
+  margin: "0 auto",
+
+  color: "#E6E6E6",
+  paddingBottom: "2rem "
+};
+
+const LeftNavMenu = {
+  marginTop: "20vh"
+};
 const LibListItemStyle = {
   display: "inline-block",
   verticalAlign: "top",
@@ -21,13 +47,22 @@ const LibListItemStyle = {
 
 const CardStyle = {
   position: "absolute",
-  top: "30%",
-  left: "5%",
+  top: "0%",
+  left: "4%",
   width: "15rem",
-  height: "14rem",
+  height: "100vh",
   backgroundColor: "#fff",
   borderRadius: "1%",
   boxShadow: "0 20px 10px rgba(0,0,0,0.01), 0 6px 6px rgba(0,0,0,0.05)"
+};
+
+const LeftNavStyle = {
+  position: "absolute",
+  top: "0%",
+  left: "0%",
+  width: "4vw",
+  height: "100vh",
+  backgroundColor: "#692D55"
 };
 
 const Buttons = [
@@ -39,7 +74,7 @@ const Buttons = [
   { color: "#7f47dd", sound: "C4" }
 ];
 
-const contentContainer = { padding: "2rem" };
+const contentContainer = { padding: "2rem", position: "relative" };
 
 class Library extends React.Component {
   render() {
@@ -58,32 +93,20 @@ class Library extends React.Component {
 class LibraryContainer extends React.Component {
   render() {
     return (
-      <div style={CardStyle}>
-        <div style={contentContainer}>
-          <h3 className="light inl-blk"> TONES</h3>
-          {/* <NewToneMenu /> */}
+      <React.Fragment>
+        <h3 className="light inl-blk"> TONES</h3>
+        {/* <NewToneMenu /> */}
 
-          <Library colors={Buttons} />
-        </div>
-      </div>
+        <Library colors={Buttons} />
+      </React.Fragment>
     );
   }
 }
 
-class LeftNav extends React.Component {
+class CreateMenu extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <img
-          alt="logo"
-          src={require("../Logo.png")}
-          style={{
-            position: "absolute",
-            top: "7.5%",
-            left: "5%",
-            width: "7.5rem"
-          }}
-        />
         <LibraryContainer />
         <NewLoop />
       </React.Fragment>
@@ -91,6 +114,130 @@ class LeftNav extends React.Component {
   }
 }
 
-const ConnectedLeftNav = connect()(LeftNav);
+const ProjectField = withStyles({
+  root: {
+    "& label.Mui-focused": {
+      color: "#692D54"
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#692D54"
+    },
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": {
+        borderColor: "#692D54"
+      }
+    }
+  }
+})(TextField);
 
-export default ConnectedLeftNav;
+class ShareMenu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "MyProject"
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ name: event.target.value });
+    console.log(this.state.name);
+  }
+  render() {
+    return (
+      <React.Fragment>
+        <ProjectField
+          id="standard-name"
+          label="Project Name"
+          defaultValue={this.state.name}
+          value={this.state.name}
+          onChange={this.handleChange}
+          margin="normal"
+        />
+        <Download name={this.state.name} />
+        <Upload />
+      </React.Fragment>
+    );
+  }
+}
+
+export default class LeftNav extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showing: "createMenu",
+      test: true
+    };
+    this.handleShare = this.handleShare.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
+    this.showMenu = this.showMenu.bind(this);
+  }
+
+  handleShare() {
+    this.setState({ showing: "shareMenu" });
+  }
+  handleCreate() {
+    this.setState({ showing: "createMenu" });
+  }
+  showMenu() {
+    switch (this.state.showing) {
+      case "createMenu":
+        return <CreateMenu />;
+      case "shareMenu":
+        return <ShareMenu />;
+
+      default:
+        return null;
+    }
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <div style={LeftNavStyle}>
+          <div style={LeftNavMenu}>
+            <FontAwesomeIcon
+              className="inl-blk fa-2x menu-item"
+              style={
+                this.state.showing === "createMenu"
+                  ? MenuItemStyleActive
+                  : MenuItemStyle
+              }
+              icon={faPlusCircle}
+              onClick={() => this.handleCreate()}
+            />
+            <FontAwesomeIcon
+              className="inl-blk fa-2x  menu-item"
+              style={
+                this.state.showing === "shareMenu"
+                  ? MenuItemStyleActive
+                  : MenuItemStyle
+              }
+              icon={faGlobeAmericas}
+              onClick={() => this.handleShare()}
+            />
+          </div>
+        </div>
+        <div style={CardStyle}>
+          <div style={contentContainer}>
+            <img
+              alt="logo"
+              src={require("../Logo.png")}
+              style={{
+                width: "7.5rem",
+                margin: "0",
+                display: "block",
+                paddingBottom: "4rem"
+              }}
+            />
+
+            <span className="logo-spacer" />
+
+            <div>{this.showMenu()}</div>
+            <div />
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
+}

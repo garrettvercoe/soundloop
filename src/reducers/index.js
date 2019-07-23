@@ -4,9 +4,13 @@ import shared from "./shared";
 import cord from "./cord";
 import { combineReducers } from "redux";
 
-export default combineReducers({
+const appReducer = combineReducers({
   loops,
   tones,
   cord,
   shared
 });
+
+export default function(state, action) {
+  return appReducer(state, action);
+}

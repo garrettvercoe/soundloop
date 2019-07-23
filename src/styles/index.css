@@ -17,7 +17,7 @@
 
 body {
   margin: 0;
-  background-color: #fcf6ec;
+  background-color: #fff9f3;
   font-family: "RelevantMedium", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
@@ -54,7 +54,7 @@ code {
 
 .plus-icon {
   color: #808080;
-  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   right: 0px;
 }
 
@@ -80,4 +80,10 @@ code {
 
 .inl-blk {
   display: inline-block;
+}
+
+.menu-item:hover {
+  cursor: pointer;
+  color: #e6e6e6 !important;
+  transition: all 0.2s ease-in-out;
 }

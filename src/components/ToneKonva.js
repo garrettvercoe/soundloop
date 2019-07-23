@@ -8,16 +8,12 @@ import { connect } from "react-redux";
 import Konva from "konva";
 import { addTone } from "../actions/tones";
 import { playTone } from "../actions/cord";
+import { deleteTone } from "../actions/tones";
 
 class ToneKonva extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isDragging: false,
-      // x: window.innerWidth / 2,
-      // y: window.innerHeight / 2,
-      active: false
-    };
+
     this.getAngle = this.getAngle.bind(this);
   }
 
@@ -43,6 +39,7 @@ class ToneKonva extends React.Component {
   componentDidMount() {
     var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
     //var angularSpeed = 75;
+    console.log(this.props);
     var angle = this.getAngle();
     var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
     this.circle.opacity(((this.circle.rotation() + angle) % 360) / 1080 + 0.66);
@@ -99,18 +96,9 @@ class ToneKonva extends React.Component {
         ref={node => {
           this.circle = node;
         }}
-        onDragStart={() => {
-          this.setState({
-            isDragging: true
-          });
-        }}
-        onDragEnd={e => {
-          this.setState({
-            isDragging: false,
-            x: e.target.x(),
-            y: e.target.y()
-          });
-        }}
+        draggable={true}
+        onDragEnd={() => this.props.dispatch(deleteTone(this.props.id))}
+        //onClick={this.props.dispatch(deleteTone(this.props.id))}
       />
     );
   }

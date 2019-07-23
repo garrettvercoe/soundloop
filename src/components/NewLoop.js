@@ -6,8 +6,6 @@ import { connect } from "react-redux";
 import LoopKonva from "./LoopKonva";
 import { addLoop } from "../actions/loops";
 
-const contentContainer = { padding: "1rem 0  0 2rem" };
-
 class NewLoop extends React.Component {
   handleClick = () => {
     var loopArray = this.props.loops;
@@ -17,28 +15,12 @@ class NewLoop extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div
-          className="tone-add"
-          style={{
-            position: "absolute",
-            top: "57%",
-            left: "5%",
-            width: "15rem",
-            height: "5rem",
-            backgroundColor: "#fff",
-            borderRadius: "1%",
-            boxShadow:
-              "0 20px 10px rgba(0,0,0,0.01), 0 6px 6px rgba(0,0,0,0.05)"
-          }}
-          onClick={this.handleClick}
-        >
-          <div style={contentContainer}>
-            <h3 className="light inl-blk">ADD LOOP</h3>
-            <FontAwesomeIcon
-              className="plus-icon inl-blk fa-lg"
-              icon={faPlusCircle}
-            />
-          </div>
+        <div className="tone-add" onClick={this.handleClick}>
+          <FontAwesomeIcon
+            className="plus-icon inl-blk fa-lg"
+            icon={faPlusCircle}
+          />
+          <h3 className="light inl-blk">ADD LOOP</h3>
         </div>
       </React.Fragment>
     );

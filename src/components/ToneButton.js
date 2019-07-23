@@ -134,6 +134,7 @@ class ToneButton extends React.Component {
               width: "2rem",
               zIndex: 1,
               height: "2rem",
+
               border: "none",
               outline: "none"
             }}

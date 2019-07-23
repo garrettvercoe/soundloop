@@ -7,8 +7,8 @@ import { togglePlay, toggleStop } from "../actions/shared";
 
 const PlayButtonStyle = {
   color: "#692d55",
-  position: "relative",
-  margin: "0 auto"
+  position: "absolute",
+  left: "50%"
 };
 
 class PlayButton extends React.Component {
@@ -33,14 +33,14 @@ class PlayButton extends React.Component {
       <React.Fragment>
         {this.props.playing ? (
           <FontAwesomeIcon
-            className="inl-blk fa-4x"
+            className="inl-blk fa-3x"
             style={PlayButtonStyle}
             icon={faPauseCircle}
             onClick={() => this.props.dispatch(toggleStop())}
           />
         ) : (
           <FontAwesomeIcon
-            className="inl-blk fa-4x"
+            className="inl-blk fa-3x"
             style={PlayButtonStyle}
             icon={faPlayCircle}
             onClick={() => this.props.dispatch(togglePlay())}

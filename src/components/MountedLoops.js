@@ -7,19 +7,17 @@ import LoopKonva from "./LoopKonva";
 import { addLoop } from "../actions/loops";
 
 class MountedLoops extends React.Component {
-    componentDidMount(){
-        this.props.dispatch(addLoop(window.innerHeight/3));
-    }
+  componentDidMount() {
+    this.props.dispatch(addLoop(window.innerHeight / 3));
+  }
 
-    render() {
-        return ( 
-            <Layer>
-            {this.props.loops.map(function(item) {
-                return (
-                    <LoopKonva radius={item.radius}/>
-                );
-            })}
-            </Layer>
+  render() {
+    return (
+      <Layer>
+        {this.props.loops.map(function(item) {
+          return <LoopKonva radius={item.radius} />;
+        })}
+      </Layer>
     );
   }
 }

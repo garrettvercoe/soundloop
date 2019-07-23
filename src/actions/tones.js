@@ -1,9 +1,9 @@
 //TONES
 export const ADD_TONE = "ADD_TONE";
 export const RESIZE_TONE = "RESIZE_TONE";
+export const DELETE_TONE = "DELETE_TONE";
 export const RECEIVE_TONES = "RECEIVE_TONES";
 
-let nextToneId = 0;
 export function addTone(
   xCoord,
   yCoord,
@@ -16,7 +16,7 @@ export function addTone(
 ) {
   return {
     type: ADD_TONE,
-    id: nextToneId++,
+
     position: {
       x: xCoord,
       y: yCoord
@@ -31,7 +31,12 @@ export function addTone(
     sound: sound
   };
 }
-
+export function deleteTone(index) {
+  return {
+    type: DELETE_TONE,
+    id: index
+  };
+}
 export function resizeTone(tone) {
   return {
     type: RESIZE_TONE,

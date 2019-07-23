@@ -37,24 +37,28 @@ class Cord extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    this.tween = new Konva.Tween({
-      node: this.line,
-      duration: 0.1,
-      easing: Konva.Easings.EaseOut,
-      points: this.pts,
-      //stroke: this.line.fill(),
-      onFinish: function() {
-        this.tween.reverse();
+    if (this.props.playing) {
+      this.tween = new Konva.Tween({
+        node: this.line,
+        duration: 0.1,
+        easing: Konva.Easings.EaseOut,
+        points: this.pts,
+        //stroke: this.line.fill(),
+        onFinish: function() {
+          this.tween.reverse();
+        }
+        // onReset: function() {
+        //   this.line.stroke("#692D55");
+        // }
+      });
+    }
+    if (this.props.sounds && prevProps.sounds !== this.props.sounds) {
+      if (!this.props.muted) {
+        this.synth.triggerAttackRelease(
+          this.props.sounds[this.props.index],
+          "4n"
+        );
       }
-      // onReset: function() {
-      //   this.line.stroke("#692D55");
-      // }
-    });
-    if (prevProps.sounds !== this.props.sounds) {
-      this.synth.triggerAttackRelease(
-        this.props.sounds[this.props.index],
-        "4n"
-      );
 
       if (this.props.playing) {
         // this.line.fill(this.props.color);
@@ -107,6 +111,7 @@ function mapStateToProps(state) {
   return {
     center: state.shared.center,
     playing: state.shared.playing,
+    muted: state.shared.muted,
     sounds: state.cord.sounds,
     color: state.cord.color,
     index: state.cord.index
