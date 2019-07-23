@@ -10,6 +10,7 @@ import Upload from "./Upload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlusCircle,
+  faTerminal,
   faGlobeAmericas
 } from "@fortawesome/free-solid-svg-icons";
 import { tsConstructorType } from "@babel/types";
@@ -113,6 +114,16 @@ class CreateMenu extends React.Component {
     );
   }
 }
+class TerminalMenu extends React.Component {
+  render() {
+    return (
+      <React.Fragment>
+        <h3> Welcome to the terminal.</h3>
+        <p> This feature is still in development. Check back soon! </p>
+      </React.Fragment>
+    );
+  }
+}
 
 const ProjectField = withStyles({
   root: {
@@ -165,16 +176,19 @@ export default class LeftNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showing: "createMenu",
-      test: true
+      showing: "createMenu"
     };
     this.handleShare = this.handleShare.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
+    this.handleTerminal = this.handleTerminal.bind(this);
     this.showMenu = this.showMenu.bind(this);
   }
 
   handleShare() {
     this.setState({ showing: "shareMenu" });
+  }
+  handleTerminal() {
+    this.setState({ showing: "terminalMenu" });
   }
   handleCreate() {
     this.setState({ showing: "createMenu" });
@@ -185,7 +199,8 @@ export default class LeftNav extends React.Component {
         return <CreateMenu />;
       case "shareMenu":
         return <ShareMenu />;
-
+      case "terminalMenu":
+        return <TerminalMenu />;
       default:
         return null;
     }
@@ -205,6 +220,16 @@ export default class LeftNav extends React.Component {
               }
               icon={faPlusCircle}
               onClick={() => this.handleCreate()}
+            />
+            <FontAwesomeIcon
+              className="inl-blk fa-lg  menu-item"
+              style={
+                this.state.showing === "terminalMenu"
+                  ? MenuItemStyleActive
+                  : MenuItemStyle
+              }
+              icon={faTerminal}
+              onClick={() => this.handleTerminal()}
             />
             <FontAwesomeIcon
               className="inl-blk fa-2x  menu-item"
