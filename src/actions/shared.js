@@ -5,6 +5,7 @@ export const TOGGLE_RESTART = "TOGGLE_RESTART";
 export const TOGGLE_MUTE = "TOGGLE_MUTE";
 export const TOGGLE_UNMUTE = "TOGGLE_UNMUTE";
 export const TRASH_ALL = "TRASH_ALL";
+export const IMPORT_FILE = "IMPORT_FILE";
 
 export function togglePlay() {
   return {
@@ -37,5 +38,12 @@ export function toggleUnmute() {
 export function trashAll() {
   return {
     type: TRASH_ALL
+  };
+}
+
+export function importFile(file) {
+  return {
+    type: IMPORT_FILE,
+    data: file
   };
 }

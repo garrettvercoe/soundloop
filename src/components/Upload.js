@@ -6,25 +6,18 @@ import {
   faArrowCircleDown,
   faArrowCircleUp
 } from "@fortawesome/free-solid-svg-icons";
+import UploadPopUp from "./UploadPopUp";
 import { connect } from "react-redux";
 import LoopKonva from "./LoopKonva";
 import { addLoop } from "../actions/loops";
 
 class NewLoop extends React.Component {
-  handleClick = () => {
-    var loopArray = this.props.loops;
-    //loopArray[loopArray.length].radius-50
-    this.props.dispatch(addLoop(loopArray[loopArray.length - 1].radius / 2));
-  };
+  handleClick = () => {};
   render() {
     return (
       <React.Fragment>
         <div className="tone-add" onClick={this.handleClick}>
-          <FontAwesomeIcon
-            className="plus-icon inl-blk fa-lg"
-            icon={faArrowCircleUp}
-          />
-          <h3 className="light inl-blk">IMPORT</h3>
+          <UploadPopUp />
         </div>
       </React.Fragment>
     );
