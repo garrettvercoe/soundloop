@@ -7,7 +7,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { connect } from "react-redux";
 import Konva from "konva";
 import Tone from "tone";
-//import GreenSock from "greensock-plugin-master"
 
 class Cord extends React.Component {
   componentDidMount() {
@@ -19,51 +18,29 @@ class Cord extends React.Component {
     // this.synth = new Tone.PolySynth().chain(distortion, tremolo, Tone.Master);
 
     this.synth = new Tone.PolySynth().toMaster();
-    var max = window.innerHeight / 2 - 50;
-    var interval = max / 2;
+    var cordLength = window.innerHeight / 2 - 50;
+    // modify this to change number of waves
+    var numAnchors = 1;
+    var interval = cordLength / (numAnchors+1);
     var pts = [];
     var prevX = this.props.center.x;
-    var flux = 8;
+    var oscill = 8;
     var prevY = this.props.center.y;
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < numAnchors+2; i++) {
       pts.push(prevX);
       pts.push(prevY);
-      prevX = prevX + flux;
+      prevX = prevX + oscill;
       prevY = prevY - interval;
-      flux = -flux;
+      oscill = -oscill;
     }
 
-    //var tl = new TimelineLite();
     this.tween = new Konva.Tween({
       node: this.line,
       duration: 0.1,
       easing: Konva.Easings.EaseOut,
       points: pts,
-      // points: [
-      //   this.props.center.x,
-      //   this.props.center.y,
-      //   this.props.center.x + 10,
-      //   this.props.center.y - 200,
-      // this.props.center.x - 5,
-      // this.props.center.y - 100,
-      // this.props.center.x + 5,
-      // this.props.center.y - 150,
-      // this.props.center.x - 5,
-      // this.props.center.y - 200,
-      // this.props.center.x + 5,
-      // this.props.center.y - 250,
-      // this.props.center.x - 5,
-      // this.props.center.y - 300,
-      // this.props.center.x + 5,
-      // this.props.center.y - 350,
-      //   this.props.center.x,
-      //   this.props.center.y - 400
-      // ],
+      // stroke: "#fff",
       onFinish: function() {
-        console.log("CDU TWEEN PTS: " + this.tween.points);
-        // for (var i = 0; i < 18; i += 2){
-        //   this.tween.points[i] = -this.tween.points[i];
-        // }
         this.tween.reverse();
       }
       //   onReset: function() {
@@ -72,35 +49,27 @@ class Cord extends React.Component {
     });
   }
 
-  playTween() {}
-
   componentDidUpdate(prevProps) {
+    console.log("INDEX: " + this.props.index)
+    console.log("COLOR: " + this.props.color)
+    console.log("SOUND 2: " + this.props.sounds[this.props.index])
+    // check if sound at index is null
     if (prevProps.sounds !== this.props.sounds) {
       this.synth.triggerAttackRelease(
         this.props.sounds[this.props.index],
         "4n"
       );
       this.tween.play();
-      //console.log("CDU Tween points: " + this.tween.points)
     }
   }
 
   render() {
-    var max = window.innerHeight / 2 - 50;
-    var interval = max / 2;
-    var pts = [];
-    var prevX = this.props.center.x;
-    var prevY = this.props.center.y;
-    for (var i = 0; i < 3; i++) {
-      pts.push(prevX);
-      pts.push(prevY);
-      prevY = prevY - interval;
-    }
+    var cordLength = window.innerHeight / 2 - 50;
     return (
       <Layer>
         <Circle
           x={this.props.center.x}
-          y={this.props.center.y - max}
+          y={this.props.center.y - cordLength}
           radius={4}
           fill="#692D55"
         />
@@ -111,27 +80,12 @@ class Cord extends React.Component {
           fill="#692D55"
         />
         <Line
-          points={pts}
-          //   points={[
-          //     this.props.center.x,
-          // this.props.center.y,
-          // this.props.center.x,
-          // this.props.center.y - 50,
-          // this.props.center.x + 5,
-          // this.props.center.y - 100,
-          // this.props.center.x - 5,
-          // this.props.center.y - 150,
-          // this.props.center.x + 5,
-          // this.props.center.y - 200,
-          // this.props.center.x - 5,
-          // this.props.center.y - 250,
-          // this.props.center.x + 5,
-          // this.props.center.y - 300,
-          // this.props.center.x - 5,
-          // this.props.center.y - 350,
-          // this.props.center.x,
-          // this.props.center.y - 400
-          // ]}
+          points={[
+            this.props.center.x,
+            this.props.center.y,
+            this.props.center.x,
+            this.props.center.y - cordLength
+          ]}
           stroke="#692D55"
           strokeWidth={2}
           tension={0.5}

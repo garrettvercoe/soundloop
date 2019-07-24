@@ -6,6 +6,10 @@ import { connect } from "react-redux";
 import ToneKonva from "./ToneKonva";
 
 class MountedTones extends React.Component {
+  // componentDidUpdate(){
+  //   console.log("CHECK: " + JSON.stringify(this.props.tones))
+  // }
+
   render() {
     return (
       <Layer>
@@ -19,6 +23,8 @@ class MountedTones extends React.Component {
               radius={item.radius}
               attachedLoop={item.attachedLoop}
               sound={item.sound}
+              strokeWidth={item.strokeWidth}
+              id={item.id}
             />
           );
         })}
@@ -30,7 +36,8 @@ class MountedTones extends React.Component {
 function mapStateToProps(state) {
   console.log(state); // state
   return {
-    tones: state.tones
+    tones: state.tones,
+    loops: state.loops
   };
 }
 

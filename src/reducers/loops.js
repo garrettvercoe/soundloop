@@ -1,4 +1,4 @@
-import { ADD_LOOP, UPDATE_LOOP } from "../actions/loops";
+import { ADD_LOOP, UPDATE_LOOP, ACTIVATE_LOOP } from "../actions/loops";
 
 export default function loops(state = [], action) {
   switch (action.type) {
@@ -8,15 +8,36 @@ export default function loops(state = [], action) {
         {
           id: action.id,
           radius: action.radius,
-          speed: action.speed
+          speed: action.speed,
+          rotation: action.rotation,
+          active: action.active
         }
       ];
 
     case UPDATE_LOOP:
-      return {
-        ...state
-        // something here
-      };
+        var id = action.id;
+        return [
+          ...state.slice(0, id), 
+          {
+            ...state[id], 
+            rotation: action.rotation
+          }, 
+          ...state.slice(id+1)
+        ];
+
+
+    case ACTIVATE_LOOP:
+        var id = action.id;
+        return [
+          ...state.slice(0, id), 
+          {
+            ...state[id], 
+            active: action.active,
+            stroke: action.stroke
+          }, 
+          ...state.slice(id+1)
+        ];
+
     default:
       return state;
   }

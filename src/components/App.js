@@ -3,7 +3,6 @@ import { render } from "react-dom";
 import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
 
-import Loop from "./Loop";
 import Portal from "./Portal";
 import BottomNav from "./BottomNav";
 import MountedTones from "./MountedTones";
@@ -13,7 +12,6 @@ import middleware from "../middleware";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import MountedLoops from "./MountedLoops";
-import NewLoop from "./NewLoop";
 import Cord from "../components/Cord";
 import LeftNav from "../components/LeftNav";
 
@@ -27,9 +25,11 @@ class App extends Component {
       <React.Fragment>
         <Stage width={window.innerWidth} height={window.innerHeight}>
           <Provider store={store}>
+            
             <MountedLoops />
-            <Cord />
+            
             <MountedTones />
+            <Cord />
           </Provider>
           <Portal>
             <Provider store={store}>

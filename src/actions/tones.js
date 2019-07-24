@@ -1,13 +1,17 @@
 //TONES
 export const ADD_TONE = "ADD_TONE";
+export const UPDATE_TONE = "UPDATE_TONE";
 export const RESIZE_TONE = "RESIZE_TONE";
 export const RECEIVE_TONES = "RECEIVE_TONES";
+export const ROTATE_TONE = "ROTATE_TONE";
 
 let nextToneId = 0;
 export function addTone(
   xCoord,
   yCoord,
   colorCode,
+  stroke,
+  strokeWidth,
   offsetx,
   offsety,
   attLoop,
@@ -26,9 +30,12 @@ export function addTone(
       y: offsety
     },
     color: colorCode,
+    stroke: stroke,
+    strokeWidth: strokeWidth,
     attachedLoop: attLoop,
     radius: rad,
-    sound: sound
+    sound: sound,
+    rotation: 0,
   };
 }
 
@@ -37,6 +44,24 @@ export function resizeTone(tone) {
     type: RESIZE_TONE,
     tone
   };
+}
+
+export function updateTone(id, color, sound, strokeWidth) {
+  return {
+    type: UPDATE_TONE,
+    id: id,
+    color: color,
+    sound: sound,
+    strokeWidth: strokeWidth
+  };
+}
+
+export function rotateTone(id, rotation){
+  return {
+    type: ROTATE_TONE,
+    id: id,
+    rotation: rotation
+  }
 }
 
 export function receiveTones(tones) {
