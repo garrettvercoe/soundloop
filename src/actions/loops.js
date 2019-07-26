@@ -7,7 +7,6 @@ export const RECEIVE_LOOPS = "RECEIVE_LOOPS";
 export const ACTIVATE_LOOP = "ACTIVATE_LOOP";
 
 
-
 let nextLoopId = 0;
 export function addLoop(rad) {
   var cx = window.innerWidth/2;
@@ -16,7 +15,6 @@ export function addLoop(rad) {
     type: ADD_LOOP,
     id: nextLoopId++,
     radius: rad,
-    speed: 20000/rad,
     rotation: 0,
     active: false,
   };
@@ -31,7 +29,7 @@ export function updateLoop(id, rotation) {
 }
 
 export function activateLoop(id) {
-  return(dispatch)=> {
+  return(dispatch) => {
     dispatch({
     type: ACTIVATE_LOOP,
     id: id,

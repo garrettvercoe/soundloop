@@ -25,6 +25,7 @@ class MountedTones extends React.Component {
               sound={item.sound}
               strokeWidth={item.strokeWidth}
               id={item.id}
+              rotation={item.rotation}
             />
           );
         })}

@@ -13,13 +13,15 @@ class ToneButton extends React.Component {
       deltaPosition: {
         x: 0,
         y: 0
-      }
+      },
+      snapped: false
     };
     this.handleStop = this.handleStop.bind(this);
     this.snap = this.snap.bind(this);
     this.findSnapCoordinates = this.findSnapCoordinates.bind(this);
     this.findClosestLoop = this.findClosestLoop.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleDrag = this.handleDrag.bind(this);
   }
 
   findClosestLoop(distToCenter) {
@@ -156,7 +158,6 @@ class ToneButton extends React.Component {
 
   handleStop() {
     this.rect = this.selector.current.getBoundingClientRect();
-    
 
     const x = this.rect.left;
     const y = this.rect.top;
@@ -169,10 +170,26 @@ class ToneButton extends React.Component {
         y: 0
       }
     });
+
+    for (var i = 0; i < this.props.tones.length; i++){
+      if (this.props.tones[i].sound === null){
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5))
+      }
+    }
   }
 
   handleClick() {
-    this.props.dispatch(playTone(this.props.sound));
+    if (!this.props.playing) {
+      this.props.dispatch(playTone(this.props.sound));
+    }
+  }
+
+  handleDrag(){
+    for (var i = 0; i < this.props.tones.length; i++){
+      if (this.props.tones[i].sound === null){
+        this.props.dispatch(updateTone(i, "#fff", null, 1.5))
+      }
+    }
   }
 
   render() {
@@ -192,17 +209,19 @@ class ToneButton extends React.Component {
             pointerEvents: "none"
           }}
         />
-        <Draggable position={this.state.deltaPosition} onStop={this.handleStop}>
-          <button
+        <Draggable position={this.state.deltaPosition} onStop={this.handleStop} onStart={this.handleDrag}>
+          <div
             ref={this.selector}
             className="hover-shadow"
             onClick={this.handleClick}
+            
             style={{
               borderRadius: "100%",
               backgroundColor: this.props.color,
               width: "2rem",
               zIndex: 1,
               height: "2rem",
+
               border: "none",
               outline: "none"
             }}
@@ -217,7 +236,8 @@ function mapStateToProps(state) {
   //console.log(state); // state
   return {
     loops: state.loops,
-    tones: state.tones
+    tones: state.tones,
+    playing: state.shared.playing
   };
 }
 

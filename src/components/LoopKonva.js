@@ -13,14 +13,6 @@ class LoopKonva extends React.Component {
   componentDidMount(){
     var cx = window.innerWidth/2;
     var cy = window.innerHeight/2;
-    // var numTones = this.Circle.r
-    // for (var i = 0; i < 4; i ++){
-    //   this.props.dispatch(addInterval(window.innerWidth/2, window.innerHeight/2, 10, 10, 1, 10))
-    // }
-    // this.props.dispatch(addInterval(window.innerWidth/2, window.innerHeight/2, this.props.radius, 0, 1, 10));
-    // this.props.dispatch(addInterval(window.innerWidth/2, window.innerHeight/2, 0, this.props.radius, 1, 10));
-    // this.props.dispatch(addInterval(window.innerWidth/2, window.innerHeight/2, -this.props.radius, 0, 1, 10));
-    // this.props.dispatch(addInterval(window.innerWidth/2, window.innerHeight/2, 0, -this.props.radius, 1, 10));
 
     var numTones = Math.pow(2, 4-this.props.id);
     var interval = (2*Math.PI)/numTones;
@@ -28,16 +20,12 @@ class LoopKonva extends React.Component {
     for (var i = 0; i < numTones; i++ ){
       var coords = this.findAngleCoord(cx, cy, currAngle, this.props.radius);
       console.log(coords)
-      this.props.dispatch(addTone(cx, cy, "#fff", "#fff", 1.5, coords.x-cx, (coords.y-cy), this.props.id, 20, null));
+      this.props.dispatch(addTone(cx, cy, "transparent", "#fff", 1.5, coords.x-cx, (coords.y-cy), this.props.id, 20, null, 0));
+      //this.props.dispatch(addTone(cx, cy, "#fff9f3", "#ed1e79", 1.5, coords.x-cx, (coords.y-cy), this.props.id, 20, null));
       currAngle = currAngle+interval;
     }
     console.log("NUMTONES: " + numTones)
     var angle = 0;
-
-    // this.props.dispatch(addTone(cx, cy, "#fcf6ec", "#ed1e79", 10, -this.props.radius, 0, 0, 20, null));
-    // this.props.dispatch(addTone(cx, cy, "#fcf6ec", "#ed1e79", 10, this.props.radius, 0, 0, 20, null));
-    // this.props.dispatch(addTone(cx, cy, "#fcf6ec", "#ed1e79", 10, 0, -this.props.radius, 0, 20, null));
-    // this.props.dispatch(addTone(cx, cy, "#fcf6ec", "#ed1e79", 10, 0, this.props.radius, 0, 20, null));
   }
 
   
