@@ -21,45 +21,46 @@ class Cord extends React.Component {
     var cordLength = window.innerHeight / 2 - 50;
     // modify this to change number of waves
     var numAnchors = 1;
-    var interval = cordLength / (numAnchors+1);
+    var interval = cordLength / (numAnchors + 1);
     var pts = [];
     var prevX = this.props.center.x;
     var oscill = 8;
     var prevY = this.props.center.y;
-    for (var i = 0; i < numAnchors+2; i++) {
+    for (var i = 0; i < numAnchors + 2; i++) {
       pts.push(prevX);
       pts.push(prevY);
       prevX = prevX + oscill;
       prevY = prevY - interval;
       oscill = -oscill;
     }
+  }
 
-    this.tween = new Konva.Tween({
-      node: this.line,
-      duration: 0.1,
-      easing: Konva.Easings.EaseOut,
-      points: pts,
-      // stroke: "#fff",
-      onFinish: function() {
-        this.tween.reverse();
+  componentDidUpdate(prevProps) {
+    if (this.props.playing) {
+      this.tween = new Konva.Tween({
+        node: this.line,
+        duration: 0.1,
+        easing: Konva.Easings.EaseOut,
+        points: this.pts,
+        //stroke: this.line.fill(),
+        onFinish: function() {
+          this.tween.reverse();
+        }
+        // onReset: function() {
+        //   this.line.stroke("#692D55");
+        // }
+      });
+    }
+    if (this.props.sounds && prevProps.sounds !== this.props.sounds) {
+      if (!this.props.muted) {
+        this.synth.triggerAttackRelease(
+          this.props.sounds[this.props.index],
+          "8n"
+        );
       }
       //   onReset: function() {
       //     this.tween.play();
       // }
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    console.log("INDEX: " + this.props.index)
-    console.log("COLOR: " + this.props.color)
-    console.log("SOUND 2: " + this.props.sounds[this.props.index])
-    // check if sound at index is null
-    if (prevProps.sounds !== this.props.sounds) {
-      this.synth.triggerAttackRelease(
-        this.props.sounds[this.props.index],
-        "4n"
-      );
-      this.tween.play();
     }
   }
 

@@ -65,6 +65,19 @@ code {
   transform: translatey(-1px);
 }
 
+.import-icon {
+  color: #d8d9da;
+  padding-right: 0.75rem;
+  right: 0px;
+}
+
+.import-pad:hover .import-icon {
+  transition: all 0.2s ease-in-out;
+  color: #692d55;
+  cursor: pointer;
+  transform: translatey(-1px);
+}
+
 .tone-add:hover {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -80,4 +93,59 @@ code {
 
 .inl-blk {
   display: inline-block;
+}
+
+.menu-item:hover {
+  cursor: pointer;
+  color: #e6e6e6 !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.upload {
+  width: 200px;
+  height: 200px;
+  display: block;
+  border: 2px dashed #e5e5e5;
+  border-radius: 200px;
+  background-color: #f7f7f7;
+  padding: 5rem 5rem 5rem 5rem;
+}
+
+.center {
+  display: block;
+  margin: 0 auto;
+}
+
+.note .note-select {
+  display: none;
+}
+
+/* .note:hover .note-select {
+  display: block;
+  padding: 0 0 0 50px;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  color: #692d54;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+} */
+
+.upload-header {
+  color: #909090;
+  text-align: center;
+  margin: 2rem 0 0 0;
+}
+
+.upload-body {
+  color: #909090;
+  text-align: center;
+  margin: 0.5rem 0 2rem 0;
+}
+.import-pad {
+  margin: 10rem;
+}
+
+.no-dec:focus {
+  outline: 0;
 }
