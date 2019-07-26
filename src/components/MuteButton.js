@@ -15,7 +15,7 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 //   position: "relative",
 //   margin: "0 auto 0 0 "
 // };
-const PrettoSlider = withStyles({
+const VolumeSlider = withStyles({
   root: {
     color: "#692D54",
     height: 2
@@ -89,7 +89,7 @@ class MuteButton extends React.Component {
             color: "#692d55"
           }}
         >
-          <PrettoSlider
+          <VolumeSlider
             defaultValue={50}
             value={this.state.value}
             onChange={this.handleChange}

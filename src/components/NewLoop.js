@@ -25,6 +25,8 @@ class NewLoop extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <br />
+
         <div className="tone-add" onClick={this.handleClick}>
           <FontAwesomeIcon
             className="plus-icon inl-blk fa-lg"

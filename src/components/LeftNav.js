@@ -15,6 +15,38 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { tsConstructorType } from "@babel/types";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Radio from "@material-ui/core/Radio";
+import Slider from "@material-ui/core/Slider";
+
+import {
+  red,
+  pink,
+  purple,
+  indigo,
+  blue,
+  cyan,
+  teal,
+  green,
+  yellow,
+  amber,
+  orange,
+  deepOrange
+} from "@material-ui/core/colors/";
+
+const colorHues = [
+  red,
+  pink,
+  purple,
+  indigo,
+  blue,
+  cyan,
+  teal,
+  green,
+  yellow,
+  amber,
+  orange,
+  deepOrange
+];
 const LibListStyle = {
   textAlign: "left",
   margin: 0,
@@ -50,7 +82,7 @@ const CardStyle = {
   position: "absolute",
   top: "0%",
   left: "4%",
-  width: "15rem",
+  width: "19rem",
   height: "100vh",
   backgroundColor: "#fff",
   borderRadius: "1%",
@@ -66,27 +98,125 @@ const LeftNavStyle = {
   backgroundColor: "#692D55"
 };
 
-const Buttons = [
-  { color: "#fe6b12", sound: "E4" },
-  { color: "#fec52b", sound: "G4" },
-  { color: "#029e4e", sound: "B4" },
-  { color: "#e11a79", sound: "D4" },
-  { color: "#6581c9", sound: "F4" },
-  { color: "#7f47dd", sound: "C4" }
-];
-
 const contentContainer = { padding: "2rem", position: "relative" };
 
+const OctaveSlider = withStyles({
+  root: {
+    color: "#692D54",
+    height: 2
+  },
+  thumb: {
+    height: 28,
+    width: 28,
+
+    marginTop: -14,
+    marginLeft: -14,
+    "&:focus,&:hover,&$active": {
+      boxShadow:
+        "0 3px 1px rgba(0,0,0,0.01),0 2px 4px rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.001)",
+      // Reset on touch devices, it doesn't add specificity
+      "@media (hover: none)": {}
+    }
+  },
+  active: {},
+  track: {
+    height: 3,
+    borderRadius: 4
+  },
+  mark: {
+    height: 7,
+    width: 1.5,
+    marginTop: -2
+  },
+  markActive: {
+    backgroundColor: "currentColor"
+  },
+  rail: {
+    height: 3,
+    borderRadius: 4
+  },
+
+  valueLabel: {
+    left: "calc(-50% + 11px)",
+    top: 8,
+
+    "& *": {
+      background: "transparent",
+      color: "#fff"
+    }
+  }
+})(Slider);
+
 class Library extends React.Component {
+  constructor(props) {
+    super(props);
+    this.buttons = [];
+    this.buttonList = [];
+    this.sounds = [
+      "A",
+      "A#",
+      "B",
+      "C",
+      "C#",
+      "D",
+      "D#",
+      "E",
+      "F",
+      "F#",
+      "G",
+      "G#"
+    ];
+
+    this.octaves = [1, 2, 3, 4, 5, 6, 7];
+    for (let j = 0; j < this.octaves.length; j++) {
+      for (let i = 0; i < colorHues.length; i++) {
+        console.log(colorHues[i][this.octaves[j] * 100]);
+        this.buttons.push({
+          color: colorHues[i][this.octaves[j] * 100],
+          sound: this.sounds[i] + this.octaves[j],
+          note: this.sounds[i]
+        });
+      }
+
+      this.buttonList.push(this.buttons);
+
+      this.buttons = [];
+    }
+    this.state = { octave: 2, tones: this.buttonList };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    console.log(this.state);
+  }
+  handleChange(event, newValue) {
+    this.setState({ octave: newValue - 1 });
+  }
   render() {
     return (
-      <ul style={LibListStyle}>
-        {this.props.colors.map(item => (
-          <li style={LibListItemStyle} key={item.color}>
-            <ToneButton color={item.color} sound={item.sound} />
-          </li>
-        ))}
-      </ul>
+      <React.Fragment>
+        <br />
+        <h3 className="light inl-blk"> OCTAVE</h3>
+        <OctaveSlider
+          defaultValue={4}
+          onChange={this.handleChange}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="on"
+          step={1}
+          marks
+          min={1}
+          max={7}
+        />
+        <h3 className="light inl-blk"> NOTES</h3>
+        <ul style={LibListStyle}>
+          {this.state.tones[this.state.octave].map(item => (
+            <li style={LibListItemStyle} key={item.color}>
+              <ToneButton color={item.color} sound={item.sound} />
+            </li>
+          ))}
+        </ul>
+      </React.Fragment>
     );
   }
 }
@@ -95,10 +225,9 @@ class LibraryContainer extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h3 className="light inl-blk"> TONES</h3>
         {/* <NewToneMenu /> */}
 
-        <Library colors={Buttons} />
+        <Library />
       </React.Fragment>
     );
   }
@@ -120,6 +249,15 @@ class TerminalMenu extends React.Component {
       <React.Fragment>
         <h3> Welcome to the terminal.</h3>
         <p> This feature is still in development. Check back soon! </p>
+        <TextField
+          id="outlined-multiline-static"
+          multiline
+          label="Terminal"
+          rows="20"
+          defaultValue="Default Value"
+          margin="normal"
+          variant="filled"
+        />
       </React.Fragment>
     );
   }

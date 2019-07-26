@@ -26,7 +26,7 @@ const styles = theme => ({
     position: "absolute",
     right: theme.spacing(1),
     top: theme.spacing(1),
-    color: theme.palette.grey[500]
+    color: theme.palette.grey[100]
   }
 });
 
@@ -81,7 +81,6 @@ class UploadPopUp extends React.Component {
   };
 
   onDrop(acceptedFiles) {
-    console.log("LETS DO IT");
     const reader = new FileReader();
 
     reader.onabort = () => console.log("file reading was aborted");
@@ -95,19 +94,36 @@ class UploadPopUp extends React.Component {
     };
 
     acceptedFiles.forEach(file => reader.readAsBinaryString(file));
+    this.handleClose();
   }
 
   render() {
     return (
       <React.Fragment>
         <div onClick={this.handleClickOpen}>
-          <FontAwesomeIcon
-            className="plus-icon inl-blk fa-lg"
-            icon={faPlusCircle}
-          />
-          <h3 className="light inl-blk">IMPORT</h3>
+          <Dropzone onDrop={acceptedFiles => this.onDrop(acceptedFiles)}>
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()} className="no-dec">
+                <input {...getInputProps()} />
+                <FontAwesomeIcon
+                  className="plus-icon inl-blk fa-lg"
+                  icon={faPlusCircle}
+                />
+
+                <h3 className="light inl-blk">IMPORT</h3>
+                {/* <div className="upload center">
+                      <FontAwesomeIcon
+                        className="import-icon inl-blk fa-4x center"
+                        icon={faCloudUploadAlt}
+                      />
+                      <h2 className="upload-header">Drop files here</h2>
+                      <p className="upload-body">or click to select files</p> */}
+                {/* </div> */}
+              </div>
+            )}
+          </Dropzone>
         </div>
-        <Dialog
+        {/* <Dialog
           fullWidth={true}
           maxWidth={"md"}
           onClose={this.handleClose}
@@ -115,24 +131,9 @@ class UploadPopUp extends React.Component {
           open={this.state.open}
         >
           <DialogContent>
-            <Dropzone onDrop={acceptedFiles => this.onDrop(acceptedFiles)}>
-              {({ getRootProps, getInputProps }) => (
-                <section className="upload">
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <FontAwesomeIcon
-                      className="plus-icon inl-blk fa-4x center"
-                      icon={faCloudUploadAlt}
-                    />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
-                  </div>
-                </section>
-              )}
-            </Dropzone>
+            
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </React.Fragment>
     );
   }
