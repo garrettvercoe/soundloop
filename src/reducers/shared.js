@@ -12,7 +12,10 @@ import {
 export default function shared(
   state = {
     playing: false,
-    center: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+    center: {
+      x: 380 + (window.innerWidth - 380) / 2,
+      y: window.innerHeight / 2
+    },
     loopCount: 1,
     muted: false
   },
@@ -31,13 +34,13 @@ export default function shared(
       return {
         ...state,
         loopCount: action.loopCount
-      }
+      };
 
     case RESET_LOOP_COUNT:
-    return {
-      ...state,
-      loopCount: action.loopCount
-    }
+      return {
+        ...state,
+        loopCount: action.loopCount
+      };
 
     case TOGGLE_MUTE:
       return Object.assign({}, state, {

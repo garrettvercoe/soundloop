@@ -16,6 +16,8 @@ class ToneButton extends React.Component {
       },
       snapped: false
     };
+    this.cx = this.props.center.x;
+    this.cy = this.props.center.y;
     this.handleStop = this.handleStop.bind(this);
     this.snap = this.snap.bind(this);
     this.findSnapCoordinates = this.findSnapCoordinates.bind(this);
@@ -55,22 +57,21 @@ class ToneButton extends React.Component {
     return { x: x2, y: y2 };
   }
 
-  findClosestInterval(a, b){
+  findClosestInterval(a, b) {
     // finds closest tone and returns the index so that color can be changed
     var min = 100;
     var ret = 0;
-    for (var i = 0; i < this.props.tones.length; i++){
+    for (var i = 0; i < this.props.tones.length; i++) {
       // need to compare pt + or - offset
-      var x = this.props.tones[i].position.x - this.props.tones[i].offset.x;
-      var y = this.props.tones[i].position.y - this.props.tones[i].offset.y;
-      var diffX = x-a;
-      var diffY = y-b;
-      var dist = Math.sqrt((diffX*diffX)+(diffY*diffY));
-      if (dist < min){
+      var x = this.cx - this.props.tones[i].offset.x;
+      var y = this.cy - this.props.tones[i].offset.y;
+      var diffX = x - a;
+      var diffY = y - b;
+      var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+      if (dist < min) {
         min = dist;
         ret = this.props.tones[i].id;
       }
-      
     }
     return ret;
   }
@@ -78,46 +79,32 @@ class ToneButton extends React.Component {
   findFakeCoordinates(x1, y1, angle, distance) {
     // current angle
     var originalAngle = Math.atan2(y1, x1);
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
-    var angleRad = angle * (Math.PI/180);
+
+    var angleRad = angle * (Math.PI / 180);
     var newAngle = originalAngle - angleRad;
-    console.log("OG ANGLE: " + originalAngle)
-    console.log("LOOP ANGLE: " + angleRad)
-    console.log("NEW ANGLE: " + newAngle)
-    const x2 = cx + Math.cos(newAngle) * distance;
-    const y2 = cy + Math.sin(newAngle) * distance;
+    console.log("OG ANGLE: " + originalAngle);
+    console.log("LOOP ANGLE: " + angleRad);
+    console.log("NEW ANGLE: " + newAngle);
+    const x2 = this.cx + Math.cos(newAngle) * distance;
+    const y2 = this.cy + Math.sin(newAngle) * distance;
     return { x: x2, y: y2 };
   }
 
   snap(x1, y1) {
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
-    console.log("x1: " + x1)
-    console.log("y1: " + y1)
-    console.log("cy: " + cy)
-    
-    
     // calculate virtual location with rotation
     // first calculate distance
-    var a = y1 - cy;
-    var b = x1 - cx;
+    var a = y1 - this.cy;
+    var b = x1 - this.cx;
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
-    if (loopToSnap){
+    if (loopToSnap) {
       var angle = this.props.loops[loopToSnap.index].rotation;
-      var fakeCoords = this.findFakeCoordinates(b, a, angle, distToCenter)
-    
-      var intervalId = this.findClosestInterval(fakeCoords.x, fakeCoords.y)
-      console.log("CLOSEST TONE: " + intervalId)
+      var fakeCoords = this.findFakeCoordinates(b, a, angle, distToCenter);
+
+      var intervalId = this.findClosestInterval(fakeCoords.x, fakeCoords.y);
 
       this.props.dispatch(
-        updateTone(
-          intervalId,
-          this.props.color,
-          this.props.sound,
-          0
-        )
+        updateTone(intervalId, this.props.color, this.props.sound, 0)
       );
     }
   }
@@ -136,9 +123,9 @@ class ToneButton extends React.Component {
       }
     });
 
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null){
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5))
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (this.props.tones[i].sound === null) {
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
       }
     }
   }
@@ -149,10 +136,10 @@ class ToneButton extends React.Component {
     }
   }
 
-  handleDrag(){
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null){
-        this.props.dispatch(updateTone(i, "#fff", null, 1.5))
+  handleDrag() {
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (this.props.tones[i].sound === null) {
+        this.props.dispatch(updateTone(i, "#fff", null, 1.5));
       }
     }
   }
@@ -174,12 +161,15 @@ class ToneButton extends React.Component {
             pointerEvents: "none"
           }}
         />
-        <Draggable position={this.state.deltaPosition} onStop={this.handleStop} onStart={this.handleDrag}>
+        <Draggable
+          position={this.state.deltaPosition}
+          onStop={this.handleStop}
+          onStart={this.handleDrag}
+        >
           <div
             ref={this.selector}
             className="hover-shadow"
             onClick={this.handleClick}
-            
             style={{
               borderRadius: "100%",
               backgroundColor: this.props.color,
@@ -204,7 +194,8 @@ function mapStateToProps(state) {
   return {
     loops: state.loops,
     tones: state.tones,
-    playing: state.shared.playing
+    playing: state.shared.playing,
+    center: state.shared.center
   };
 }
 

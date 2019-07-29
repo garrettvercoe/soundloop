@@ -30,26 +30,18 @@ class ToneKonva extends React.Component {
     var y1 = Math.round(this.props.y + this.props.offset.y);
     var x2 = this.props.x;
     var y2 = Math.round(this.props.y + radius);
-    
+
     var rad = Math.acos(
       (2 * (radius * radius) -
-        Math.abs((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))) / 
+        Math.abs((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))) /
         (2 * (radius * radius))
     );
 
-    var test = (2 * (radius * radius) -
-    Math.abs((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))) / 
-    (2 * (radius * radius))
-    //test = test.toFixed(2)
-    // var rad = test;
+    var deg = rad * (180 / Math.PI);
 
-    console.log("CALC: " + test)
-    var deg = rad * ((180 / Math.PI));
-    console.log("DEG: " + deg)
     if (this.props.offset.x > 0) {
       return 360 - deg;
-    } 
-    else return deg; 
+    } else return deg;
   }
 
   componentDidMount() {
@@ -60,43 +52,42 @@ class ToneKonva extends React.Component {
     var angle = this.getAngle();
     // console.log("ANGLE: " + angle)
     var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
-    console.log("TIMER INIT for " + this.props.id + ": " + timerInit)
-    
-    this.circle.opacity(((this.circle.rotation() + angle) % 360) / 1080 + 0.66);
+    console.log("TIMER INIT for " + this.props.id + ": " + timerInit);
+
+    //this.circle.opacity(((this.circle.rotation() + angle) % 360) / 1080 + 0.66);
     var timerLoop = (360 / angularSpeed) * 1000;
-    
+
     // rotate circle initially to loop rotation
-    this.circle.rotate(this.props.rotation)
+    this.circle.rotate(this.props.rotation);
 
     this.anim = new Konva.Animation(frame => {
       var constTimeDiff = 16;
-      console.log("TIME: " + frame.time)
+
       // frame.frameRate = 30;
       // frame.timeDiff = 33;
-      console.log("frameRate: " + frame.frameRate)
+
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
       // console.log("angleDiff: " + angleDiff)
-      console.log("timeDiff for " + this.props.id+ ": " + frame.timeDiff)
+
       this.circle.rotate(angleDiff);
       // console.log("COLOR " + this.props.color + " PLAYED: " + played)
       // variable opacity based on angular location
-      this.circle.opacity(
-        ((this.circle.rotation() + angle) % 360) / 1080 + 0.66
-      );
+      // this.circle.opacity(
+      //   ((this.circle.rotation() + angle) % 360) / 1080 + 0.66
+      // );
       if (
         timerInit - 10 < frame.time &&
-        frame.time < timerInit + 10 && 
+        frame.time < timerInit + 10 &&
         this.props.sound !== null
       ) {
         this.props.dispatch(playTone(this.props.sound, this.props.color));
       } else if (
         frame.time % timerLoop < timerInit + 20 &&
-        frame.time % timerLoop > timerInit - 20 && 
+        frame.time % timerLoop > timerInit - 20 &&
         this.props.sound !== null
       ) {
         this.props.dispatch(playTone(this.props.sound));
       }
-
     }, this.circle.getLayer());
 
     if (this.props.playing) {
@@ -119,46 +110,52 @@ class ToneKonva extends React.Component {
         }
       } else {
         this.anim.isRunning() && this.anim.stop();
-        console.log("ROTATION: " + this.circle.rotation())
-        console.log("OFFSETX: " + this.circle.offsetX())
-        console.log("Position: " + this.circle.x())
 
         // on pause, update the rotation value of the loop in the store
         this.props.dispatch(
-          updateLoop(
-            this.props.attachedLoop,
-            this.circle.rotation()
-          )
-        )
+          updateLoop(this.props.attachedLoop, this.circle.rotation())
+        );
       }
     }
   }
 
-  handleDragStart(){
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null){
-        this.props.dispatch(updateTone(i, "#fff", null, 1.5))
+  handleDragStart() {
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (this.props.tones[i].sound === null) {
+        this.props.dispatch(updateTone(i, "#fff", null, 1.5));
       }
     }
   }
 
-  handleDragEnd(){
-    console.log("TESTESTEST");
+  handleDragEnd() {
     this.props.dispatch(deleteTone(this.props.id));
     var loopRotation = this.props.loops[this.props.attachedLoop].rotation;
-    console.log("TEST LOOP ROT: " + loopRotation)
-    this.props.dispatch(addTone(window.innerWidth/2, window.innerHeight/2, "red", "#fff", 1.5, this.props.offset.x, (this.props.offset.y), this.props.attachedLoop, 20, null, loopRotation));
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null){
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5))
+    this.props.dispatch(
+      addTone(
+        window.innerWidth / 2,
+        window.innerHeight / 2,
+        "red",
+        "#fff",
+        1.5,
+        this.props.offset.x,
+        this.props.offset.y,
+        this.props.attachedLoop,
+        20,
+        null,
+        loopRotation
+      )
+    );
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (this.props.tones[i].sound === null) {
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
       }
     }
   }
-  
+
   render() {
     var color = "transparent";
-    if (this.props.loops[this.props.attachedLoop].active === true){
-      color = this.props.color
+    if (this.props.loops[this.props.attachedLoop].active === true) {
+      color = this.props.color;
     }
     return (
       <Circle

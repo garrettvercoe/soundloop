@@ -17,7 +17,7 @@ class Cord extends React.Component {
     // var tremolo = new Tone.Tremolo().start();
     // this.synth = new Tone.PolySynth().chain(distortion, tremolo, Tone.Master);
 
-    this.synth = new Tone.PolySynth().toMaster();
+    this.synth = new Tone.PolySynth(6, Tone.Synth).toMaster();
 
     var max = window.innerHeight / 2 - 50;
     var interval = max / 2;
@@ -55,7 +55,7 @@ class Cord extends React.Component {
       if (!this.props.muted) {
         this.synth.triggerAttackRelease(
           this.props.sounds[this.props.index],
-          "4n"
+          "8n"
         );
       }
 
