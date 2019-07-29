@@ -21,7 +21,6 @@ class LoopKonva extends React.Component {
       var coords = this.findAngleCoord(cx, cy, currAngle, this.props.radius);
       console.log(coords)
       this.props.dispatch(addTone(cx, cy, "transparent", "#fff", 1.5, coords.x-cx, (coords.y-cy), this.props.id, 20, null, 0));
-      //this.props.dispatch(addTone(cx, cy, "#fff9f3", "#ed1e79", 1.5, coords.x-cx, (coords.y-cy), this.props.id, 20, null));
       currAngle = currAngle+interval;
     }
     console.log("NUMTONES: " + numTones)
@@ -30,7 +29,7 @@ class LoopKonva extends React.Component {
 
   
   render() {
-    console.log("LOOP ID::: " + this.props.id)
+    console.log("LOOP ID: " + this.props.id)
     return (
       <Circle
         x={window.innerWidth / 2}

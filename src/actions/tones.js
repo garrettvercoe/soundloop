@@ -4,6 +4,7 @@ export const UPDATE_TONE = "UPDATE_TONE";
 export const RESIZE_TONE = "RESIZE_TONE";
 export const DELETE_TONE = "DELETE_TONE";
 export const RECEIVE_TONES = "RECEIVE_TONES";
+export const REPLACE_TONE = "REPLACE_TONE";
 
 export function addTone(
   xCoord,
@@ -59,6 +60,42 @@ export function updateTone(id, color, sound, strokeWidth) {
     sound: sound,
     strokeWidth: strokeWidth
   };
+}
+
+export function replaceTone(
+  id,
+  xCoord,
+  yCoord,
+  colorCode,
+  stroke,
+  strokeWidth,
+  offsetx,
+  offsety,
+  attLoop,
+  rad,
+  sound,
+  rotation
+){
+return{
+  type: REPLACE_TONE,
+  id: id,
+  position: {
+    x: xCoord,
+    y: yCoord
+  },
+  offset: {
+    x: offsetx,
+    y: offsety
+  },
+  color: colorCode,
+  stroke: stroke,
+  strokeWidth: strokeWidth,
+  attachedLoop: attLoop,
+  radius: rad,
+  sound: sound,
+  rotation: rotation
+};
+
 }
 
 export function receiveTones(tones) {

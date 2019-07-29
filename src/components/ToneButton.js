@@ -110,7 +110,7 @@ class ToneButton extends React.Component {
     
       var intervalId = this.findClosestInterval(fakeCoords.x, fakeCoords.y)
       console.log("CLOSEST TONE: " + intervalId)
-
+      if( !this.props.playing){
       this.props.dispatch(
         updateTone(
           intervalId,
@@ -119,6 +119,7 @@ class ToneButton extends React.Component {
           0
         )
       );
+        }
     }
   }
 
@@ -137,7 +138,7 @@ class ToneButton extends React.Component {
     });
 
     for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null){
+      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
         this.props.dispatch(updateTone(i, "transparent", null, 1.5))
       }
     }
@@ -151,7 +152,7 @@ class ToneButton extends React.Component {
 
   handleDrag(){
     for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null){
+      if (this.props.tones[i].sound === null && !this.props.playing && this.props.loops[this.props.tones[i].attachedLoop].active === true){
         this.props.dispatch(updateTone(i, "#fff", null, 1.5))
       }
     }
