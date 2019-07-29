@@ -15,7 +15,15 @@ const appReducer = combineReducers({
 
 export default function(state, action) {
   if (action.type === "IMPORT_FILE") {
+    action.data.shared = {
+      playing: false,
+      center: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+      loopCount: 1,
+      muted: false
+    };
+    action.data.cord = {};
     state = action.data;
+    console.log("imported state: " + JSON.stringify(state));
   }
   return appReducer(state, action);
 }

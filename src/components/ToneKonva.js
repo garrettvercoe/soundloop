@@ -16,6 +16,9 @@ class ToneKonva extends React.Component {
   constructor(props) {
     super(props);
 
+    this.cx = this.props.center.x;
+    this.cy = this.props.center.y;
+
     this.getAngle = this.getAngle.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDragStart = this.handleDragStart.bind(this);
@@ -32,26 +35,18 @@ class ToneKonva extends React.Component {
     var y1 = Math.round(this.props.y + this.props.offset.y);
     var x2 = this.props.x;
     var y2 = Math.round(this.props.y + radius);
-    
+
     var rad = Math.acos(
       (2 * (radius * radius) -
-        Math.abs((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))) / 
+        Math.abs((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))) /
         (2 * (radius * radius))
     );
 
-    var test = (2 * (radius * radius) -
-    Math.abs((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))) / 
-    (2 * (radius * radius))
-    // test = test.toFixed(2)
-    // var rad = test;
+    var deg = rad * (180 / Math.PI);
 
-    console.log("CALC: " + test)
-    var deg = rad * ((180 / Math.PI));
-    console.log("DEG: " + deg)
     if (this.props.offset.x > 0) {
       return 360 - deg;
-    } 
-    else return deg; 
+    } else return deg;
   }
 
   componentDidMount() {
@@ -62,43 +57,42 @@ class ToneKonva extends React.Component {
     var angle = this.getAngle();
     // console.log("ANGLE: " + angle)
     var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
-    console.log("TIMER INIT for " + this.props.id + ": " + timerInit)
-    
-    this.circle.opacity(((this.circle.rotation() + angle) % 360) / 1080 + 0.66);
+    console.log("TIMER INIT for " + this.props.id + ": " + timerInit);
+
+    //this.circle.opacity(((this.circle.rotation() + angle) % 360) / 1080 + 0.66);
     var timerLoop = (360 / angularSpeed) * 1000;
-    
+
     // rotate circle initially to loop rotation
-    this.circle.rotate(this.props.rotation)
+    this.circle.rotate(this.props.rotation);
 
     this.anim = new Konva.Animation(frame => {
       var constTimeDiff = 16;
-      console.log("TIME: " + frame.time)
+
       // frame.frameRate = 30;
       // frame.timeDiff = 33;
-      console.log("frameRate: " + frame.frameRate)
+
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
       // console.log("angleDiff: " + angleDiff)
-      console.log("timeDiff for " + this.props.id+ ": " + frame.timeDiff)
+
       this.circle.rotate(angleDiff);
       // console.log("COLOR " + this.props.color + " PLAYED: " + played)
       // variable opacity based on angular location
-      this.circle.opacity(
-        ((this.circle.rotation() + angle) % 360) / 1080 + 0.66
-      );
+      // this.circle.opacity(
+      //   ((this.circle.rotation() + angle) % 360) / 1080 + 0.66
+      // );
       if (
         timerInit - 10 < frame.time &&
-        frame.time < timerInit + 10 && 
+        frame.time < timerInit + 10 &&
         this.props.sound !== null
       ) {
         this.props.dispatch(playTone(this.props.sound, this.props.color));
       } else if (
         frame.time % timerLoop < timerInit + 20 &&
-        frame.time % timerLoop > timerInit - 20 && 
+        frame.time % timerLoop > timerInit - 20 &&
         this.props.sound !== null
       ) {
         this.props.dispatch(playTone(this.props.sound));
       }
-
     }, this.circle.getLayer());
 
     if (this.props.playing) {
@@ -124,17 +118,11 @@ class ToneKonva extends React.Component {
         
       } else {
         this.anim.isRunning() && this.anim.stop();
-        console.log("ROTATION: " + this.circle.rotation())
-        console.log("OFFSETX: " + this.circle.offsetX())
-        console.log("Position: " + this.circle.x())
 
         // on pause, update the rotation value of the loop in the store
         this.props.dispatch(
-          updateLoop(
-            this.props.attachedLoop,
-            this.circle.rotation()
-          )
-        )
+          updateLoop(this.props.attachedLoop, this.circle.rotation())
+        );
       }
     }
   }
@@ -169,8 +157,8 @@ class ToneKonva extends React.Component {
     var ret = 0;
     for (var i = 0; i < this.props.tones.length; i++){
       // need to compare pt + or - offset
-      var x = this.props.tones[i].position.x - this.props.tones[i].offset.x;
-      var y = this.props.tones[i].position.y - this.props.tones[i].offset.y;
+      var x = this.cx - this.props.tones[i].offset.x;
+      var y = this.cy - this.props.tones[i].offset.y;
       var diffX = x-a;
       var diffY = y-b;
       var dist = Math.sqrt((diffX*diffX)+(diffY*diffY));
@@ -186,32 +174,26 @@ class ToneKonva extends React.Component {
   findFakeCoordinates(x1, y1, angle, distance) {
     // current angle
     var originalAngle = Math.atan2(y1, x1);
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
     var angleRad = angle * (Math.PI/180);
     var newAngle = originalAngle - angleRad;
     console.log("ORIG ANGLE: " + originalAngle)
     console.log("LOOP ANGLE: " + angleRad)
     console.log("NEW ANGLE: " + newAngle)
-    const x2 = cx + Math.cos(newAngle) * distance;
-    const y2 = cy + Math.sin(newAngle) * distance;
+    const x2 = this.cx + Math.cos(newAngle) * distance;
+    const y2 = this.cy + Math.sin(newAngle) * distance;
     console.log("new X: " + x2);
     console.log("new Y: " + y2)
     return { x: x2, y: y2 };
   }
 
   snap(x1, y1) {
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
     console.log("X: " + x1)
     console.log("Y: " + y1)
-    console.log("CX: " + cx);
-    console.log("CY: " + cy)
     
     // calculate virtual location with rotation
     // first calculate distance
-    var a = y1 - cy;
-    var b = x1 - cx;
+    var a = y1 - this.cy;
+    var b = x1 - this.cx;
     var distToCenter = Math.sqrt(a * a + b * b);
     console.log("DIST TO CENTER:" + distToCenter)
     var loopToSnap = this.findClosestLoop(distToCenter);
@@ -271,11 +253,11 @@ class ToneKonva extends React.Component {
     // this.props.dispatch(deleteTone(this.props.id));
     this.props.dispatch(replaceTone(this.props.id, window.innerWidth/2, window.innerHeight/2, "transparent", "#fff", 1.5, this.props.offset.x, (this.props.offset.y), this.props.attachedLoop, 20, null, loopRotation))
   }
-  
+
   render() {
     var color = "transparent";
-    if (this.props.loops[this.props.attachedLoop].active === true){
-      color = this.props.color
+    if (this.props.loops[this.props.attachedLoop].active === true) {
+      color = this.props.color;
     }
     return (
       <Circle
@@ -304,7 +286,8 @@ function mapStateToProps(state) {
     playing: state.shared.playing,
     loops: state.loops,
     rot: state.shared.rotation,
-    tones: state.tones
+    tones: state.tones,
+    center: state.shared.center
   };
 }
 

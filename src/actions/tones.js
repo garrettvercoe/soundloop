@@ -7,8 +7,6 @@ export const RECEIVE_TONES = "RECEIVE_TONES";
 export const REPLACE_TONE = "REPLACE_TONE";
 
 export function addTone(
-  xCoord,
-  yCoord,
   colorCode,
   stroke,
   strokeWidth,
@@ -22,10 +20,6 @@ export function addTone(
   return {
     type: ADD_TONE,
 
-    position: {
-      x: xCoord,
-      y: yCoord
-    },
     offset: {
       x: offsetx,
       y: offsety

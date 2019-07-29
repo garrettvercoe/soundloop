@@ -64,7 +64,6 @@ const MenuItemStyle = {
 const MenuItemStyleActive = {
   display: "block",
   margin: "0 auto",
-
   color: "#E6E6E6",
   paddingBottom: "2rem "
 };
@@ -81,8 +80,8 @@ const LibListItemStyle = {
 const CardStyle = {
   position: "absolute",
   top: "0%",
-  left: "4%",
-  width: "19rem",
+  left: "60px",
+  width: "320px",
   height: "100vh",
   backgroundColor: "#fff",
   borderRadius: "1%",
@@ -93,7 +92,7 @@ const LeftNavStyle = {
   position: "absolute",
   top: "0%",
   left: "0%",
-  width: "4vw",
+  width: "60px",
   height: "100vh",
   backgroundColor: "#692D55"
 };
@@ -182,7 +181,7 @@ class Library extends React.Component {
 
       this.buttons = [];
     }
-    this.state = { octave: 2, tones: this.buttonList };
+    this.state = { octave: 4, tones: this.buttonList };
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -191,7 +190,7 @@ class Library extends React.Component {
     console.log(this.state);
   }
   handleChange(event, newValue) {
-    this.setState({ octave: newValue - 1 });
+    this.setState({ octave: newValue });
   }
   render() {
     return (
@@ -210,7 +209,7 @@ class Library extends React.Component {
         />
         <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
-          {this.state.tones[this.state.octave].map(item => (
+          {this.state.tones[this.state.octave - 1].map(item => (
             <li style={LibListItemStyle} key={item.color}>
               <ToneButton color={item.color} sound={item.sound} />
             </li>

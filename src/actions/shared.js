@@ -1,4 +1,4 @@
-import {addLoop, activateLoop} from "./loops"
+import { addLoop, activateLoop } from "./loops";
 
 //OVERALL
 export const TOGGLE_PLAY = "TOGGLE_PLAY";
@@ -26,19 +26,19 @@ export function toggleStop() {
 }
 
 let loopCount = 1;
-export function addLoopCount(){
+export function addLoopCount() {
   return {
     type: ADD_LOOP_COUNT,
     loopCount: loopCount++
-  }
+  };
 }
 
-export function resetLoopCount(){
+export function resetLoopCount() {
   loopCount = 1;
   return {
     type: RESET_LOOP_COUNT,
     loopCount: loopCount
-  }
+  };
 }
 
 export function toggleMute() {
@@ -56,13 +56,13 @@ export function toggleUnmute() {
 }
 
 export function trashAll() {
-  return (dispatch) =>{
-    dispatch({type: TRASH_ALL});
-    dispatch(addLoop(window.innerHeight/3));
-    dispatch(addLoop(window.innerHeight/6));
-    dispatch(addLoop(window.innerHeight/12));
-    dispatch(addLoop(window.innerHeight/24));
-    dispatch(addLoop(window.innerHeight/48));
+  return dispatch => {
+    dispatch({ type: TRASH_ALL });
+    dispatch(addLoop(window.innerHeight / 3));
+    dispatch(addLoop(window.innerHeight / 6));
+    dispatch(addLoop(window.innerHeight / 12));
+    dispatch(addLoop(window.innerHeight / 24));
+    dispatch(addLoop(window.innerHeight / 48));
     dispatch(activateLoop(0));
     dispatch(resetLoopCount());
   };
