@@ -10,11 +10,19 @@ export const TOGGLE_UNMUTE = "TOGGLE_UNMUTE";
 export const TRASH_ALL = "TRASH_ALL";
 export const IMPORT_FILE = "IMPORT_FILE";
 export const RESET_LOOP_COUNT = "RESET_LOOP_COUNT";
+export const SCREEN_RESIZE = "SCREEN_RESIZE";
 
 export function togglePlay() {
   return {
     type: TOGGLE_PLAY,
     playing: true
+  };
+}
+
+export function screenResize(width) {
+  return {
+    type: SCREEN_RESIZE,
+    screenWidth: width
   };
 }
 
