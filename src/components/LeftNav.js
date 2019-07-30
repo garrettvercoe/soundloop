@@ -13,11 +13,12 @@ import {
   faTerminal,
   faGlobeAmericas
 } from "@fortawesome/free-solid-svg-icons";
-import { tsConstructorType } from "@babel/types";
+import { tsConstructorType, isTemplateLiteral } from "@babel/types";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
 import Slider from "@material-ui/core/Slider";
-
+import { playTone } from "../actions/cord";
+import { updateFilename } from "../actions/shared";
 import {
   red,
   pink,
@@ -165,7 +166,6 @@ class Library extends React.Component {
       "G",
       "G#"
     ];
-
     this.octaves = [1, 2, 3, 4, 5, 6, 7];
     for (let j = 0; j < this.octaves.length; j++) {
       for (let i = 0; i < colorHues.length; i++) {
@@ -178,24 +178,22 @@ class Library extends React.Component {
       }
 
       this.buttonList.push(this.buttons);
-
       this.buttons = [];
     }
-    this.state = { octave: 4, tones: this.buttonList };
-
+    this.state = { octave: 4, tones: this.buttonList, noteSelected: false };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-    console.log(this.state);
-  }
   handleChange(event, newValue) {
     this.setState({ octave: newValue });
   }
+
   render() {
     return (
       <React.Fragment>
         <br />
+        {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
+
         <h3 className="light inl-blk"> OCTAVE</h3>
         <OctaveSlider
           defaultValue={4}
@@ -278,18 +276,16 @@ const ProjectField = withStyles({
   }
 })(TextField);
 
-class ShareMenu extends React.Component {
+class ShareMenuUnconnected extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: "MyProject"
-    };
+
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ name: event.target.value });
-    console.log(this.state.name);
+    this.props.dispatch(updateFilename(event.target.value));
+    console.log(event.target.value);
   }
   render() {
     return (
@@ -297,18 +293,25 @@ class ShareMenu extends React.Component {
         <ProjectField
           id="standard-name"
           label="Project Name"
-          defaultValue={this.state.name}
-          value={this.state.name}
+          defaultValue={this.props.name}
+          value={this.props.name}
           onChange={this.handleChange}
           margin="normal"
         />
-        <Download name={this.state.name} />
+        <Download name={this.props.name} />
         <Upload />
       </React.Fragment>
     );
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    name: state.shared.fileName
+  };
+}
+
+const ShareMenu = connect(mapStateToProps)(ShareMenuUnconnected);
 export default class LeftNav extends React.Component {
   constructor(props) {
     super(props);

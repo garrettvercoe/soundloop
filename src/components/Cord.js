@@ -1,9 +1,6 @@
 import React from "react";
 import "../styles/index.css";
-import AppBar from "@material-ui/core/AppBar";
-import PlayButton from "./PlayButton";
 import { Line, Layer, Circle } from "react-konva";
-import Toolbar from "@material-ui/core/Toolbar";
 import { connect } from "react-redux";
 import Konva from "konva";
 import Tone from "tone";

@@ -52,6 +52,15 @@ code {
   transition: all 0.2s ease-in-out;
 }
 
+.cursor {
+  width: 30px;
+  height: 30px;
+
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+}
+
 .plus-icon {
   color: #808080;
   padding-right: 0.75rem;

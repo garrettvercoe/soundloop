@@ -11,6 +11,7 @@ export const TRASH_ALL = "TRASH_ALL";
 export const IMPORT_FILE = "IMPORT_FILE";
 export const RESET_LOOP_COUNT = "RESET_LOOP_COUNT";
 export const SCREEN_RESIZE = "SCREEN_RESIZE";
+export const UPDATE_FILENAME = "UPDATE_FILENAME";
 
 export function togglePlay() {
   return {
@@ -19,10 +20,18 @@ export function togglePlay() {
   };
 }
 
-export function screenResize(width) {
+export function updateFilename(name) {
+  return {
+    type: UPDATE_FILENAME,
+    fileName: name
+  };
+}
+
+export function screenResize(width, height) {
   return {
     type: SCREEN_RESIZE,
-    screenWidth: width
+    screenWidth: width,
+    screenHeight: height
   };
 }
 

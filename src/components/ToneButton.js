@@ -30,14 +30,14 @@ class ToneButton extends React.Component {
     // iterate through loops array and compare radii
     var acceptableRange = 50;
     var loopArray = this.props.loops;
-    
+
     var id = 0;
     var curr = loopArray[id].radius;
     var diff = Math.abs(distToCenter - curr);
 
     for (var i = 0; i < loopArray.length; i++) {
-      console.log("LOOP ARRAY: " + JSON.stringify(loopArray[i]))
-      if (this.props.loops[i].active){
+      console.log("LOOP ARRAY: " + JSON.stringify(loopArray[i]));
+      if (this.props.loops[i].active) {
         var newdiff = Math.abs(distToCenter - loopArray[i].radius);
         if (newdiff < diff) {
           diff = newdiff;
@@ -108,17 +108,16 @@ class ToneButton extends React.Component {
       this.props.dispatch(
         updateTone(intervalId, this.props.color, this.props.sound, 0)
       );
-        }
     }
-  
+  }
 
   handleStop() {
     this.rect = this.selector.current.getBoundingClientRect();
     const x = this.rect.left;
     const y = this.rect.top;
 
-    console.log("X button: " + x)
-    console.log("Y button: " + y)
+    console.log("X button: " + x);
+    console.log("Y button: " + y);
 
     this.snap(x, y);
 
@@ -129,9 +128,12 @@ class ToneButton extends React.Component {
     //   }
     // });
 
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5))
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
       }
     }
   }
@@ -142,10 +144,14 @@ class ToneButton extends React.Component {
     }
   }
 
-  handleDrag(){
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && !this.props.playing && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "#fff", null, 1.5))
+  handleDrag() {
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        !this.props.playing &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "#fff", null, 1.5));
       }
     }
   }
@@ -186,7 +192,8 @@ class ToneButton extends React.Component {
               border: "none",
               outline: "none"
             }}
-          >{JSON.stringify(this.state.deltaPosition)}
+          >
+            {JSON.stringify(this.state.deltaPosition)}
             <div className="note-select">{this.props.children}</div>
           </div>
         </Draggable>

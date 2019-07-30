@@ -6,7 +6,9 @@ import {
   TOGGLE_UNMUTE,
   TRASH_ALL,
   ADD_LOOP_COUNT,
-  RESET_LOOP_COUNT
+  RESET_LOOP_COUNT,
+  SCREEN_RESIZE,
+  UPDATE_FILENAME
 } from "../actions/shared";
 
 export default function shared(
@@ -16,8 +18,11 @@ export default function shared(
       x: 380 + (window.innerWidth - 380) / 2,
       y: window.innerHeight / 2
     },
+    screenWidth: window.innerWidth,
+    screenHeight: window.innerHeight,
     loopCount: 1,
-    muted: false
+    muted: false,
+    fileName: "MyProject"
   },
   action
 ) {
@@ -30,6 +35,21 @@ export default function shared(
       return Object.assign({}, state, {
         playing: false
       });
+    case UPDATE_FILENAME:
+      return Object.assign({}, state, {
+        fileName: action.fileName
+      });
+
+    case SCREEN_RESIZE:
+      return Object.assign({}, state, {
+        screenWidth: action.screenWidth,
+        screenHeight: action.screenHeight,
+        center: {
+          x: 380 + (action.screenWidth - 380) / 2,
+          y: action.screenHeight / 2
+        }
+      });
+
     case ADD_LOOP_COUNT:
       return {
         ...state,
