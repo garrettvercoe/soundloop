@@ -36,7 +36,6 @@ class ToneButton extends React.Component {
     var diff = Math.abs(distToCenter - curr);
 
     for (var i = 0; i < loopArray.length; i++) {
-      console.log("LOOP ARRAY: " + JSON.stringify(loopArray[i]));
       if (this.props.loops[i].active) {
         var newdiff = Math.abs(distToCenter - loopArray[i].radius);
         if (newdiff < diff) {
@@ -116,9 +115,6 @@ class ToneButton extends React.Component {
     const x = this.rect.left;
     const y = this.rect.top;
 
-    console.log("X button: " + x);
-    console.log("Y button: " + y);
-
     this.snap(x, y);
 
     // this.setState({
@@ -193,7 +189,6 @@ class ToneButton extends React.Component {
               outline: "none"
             }}
           >
-            {JSON.stringify(this.state.deltaPosition)}
             <div className="note-select">{this.props.children}</div>
           </div>
         </Draggable>
@@ -203,7 +198,6 @@ class ToneButton extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state); // state
   return {
     loops: state.loops,
     tones: state.tones,

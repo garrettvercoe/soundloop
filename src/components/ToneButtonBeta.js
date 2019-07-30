@@ -30,7 +30,6 @@ class ToneButton extends React.Component {
   }
 
   handleClick() {
-    console.log("clicked bitches");
     if (!this.state.noteSelected) {
       for (var i = 0; i < this.props.tones.length; i++) {
         if (
@@ -42,20 +41,19 @@ class ToneButton extends React.Component {
         }
       }
       this.setState({ noteSelected: true });
-      console.log(this.state.noteSelected);
     } else {
       this.rect = this.selector.current.getBoundingClientRect();
       const x = this.rect.left;
       const y = this.rect.top;
 
       var snapped = this.snap(x, y);
-      console.log("snapped: " + snapped);
+
       if (snapped) {
         this.setState({ noteSelected: true });
       }
       if (!snapped) {
         // this.handleStop();
-        console.log("not snapped");
+
         this.setState({ noteSelected: false });
         this.setState({
           deltaPosition: {

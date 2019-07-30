@@ -16,7 +16,7 @@ class Cord extends React.Component {
 
     this.synth = new Tone.PolySynth(6, Tone.Synth).toMaster();
 
-    var max = window.innerHeight / 2 - 50;
+    var max = this.props.height / 2 - 50;
     var interval = max / 2;
     this.pts = [];
     var flux = 8;
@@ -65,8 +65,8 @@ class Cord extends React.Component {
   }
 
   render() {
-    var cordLength = window.innerHeight / 2 - 50;
-    var max = window.innerHeight / 2 - 50;
+    var cordLength = this.props.height / 2 - 50;
+    var max = this.props.height / 2 - 50;
     var interval = max / 2;
     var pts = [];
     var prevX = this.props.center.x;
@@ -111,7 +111,8 @@ function mapStateToProps(state) {
     muted: state.shared.muted,
     sounds: state.cord.sounds,
     color: state.cord.color,
-    index: state.cord.index
+    index: state.cord.index,
+    height: state.shared.screenHeight
   };
 }
 

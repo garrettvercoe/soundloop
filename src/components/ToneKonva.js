@@ -54,7 +54,7 @@ class ToneKonva extends React.Component {
     //var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed);
     var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
     //var angularSpeed = 75;
-    console.log(this.props);
+
     var angle = this.getAngle();
     // console.log("ANGLE: " + angle)
     var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
@@ -64,7 +64,6 @@ class ToneKonva extends React.Component {
     this.circle.rotate(this.props.rotation);
 
     this.anim = new Konva.Animation(frame => {
-
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
 
       this.circle.rotate(angleDiff);
@@ -90,32 +89,32 @@ class ToneKonva extends React.Component {
 
   componentDidUpdate(prevProps) {
     // on delete (when prev != current color), move circle back to original position and offset but keep rotation
-    if (prevProps.color !== this.props.color){
-      this.circle.x(this.props.x)
-      this.circle.y(this.props.y)
-      this.circle.offset({x:this.props.offset.x, y:this.props.offset.y})
+    if (prevProps.color !== this.props.color) {
+      this.circle.x(this.props.x);
+      this.circle.y(this.props.y);
+      this.circle.offset({ x: this.props.offset.x, y: this.props.offset.y });
     }
 
     if (prevProps.playing !== this.props.playing) {
       if (this.props.playing) {
         this.anim.start();
-        
       } else {
         this.anim.isRunning() && this.anim.stop();
         // on pause, update the rotation value of the loop in the store
-        console.log("PAUSE");
-        console.log("OFFSET FOR " + this.props.id + ": " + this.circle.offsetX() + ", " + this.circle.offsetY());
-        console.log("ROT FOR " + this.props.id + ": " + this.circle.rotation());
-        var fakeOff = this.findFakeOffset(this.circle.offsetX(), this.circle.offsetY(), this.circle.rotation());
+
+        var fakeOff = this.findFakeOffset(
+          this.circle.offsetX(),
+          this.circle.offsetY(),
+          this.circle.rotation()
+        );
         // console.log("fake offX: " + fakeOff.x);
-        // console.log("fake offY: " + fakeOff.y); 
+        // console.log("fake offY: " + fakeOff.y);
         this.props.dispatch(
           updateLoop(this.props.attachedLoop, this.circle.rotation())
         );
       }
     }
-  } 
-
+  }
 
   findClosestLoop(distToCenter) {
     // iterate through loops array and compare radii
@@ -126,7 +125,7 @@ class ToneKonva extends React.Component {
     var diff = Math.abs(distToCenter - curr);
 
     for (var i = 0; i < loopArray.length; i++) {
-      if (loopArray[i].active){
+      if (loopArray[i].active) {
         var newdiff = Math.abs(distToCenter - loopArray[i].radius);
         if (newdiff < diff) {
           diff = newdiff;
@@ -143,42 +142,40 @@ class ToneKonva extends React.Component {
     }
   }
 
-  findClosestInterval(a, b){
+  findClosestInterval(a, b) {
     // finds closest tone and returns the index so that color can be changed
     var min = 100;
     var ret = 0;
-    for (var i = 0; i < this.props.tones.length; i++){
+    for (var i = 0; i < this.props.tones.length; i++) {
       // need to compare pt + or - offset
       var x = this.cx - this.props.tones[i].offset.x;
       var y = this.cy - this.props.tones[i].offset.y;
-      var diffX = x-a;
-      var diffY = y-b;
-      var dist = Math.sqrt((diffX*diffX)+(diffY*diffY));
-      if (dist < min){
+      var diffX = x - a;
+      var diffY = y - b;
+      var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+      if (dist < min) {
         min = dist;
         ret = this.props.tones[i].id;
       }
-      
     }
     return ret;
   }
 
   // find new offset values for snap, depending on rotation
-  findFakeOffset(offX, offY, angle){
-
+  findFakeOffset(offX, offY, angle) {
     var originalAngle = Math.atan2(offX, offY);
-    var angleRad = angle * (Math.PI/180);
+    var angleRad = angle * (Math.PI / 180);
     var newAngle = originalAngle - angleRad;
-    var dist = Math.sqrt((offX*offX)+(offY*offY))
+    var dist = Math.sqrt(offX * offX + offY * offY);
     const offX2 = Math.sin(newAngle) * dist;
-    const offY2 = Math.cos(newAngle) * dist ;
-    return {x: offX2, y: offY2}
+    const offY2 = Math.cos(newAngle) * dist;
+    return { x: offX2, y: offY2 };
   }
 
   findFakeCoordinates(x1, y1, angle, distance) {
     // current angle
     var originalAngle = Math.atan2(y1, x1);
-    var angleRad = angle * (Math.PI/180);
+    var angleRad = angle * (Math.PI / 180);
     var newAngle = originalAngle - angleRad;
     const x2 = this.cx + Math.cos(newAngle) * distance;
     const y2 = this.cy + Math.sin(newAngle) * distance;
@@ -186,64 +183,74 @@ class ToneKonva extends React.Component {
   }
 
   snap(x1, y1) {
-    console.log("X in snap: " + x1)
-    console.log("Y in snap: " + y1)
-    
     // calculate virtual location with rotation
     // first calculate distance
     var a = y1 - this.cy;
     var b = x1 - this.cx;
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
-    if (loopToSnap){
+    if (loopToSnap) {
       var angle = this.props.loops[loopToSnap.index].rotation;
-      var fakeCoords = this.findFakeCoordinates(b, a, angle, distToCenter)
-      var intervalId = this.findClosestInterval(fakeCoords.x, fakeCoords.y)
-      if( !this.props.playing){
-      this.props.dispatch(
-        updateTone(
-          intervalId,
-          this.props.color,
-          this.props.sound,
-          0
-        )
-      );
-        }
-    }
-  }
-
-  handleDragStart(){
-    // for all tones, if sound null make them visible on drag
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "#fff", null, 1.5))
+      var fakeCoords = this.findFakeCoordinates(b, a, angle, distToCenter);
+      var intervalId = this.findClosestInterval(fakeCoords.x, fakeCoords.y);
+      if (!this.props.playing) {
+        this.props.dispatch(
+          updateTone(intervalId, this.props.color, this.props.sound, 0)
+        );
       }
     }
   }
 
-  
+  handleDragStart() {
+    // for all tones, if sound null make them visible on drag
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "#fff", null, 1.5));
+      }
+    }
+  }
 
-  handleDragEnd(){
-
+  handleDragEnd() {
     var loopRotation = this.props.loops[this.props.attachedLoop].rotation;
     var circX = this.circle.x();
     var circY = this.circle.y();
     var offsetX = this.circle.offsetX();
     var offsetY = this.circle.offsetY();
-    var fakeOff = this.findFakeOffset(offsetX, offsetY, this.circle.rotation())
-    
-    // new x and y are coord at original
-    var newX = circX-fakeOff.x;
-    var newY = circY-fakeOff.y;
+    var fakeOff = this.findFakeOffset(offsetX, offsetY, this.circle.rotation());
 
-    this.snap(newX, newY)
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5))
+    // new x and y are coord at original
+    var newX = circX - fakeOff.x;
+    var newY = circY - fakeOff.y;
+
+    this.snap(newX, newY);
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
       }
     }
     // this.props.dispatch(deleteTone(this.props.id));
-    this.props.dispatch(replaceTone(this.props.id, this.cx, this.cy, "transparent", "#fff", 1.5, this.props.offset.x, (this.props.offset.y), this.props.attachedLoop, 20, null, loopRotation))
+    this.props.dispatch(
+      replaceTone(
+        this.props.id,
+        this.cx,
+        this.cy,
+        "transparent",
+        "#fff",
+        1.5,
+        this.props.offset.x,
+        this.props.offset.y,
+        this.props.attachedLoop,
+        20,
+        null,
+        loopRotation
+      )
+    );
   }
 
   render() {

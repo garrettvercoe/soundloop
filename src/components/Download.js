@@ -13,7 +13,6 @@ const contentContainer = { padding: "1rem 0  0 2rem" };
 
 class Download extends React.Component {
   downloadFile = () => {
-    console.log();
     const element = document.createElement("a");
     const file = new Blob([JSON.stringify(this.props.data)], {
       type: "json"

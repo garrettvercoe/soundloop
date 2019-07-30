@@ -21,7 +21,7 @@ class LoopKonva extends React.Component {
         currAngle,
         this.props.radius
       );
-      console.log(coords);
+
       this.props.dispatch(
         addTone(
           "transparent",
@@ -41,7 +41,6 @@ class LoopKonva extends React.Component {
   }
 
   render() {
-    console.log("LOOP ID::: " + this.props.id);
     return (
       <Circle
         x={this.props.center.x}

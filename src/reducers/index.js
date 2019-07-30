@@ -21,6 +21,8 @@ export default function(state, action) {
         x: 380 + (window.innerWidth - 380) / 2,
         y: window.innerHeight / 2
       },
+      screenWidth: window.innerWidth,
+      screenHeight: window.innerHeight,
       loopCount: 1,
       muted: false
     };

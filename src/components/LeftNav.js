@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import NewLoop from "./NewLoop";
 import "../styles/index.css";
-import NewToneMenu from "./NewToneMenu";
 import ToneButton from "./ToneButton";
 import Download from "./Download";
 import TextField from "@material-ui/core/TextField";
@@ -13,11 +12,9 @@ import {
   faTerminal,
   faGlobeAmericas
 } from "@fortawesome/free-solid-svg-icons";
-import { tsConstructorType, isTemplateLiteral } from "@babel/types";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import Radio from "@material-ui/core/Radio";
 import Slider from "@material-ui/core/Slider";
-import { playTone } from "../actions/cord";
+
 import { updateFilename } from "../actions/shared";
 import {
   red,
@@ -169,7 +166,6 @@ class Library extends React.Component {
     this.octaves = [1, 2, 3, 4, 5, 6, 7];
     for (let j = 0; j < this.octaves.length; j++) {
       for (let i = 0; i < colorHues.length; i++) {
-        console.log(colorHues[i][this.octaves[j] * 100]);
         this.buttons.push({
           color: colorHues[i][this.octaves[j] * 100],
           sound: this.sounds[i] + this.octaves[j],
@@ -285,7 +281,6 @@ class ShareMenuUnconnected extends React.Component {
 
   handleChange(event) {
     this.props.dispatch(updateFilename(event.target.value));
-    console.log(event.target.value);
   }
   render() {
     return (
