@@ -17,7 +17,6 @@ export default function tones(state = [], action) {
           attachedLoop: action.attachedLoop,
           radius: action.radius,
           sound: action.sound,
-          position: action.position,
           offset: action.offset,
           rotation: action.rotation
         }

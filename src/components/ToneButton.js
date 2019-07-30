@@ -30,16 +30,20 @@ class ToneButton extends React.Component {
     // iterate through loops array and compare radii
     var acceptableRange = 50;
     var loopArray = this.props.loops;
+    
     var id = 0;
     var curr = loopArray[id].radius;
     var diff = Math.abs(distToCenter - curr);
 
     for (var i = 0; i < loopArray.length; i++) {
-      var newdiff = Math.abs(distToCenter - loopArray[i].radius);
-      if (newdiff < diff) {
-        diff = newdiff;
-        curr = loopArray[i].radius;
-        id = i;
+      console.log("LOOP ARRAY: " + JSON.stringify(loopArray[i]))
+      if (this.props.loops[i].active){
+        var newdiff = Math.abs(distToCenter - loopArray[i].radius);
+        if (newdiff < diff) {
+          diff = newdiff;
+          curr = loopArray[i].radius;
+          id = i;
+        }
       }
     }
 
@@ -77,14 +81,12 @@ class ToneButton extends React.Component {
   }
 
   findFakeCoordinates(x1, y1, angle, distance) {
-    // current angle
+    // current angle from center
     var originalAngle = Math.atan2(y1, x1);
-
+    // original angle in radians
     var angleRad = angle * (Math.PI / 180);
+    // new angle
     var newAngle = originalAngle - angleRad;
-    console.log("OG ANGLE: " + originalAngle);
-    console.log("LOOP ANGLE: " + angleRad);
-    console.log("NEW ANGLE: " + newAngle);
     const x2 = this.cx + Math.cos(newAngle) * distance;
     const y2 = this.cy + Math.sin(newAngle) * distance;
     return { x: x2, y: y2 };
@@ -115,14 +117,17 @@ class ToneButton extends React.Component {
     const x = this.rect.left;
     const y = this.rect.top;
 
+    console.log("X button: " + x)
+    console.log("Y button: " + y)
+
     this.snap(x, y);
 
-    this.setState({
-      deltaPosition: {
-        x: 0,
-        y: 0
-      }
-    });
+    // this.setState({
+    //   deltaPosition: {
+    //     x: 0,
+    //     y: 0
+    //   }
+    // });
 
     for (var i = 0; i < this.props.tones.length; i++){
       if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
@@ -181,7 +186,7 @@ class ToneButton extends React.Component {
               border: "none",
               outline: "none"
             }}
-          >
+          >{JSON.stringify(this.state.deltaPosition)}
             <div className="note-select">{this.props.children}</div>
           </div>
         </Draggable>
