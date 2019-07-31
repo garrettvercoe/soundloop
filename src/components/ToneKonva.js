@@ -18,6 +18,7 @@ class ToneKonva extends React.Component {
 
     this.cx = this.props.center.x;
     this.cy = this.props.center.y;
+    this.angularSpeed = 0;
 
     this.getAngle = this.getAngle.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
@@ -52,22 +53,26 @@ class ToneKonva extends React.Component {
   componentDidMount() {
     //var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed);
     // var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
-    if (this.props.mode === "angular"){
-      var angularSpeed = 75;
-    } else if (this.props.mode === "linear"){
-      var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed)
+    
+    if (this.props.mode === "linear"){
+      this.angularSpeed = 75;
+    } else if (this.props.mode === "angular"){
+      this.angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed)
+    }
+    else if (this.props.mode === "init"){
+      this.angularSpeed = 75;
     }
     console.log(this.props);
     var angle = this.getAngle();
     // console.log("ANGLE: " + angle)
-    var timerInit = ((360 - (angle % 360)) / angularSpeed) * 1000;
-    var timerLoop = (360 / angularSpeed) * 1000;
+    var timerInit = ((360 - (angle % 360)) / this.angularSpeed) * 1000;
+    var timerLoop = (360 / this.angularSpeed) * 1000;
 
     // rotate circle initially to loop rotation
     this.circle.rotate(this.props.rotation);
 
     this.anim = new Konva.Animation(frame => {
-      var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
+      var angleDiff = (frame.timeDiff * this.angularSpeed) / 1000;
 
       this.circle.rotate(angleDiff);
       if (

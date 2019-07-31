@@ -21,11 +21,15 @@ class ToggleMode extends React.Component {
     }
   };
   render() {
+    var mode = this.props.mode
+    if (this.props.mode === "init"){
+      mode = "angular";
+    }
     return (
       <React.Fragment>
         <br />
         <ToggleButtonGroup
-          value={this.props.mode}
+          value={mode}
           exclusive
           onChange={this.handleClick}
         >

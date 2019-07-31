@@ -25,7 +25,7 @@ export default function shared(
     screenHeight: window.innerHeight,
     loopCount: 1,
     muted: false,
-    mode: "angular",
+    mode: "init",
     fileName: "MyProject",
     volume: 0
   },

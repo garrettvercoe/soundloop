@@ -87,7 +87,7 @@ export function toggleUnmute() {
 }
 
 export function trashAllLinear() {
-
+  console.log("TRASH ALL LIN")
   return dispatch => {
     dispatch({ type: TRASH_ALL_LINEAR });
     dispatch(addLoop(window.innerHeight / 3));
@@ -102,6 +102,7 @@ export function trashAllLinear() {
 
 export function trashAllAngular() {
   // var interval = this.props.centerY/7;
+  console.log("TRASH ALL ANG")
   var interval = window.innerHeight/14;
   return dispatch => {
     dispatch({ type: TRASH_ALL_ANGULAR });
