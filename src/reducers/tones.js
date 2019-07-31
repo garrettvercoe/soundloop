@@ -83,13 +83,11 @@ export default function tones(state = [], action) {
 
     case TRASH_ALL_LINEAR:
       nextToneId = 0;
-      var resetTones = [];
       
       return [];
 
     case TRASH_ALL_ANGULAR:
       nextToneId = 0;
-      var resetTones = [];
       
       return [];
 
