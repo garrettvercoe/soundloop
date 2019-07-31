@@ -7,7 +7,8 @@ export const TOGGLE_RESTART = "TOGGLE_RESTART";
 export const ADD_LOOP_COUNT = "ADD_LOOP_COUNT";
 export const TOGGLE_MUTE = "TOGGLE_MUTE";
 export const TOGGLE_UNMUTE = "TOGGLE_UNMUTE";
-export const TRASH_ALL = "TRASH_ALL";
+export const TRASH_ALL_LINEAR = "TRASH_ALL_LINEAR";
+export const TRASH_ALL_ANGULAR = "TRASH_ALL_ANGULAR";
 export const IMPORT_FILE = "IMPORT_FILE";
 export const RESET_LOOP_COUNT = "RESET_LOOP_COUNT";
 export const SCREEN_RESIZE = "SCREEN_RESIZE";
@@ -80,14 +81,28 @@ export function toggleUnmute() {
   };
 }
 
-export function trashAll() {
+export function trashAllLinear() {
+
   return dispatch => {
-    dispatch({ type: TRASH_ALL });
+    dispatch({ type: TRASH_ALL_LINEAR });
     dispatch(addLoop(window.innerHeight / 3));
     dispatch(addLoop(window.innerHeight / 6));
     dispatch(addLoop(window.innerHeight / 12));
     dispatch(addLoop(window.innerHeight / 24));
     dispatch(addLoop(window.innerHeight / 48));
+    dispatch(activateLoop(0));
+    dispatch(resetLoopCount());
+  };
+}
+
+export function trashAllAngular() {
+  // var interval = this.props.centerY/7;
+  var interval = window.innerHeight/14;
+  return dispatch => {
+    dispatch({ type: TRASH_ALL_ANGULAR });
+    for (var i = 0; i < 5; i++){
+      dispatch(addLoop((window.innerHeight / 3) - (interval*i)))
+    }
     dispatch(activateLoop(0));
     dispatch(resetLoopCount());
   };

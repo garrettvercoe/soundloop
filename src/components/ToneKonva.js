@@ -202,7 +202,7 @@ class ToneKonva extends React.Component {
           intervalId,
           this.props.color,
           this.props.sound,
-          0
+          this.props.screenHeight/50
         )
       );
         }
@@ -215,11 +215,12 @@ class ToneKonva extends React.Component {
     // move current tone above all of the others
     this.circle.zIndex(this.props.tones.length)
     // for all tones, if sound null make them visible on drag
-    // for (var i = 0; i < this.props.tones.length; i++){
-    //   if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-    //     this.props.dispatch(updateTone(i, "#fff", null, 1.5))
-    //   }
-    // }
+    var radius = this.props.screenHeight/350;
+    for (var i = 0; i < this.props.tones.length; i++){
+      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
+        this.props.dispatch(updateTone(i, "#692D55", null, radius))
+      }
+    }
   }
   }
 
@@ -236,14 +237,15 @@ class ToneKonva extends React.Component {
     var newY = circY-trueOff.y;
 
     this.snap(newX, newY);
-    // for (var i = 0; i < this.props.tones.length; i++) {
-    //   if (
-    //     this.props.tones[i].sound === null &&
-    //     this.props.loops[this.props.tones[i].attachedLoop].active === true
-    //   ) {
-    //     this.props.dispatch(updateTone(i, "transparent", null, 1.5));
-    //   }
-    // }
+    // make the tones transparent on drag end
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
+      }
+    }
     // this.props.dispatch(deleteTone(this.props.id));
     this.props.dispatch(
       replaceTone(

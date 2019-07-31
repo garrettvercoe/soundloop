@@ -110,7 +110,7 @@ class ToneButton extends React.Component {
       var intervalId = this.findClosestInterval(trueCoords.x, trueCoords.y, loopToSnap.index);
 
       this.props.dispatch(
-        updateTone(intervalId, this.props.color, this.props.sound, 0)
+        updateTone(intervalId, this.props.color, this.props.sound, this.props.screenHeight/50)
       );
     }
   }
@@ -130,14 +130,14 @@ class ToneButton extends React.Component {
     //   }
     // });
 
-    // for (var i = 0; i < this.props.tones.length; i++) {
-    //   if (
-    //     this.props.tones[i].sound === null &&
-    //     this.props.loops[this.props.tones[i].attachedLoop].active === true
-    //   ) {
-    //     this.props.dispatch(updateTone(i, "transparent", null, 1.5));
-    //   }
-    // }
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
+      }
+    }
   }
   }
 
@@ -148,12 +148,12 @@ class ToneButton extends React.Component {
   }
 
   handleDrag(){
-    
-    // for (var i = 0; i < this.props.tones.length; i++){
-    //   if (this.props.tones[i].sound === null && !this.props.playing && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-    //     this.props.dispatch(updateTone(i, "#fff", null, 1.5))
-    //   }
-    // }
+    var radius = this.props.screenHeight/350;
+    for (var i = 0; i < this.props.tones.length; i++){
+      if (this.props.tones[i].sound === null && !this.props.playing && this.props.loops[this.props.tones[i].attachedLoop].active === true){
+        this.props.dispatch(updateTone(i, "#692D55", null, radius))
+      }
+    }
   }
 
   render() {
@@ -211,7 +211,8 @@ function mapStateToProps(state) {
     loops: state.loops,
     tones: state.tones,
     playing: state.shared.playing,
-    center: state.shared.center
+    center: state.shared.center,
+    screenHeight: state.shared.screenHeight
   };
 }
 

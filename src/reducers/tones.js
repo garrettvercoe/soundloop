@@ -1,7 +1,7 @@
 import { ADD_TONE, RECEIVE_TONES, RESIZE_TONE, UPDATE_TONE, DELETE_TONE, REPLACE_TONE } from "../actions/tones";
 import { strictEqual } from "assert";
 import { stat } from "fs";
-import { TRASH_ALL } from "../actions/shared";
+import { TRASH_ALL_LINEAR, TRASH_ALL_ANGULAR } from "../actions/shared";
 
 let nextToneId = 0;
 export default function tones(state = [], action) {
@@ -33,7 +33,7 @@ export default function tones(state = [], action) {
           ...state[id], 
           color: action.color,
           sound: action.sound,
-          strokeWidth: action.strokeWidth
+          radius: action.radius
         }, 
         ...state.slice(id+1)
       ];
@@ -81,7 +81,13 @@ export default function tones(state = [], action) {
           ...state.slice(id+1)
         ];
 
-    case TRASH_ALL:
+    case TRASH_ALL_LINEAR:
+      nextToneId = 0;
+      var resetTones = [];
+      
+      return [];
+
+    case TRASH_ALL_ANGULAR:
       nextToneId = 0;
       var resetTones = [];
       

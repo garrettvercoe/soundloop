@@ -1,6 +1,6 @@
 import { ADD_LOOP, UPDATE_LOOP, ACTIVATE_LOOP } from "../actions/loops";
 
-import { TRASH_ALL } from "../actions/shared";
+import { TRASH_ALL_LINEAR, TRASH_ALL_ANGULAR } from "../actions/shared";
 let nextLoopId = 0;
 export default function loops(state = [], action) {
   switch (action.type) {
@@ -16,10 +16,14 @@ export default function loops(state = [], action) {
         }
       ];
 
-    case TRASH_ALL:
+    case TRASH_ALL_LINEAR:
       nextLoopId = 0;
       return [];
 
+    case TRASH_ALL_ANGULAR:
+      nextLoopId = 0;
+      return [];
+    
     case UPDATE_LOOP:
       return [
         ...state.slice(0, action.id),

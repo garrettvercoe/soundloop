@@ -3,7 +3,7 @@ import "../styles/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
-import { trashAll } from "../actions/shared";
+import { trashAllLinear, trashAllAngular } from "../actions/shared";
 
 const TrashButtonInactive = {
   color: "#ddd",
@@ -33,7 +33,7 @@ class TrashButton extends React.Component {
             className="inl-blk fa-lg"
             style={TrashButtonActive}
             icon={faRedoAlt}
-            onClick={() => this.props.dispatch(trashAll())}
+            onClick={this.props.mode ? (() => this.props.dispatch(trashAllAngular())) : (() => this.props.dispatch(trashAllLinear()))}
           />
         )}
       </React.Fragment>
@@ -43,7 +43,8 @@ class TrashButton extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    playing: state.shared.playing
+    playing: state.shared.playing,
+    mode: state.shared.mode
   };
 }
 

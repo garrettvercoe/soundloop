@@ -52,7 +52,7 @@ export function updateTone(id, color, sound, strokeWidth) {
     id: id,
     color: color,
     sound: sound,
-    strokeWidth: strokeWidth
+    radius: strokeWidth
   };
 }
 

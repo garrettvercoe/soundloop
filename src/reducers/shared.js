@@ -4,7 +4,8 @@ import {
   TOGGLE_RESTART,
   TOGGLE_MUTE,
   TOGGLE_UNMUTE,
-  TRASH_ALL,
+  TRASH_ALL_LINEAR,
+  TRASH_ALL_ANGULAR,
   ADD_LOOP_COUNT,
   RESET_LOOP_COUNT,
   SCREEN_RESIZE,
@@ -77,9 +78,10 @@ export default function shared(
       return Object.assign({}, state, {
         muted: false
       });
-    case TRASH_ALL:
+    case TRASH_ALL_LINEAR:
       return state;
-
+    case TRASH_ALL_ANGULAR:
+      return state;
     default:
       return state;
   }
