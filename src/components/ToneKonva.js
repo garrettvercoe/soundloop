@@ -49,17 +49,23 @@ class ToneKonva extends React.Component {
       return 360 - deg;
     } else return deg;
   }
+  // componentWillUpdate(prevProps) {
+  //   if (prevProps.mode !== this.props.mode {
+
+  //   }
+  // }
 
   componentDidMount() {
     //var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed);
     // var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
-    
-    if (this.props.mode === "linear"){
+
+    if (this.props.mode === "linear") {
       this.angularSpeed = 75;
-    } else if (this.props.mode === "angular"){
-      this.angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed)
-    }
-    else if (this.props.mode === "init"){
+    } else if (this.props.mode === "angular") {
+      this.angularSpeed = Math.floor(
+        this.props.loops[this.props.attachedLoop].speed
+      );
+    } else if (this.props.mode === "init") {
       this.angularSpeed = 75;
     }
     console.log(this.props);
@@ -142,20 +148,20 @@ class ToneKonva extends React.Component {
     }
   }
 
-  findClosestInterval(a, b, loop){
+  findClosestInterval(a, b, loop) {
     // finds closest tone and returns the index so that color can be changed
     var min = 100;
     var ret = 0;
     for (var i = 0; i < this.props.tones.length; i++) {
       // need to compare pt + or - offset
       // attached loop must be the same as the loopToSnap
-      if (this.props.tones[i].attachedLoop === loop){
+      if (this.props.tones[i].attachedLoop === loop) {
         var x = this.cx - this.props.tones[i].offset.x;
         var y = this.cy - this.props.tones[i].offset.y;
-        var diffX = x-a;
-        var diffY = y-b;
-        var dist = Math.sqrt((diffX*diffX)+(diffY*diffY));
-        if (dist < min){
+        var diffX = x - a;
+        var diffY = y - b;
+        var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+        if (dist < min) {
           min = dist;
           ret = this.props.tones[i].id;
         }
@@ -165,8 +171,7 @@ class ToneKonva extends React.Component {
   }
 
   // find new offset values for snap, depending on rotation
-  findTrueOffset(offX, offY, angle){
-
+  findTrueOffset(offX, offY, angle) {
     var originalAngle = Math.atan2(offX, offY);
     var angleRad = angle * (Math.PI / 180);
     var newAngle = originalAngle - angleRad;
@@ -194,39 +199,47 @@ class ToneKonva extends React.Component {
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
 
-    
-    if (loopToSnap){
-      console.log("LSNAP in TK: " + loopToSnap.index)
+    if (loopToSnap) {
+      console.log("LSNAP in TK: " + loopToSnap.index);
       var angle = this.props.loops[loopToSnap.index].rotation;
-      var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter)
-      var intervalId = this.findClosestInterval(trueCoords.x, trueCoords.y, loopToSnap.index)
-      console.log("Actual loop it snaps to: " + this.props.tones[intervalId].attachedLoop)
-      if( !this.props.playing){
-      this.props.dispatch(
-        updateTone(
-          intervalId,
-          this.props.color,
-          this.props.sound,
-          this.props.screenHeight/50
-        )
+      var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
+      var intervalId = this.findClosestInterval(
+        trueCoords.x,
+        trueCoords.y,
+        loopToSnap.index
       );
-        }
-    }
-  }
-
-  handleDragStart(){
-    if (this.props.playing === false){
-    console.log("zIndex: " + this.circle.zIndex())
-    // move current tone above all of the others
-    this.circle.zIndex(this.props.tones.length)
-    // for all tones, if sound null make them visible on drag
-    var radius = this.props.screenHeight/350;
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "#692D55", null, radius))
+      console.log(
+        "Actual loop it snaps to: " + this.props.tones[intervalId].attachedLoop
+      );
+      if (!this.props.playing) {
+        this.props.dispatch(
+          updateTone(
+            intervalId,
+            this.props.color,
+            this.props.sound,
+            this.props.screenHeight / 50
+          )
+        );
       }
     }
   }
+
+  handleDragStart() {
+    if (this.props.playing === false) {
+      console.log("zIndex: " + this.circle.zIndex());
+      // move current tone above all of the others
+      this.circle.zIndex(this.props.tones.length);
+      // for all tones, if sound null make them visible on drag
+      var radius = this.props.screenHeight / 350;
+      for (var i = 0; i < this.props.tones.length; i++) {
+        if (
+          this.props.tones[i].sound === null &&
+          this.props.loops[this.props.tones[i].attachedLoop].active === true
+        ) {
+          this.props.dispatch(updateTone(i, "#692D55", null, radius));
+        }
+      }
+    }
   }
 
   handleDragEnd() {
@@ -235,11 +248,11 @@ class ToneKonva extends React.Component {
     var circY = this.circle.y();
     var offsetX = this.circle.offsetX();
     var offsetY = this.circle.offsetY();
-    var trueOff = this.findTrueOffset(offsetX, offsetY, this.circle.rotation())
-    
+    var trueOff = this.findTrueOffset(offsetX, offsetY, this.circle.rotation());
+
     // new x and y are coord at original
-    var newX = circX-trueOff.x;
-    var newY = circY-trueOff.y;
+    var newX = circX - trueOff.x;
+    var newY = circY - trueOff.y;
 
     this.snap(newX, newY);
     // make the tones transparent on drag end
@@ -263,7 +276,7 @@ class ToneKonva extends React.Component {
         this.props.offset.x,
         this.props.offset.y,
         this.props.attachedLoop,
-        this.props.screenHeight/50,
+        this.props.screenHeight / 50,
         null,
         loopRotation
       )

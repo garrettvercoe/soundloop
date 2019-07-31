@@ -66,7 +66,7 @@ class ToneButton extends React.Component {
     var ret = 0;
     for (var i = 0; i < this.props.tones.length; i++) {
       // need to compare pt + or - offset
-      if (this.props.tones[i].attachedLoop === loop){
+      if (this.props.tones[i].attachedLoop === loop) {
         var x = this.cx - this.props.tones[i].offset.x;
         var y = this.cy - this.props.tones[i].offset.y;
         var diffX = x - a;
@@ -101,44 +101,53 @@ class ToneButton extends React.Component {
     var b = x1 - this.cx;
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
-    
+
     if (loopToSnap) {
-      console.log("LSNAP in TB: " + loopToSnap.index)
+      console.log("LSNAP in TB: " + loopToSnap.index);
       var angle = this.props.loops[loopToSnap.index].rotation;
       var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
 
-      var intervalId = this.findClosestInterval(trueCoords.x, trueCoords.y, loopToSnap.index);
+      var intervalId = this.findClosestInterval(
+        trueCoords.x,
+        trueCoords.y,
+        loopToSnap.index
+      );
 
       this.props.dispatch(
-        updateTone(intervalId, this.props.color, this.props.sound, this.props.screenHeight/50)
+        updateTone(
+          intervalId,
+          this.props.color,
+          this.props.sound,
+          this.props.screenHeight / 50
+        )
       );
     }
   }
 
   handleStop() {
-    if (this.props.playing === false){
-    this.rect = this.selector.current.getBoundingClientRect();
-    const x = this.rect.left;
-    const y = this.rect.top;
+    if (this.props.playing === false) {
+      this.rect = this.selector.current.getBoundingClientRect();
+      const x = this.rect.left;
+      const y = this.rect.top;
 
-    this.snap(x, y);
+      this.snap(x, y);
 
-    // this.setState({
-    //   deltaPosition: {
-    //     x: 0,
-    //     y: 0
-    //   }
-    // });
+      // this.setState({
+      //   deltaPosition: {
+      //     x: 0,
+      //     y: 0
+      //   }
+      // });
 
-    for (var i = 0; i < this.props.tones.length; i++) {
-      if (
-        this.props.tones[i].sound === null &&
-        this.props.loops[this.props.tones[i].attachedLoop].active === true
-      ) {
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
+      for (var i = 0; i < this.props.tones.length; i++) {
+        if (
+          this.props.tones[i].sound === null &&
+          this.props.loops[this.props.tones[i].attachedLoop].active === true
+        ) {
+          this.props.dispatch(updateTone(i, "transparent", null, 1.5));
+        }
       }
     }
-  }
   }
 
   handleClick() {
@@ -147,11 +156,15 @@ class ToneButton extends React.Component {
     }
   }
 
-  handleDrag(){
-    var radius = this.props.screenHeight/350;
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && !this.props.playing && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "#692D55", null, radius))
+  handleDrag() {
+    var radius = this.props.screenHeight / 350;
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        !this.props.playing &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "#692D55", null, radius));
       }
     }
   }
