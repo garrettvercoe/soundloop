@@ -189,7 +189,12 @@ class ToneButton extends React.Component {
               outline: "none"
             }}
           >
-            <div className="note-select">{this.props.children}</div>
+            <div
+              className="note-select"
+              style={{ color: this.props.textColor }}
+            >
+              {this.props.note}
+            </div>
           </div>
         </Draggable>
       </React.Fragment>

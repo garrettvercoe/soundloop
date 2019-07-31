@@ -125,20 +125,16 @@ code {
   margin: 0 auto;
 }
 
-.note .note-select {
-  display: none;
-}
-
-/* .note:hover .note-select {
+.note-select {
   display: block;
-  padding: 0 0 0 50px;
   font-weight: 500;
+  padding-top: 0.5rem;
   font-size: 14px;
   text-align: center;
   color: #692d54;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
-} */
+}
 
 .upload-header {
   color: #909090;

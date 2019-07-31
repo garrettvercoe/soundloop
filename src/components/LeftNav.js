@@ -28,7 +28,8 @@ import {
   yellow,
   amber,
   orange,
-  deepOrange
+  deepOrange,
+  grey
 } from "@material-ui/core/colors/";
 
 const colorHues = [
@@ -45,6 +46,7 @@ const colorHues = [
   orange,
   deepOrange
 ];
+const textLookup = [0, 600, 800, 800, 800, 200, 100, 50];
 const LibListStyle = {
   textAlign: "left",
   margin: 0,
@@ -150,9 +152,6 @@ class Library extends React.Component {
     this.buttons = [];
     this.buttonList = [];
     this.sounds = [
-      "A",
-      "A#",
-      "B",
       "C",
       "C#",
       "D",
@@ -161,7 +160,10 @@ class Library extends React.Component {
       "F",
       "F#",
       "G",
-      "G#"
+      "G#",
+      "A",
+      "A#",
+      "B"
     ];
     this.octaves = [1, 2, 3, 4, 5, 6, 7];
     for (let j = 0; j < this.octaves.length; j++) {
@@ -169,7 +171,8 @@ class Library extends React.Component {
         this.buttons.push({
           color: colorHues[i][this.octaves[j] * 100],
           sound: this.sounds[i] + this.octaves[j],
-          note: this.sounds[i]
+          note: this.sounds[i],
+          textColor: colorHues[i][textLookup[this.octaves[j]]]
         });
       }
 
@@ -205,7 +208,12 @@ class Library extends React.Component {
         <ul style={LibListStyle}>
           {this.state.tones[this.state.octave - 1].map(item => (
             <li style={LibListItemStyle} key={item.color}>
-              <ToneButton color={item.color} sound={item.sound} />
+              <ToneButton
+                color={item.color}
+                sound={item.sound}
+                note={item.note}
+                textColor={item.textColor}
+              />
             </li>
           ))}
         </ul>
