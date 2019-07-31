@@ -124,7 +124,7 @@ const OctaveSlider = withStyles({
   },
   mark: {
     height: 7,
-    width: 1.5,
+    width: 2,
     marginTop: -2
   },
   markActive: {
