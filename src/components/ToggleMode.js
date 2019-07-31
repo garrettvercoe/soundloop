@@ -8,10 +8,13 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { toggleMode, trashAll } from "../actions/shared";
 class ToggleMode extends React.Component {
   handleClick = (event, newVal) => {
-    if (newVal !== this.props.mode) {
-      this.props.dispatch(trashAll());
+    if (newVal !== null) {
+      console.log("being passed: " + newVal);
+      if (newVal !== this.props.mode) {
+        this.props.dispatch(trashAll());
+      }
+      this.props.dispatch(toggleMode(newVal));
     }
-    this.props.dispatch(toggleMode(newVal));
   };
   render() {
     return (
