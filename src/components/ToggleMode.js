@@ -28,6 +28,10 @@ class ToggleMode extends React.Component {
     return (
       <React.Fragment>
         <br />
+        <h3 className="light inl-blk">
+          WARNING: Switching modes will reset your SoundLoop!{" "}
+        </h3>
+        <br />
         <ToggleButtonGroup
           value={mode}
           exclusive

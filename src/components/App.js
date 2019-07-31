@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Rect, Text, Circle } from "react-konva";
 import Konva from "konva";
-
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Portal from "./Portal";
 import BottomNav from "./BottomNav";
 import MountedTones from "./MountedTones";
