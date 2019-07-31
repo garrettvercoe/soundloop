@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import { trashAll } from "../actions/shared";
 
@@ -26,13 +26,13 @@ class TrashButton extends React.Component {
           <FontAwesomeIcon
             className="inl-blk fa-lg"
             style={TrashButtonInactive}
-            icon={faTrashAlt}
+            icon={faRedoAlt}
           />
         ) : (
           <FontAwesomeIcon
             className="inl-blk fa-lg"
             style={TrashButtonActive}
-            icon={faTrashAlt}
+            icon={faRedoAlt}
             onClick={() => this.props.dispatch(trashAll())}
           />
         )}

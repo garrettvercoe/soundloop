@@ -8,7 +8,8 @@ import {
   ADD_LOOP_COUNT,
   RESET_LOOP_COUNT,
   SCREEN_RESIZE,
-  UPDATE_FILENAME
+  UPDATE_FILENAME,
+  UPDATE_VOLUME
 } from "../actions/shared";
 
 export default function shared(
@@ -23,7 +24,8 @@ export default function shared(
     loopCount: 1,
     muted: false,
     mode: false,
-    fileName: "MyProject"
+    fileName: "MyProject",
+    volume: 0
   },
   action
 ) {
@@ -39,6 +41,10 @@ export default function shared(
     case UPDATE_FILENAME:
       return Object.assign({}, state, {
         fileName: action.fileName
+      });
+    case UPDATE_VOLUME:
+      return Object.assign({}, state, {
+        volume: action.volume
       });
 
     case SCREEN_RESIZE:

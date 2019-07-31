@@ -14,7 +14,21 @@ class Cord extends React.Component {
     // var tremolo = new Tone.Tremolo().start();
     // this.synth = new Tone.PolySynth().chain(distortion, tremolo, Tone.Master);
 
-    this.synth = new Tone.PolySynth(6, Tone.Synth).toMaster();
+    //some overall compression to keep the levels in check
+    // var masterCompressor = new Tone.Compressor({
+    //   threshold: -6,
+    //   ratio: 3,
+    //   attack: 0.5,
+    //   release: 0.1
+    // });
+    // //give a little boost to the lows
+    // var lowBump = new Tone.Filter(200, "lowshelf");
+    //route everything through the filter
+    //and compressor before going to the speakers
+
+    // Tone.Master.chain(lowBump, masterCompressor);
+
+    this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
 
     var max = this.props.height / 2 - 50;
     var interval = max / 2;
@@ -47,6 +61,10 @@ class Cord extends React.Component {
         //   this.line.stroke("#692D55");
         // }
       });
+    }
+
+    if (this.props.volume !== prevProps.volume) {
+      Tone.Master.volume.value = this.props.volume;
     }
     if (this.props.sounds && prevProps.sounds !== this.props.sounds) {
       if (!this.props.muted) {
@@ -112,7 +130,8 @@ function mapStateToProps(state) {
     sounds: state.cord.sounds,
     color: state.cord.color,
     index: state.cord.index,
-    height: state.shared.screenHeight
+    height: state.shared.screenHeight,
+    volume: state.shared.volume
   };
 }
 

@@ -12,6 +12,7 @@ export const IMPORT_FILE = "IMPORT_FILE";
 export const RESET_LOOP_COUNT = "RESET_LOOP_COUNT";
 export const SCREEN_RESIZE = "SCREEN_RESIZE";
 export const UPDATE_FILENAME = "UPDATE_FILENAME";
+export const UPDATE_VOLUME = "UPDATE_VOLUME";
 
 export function togglePlay() {
   return {
@@ -24,6 +25,13 @@ export function updateFilename(name) {
   return {
     type: UPDATE_FILENAME,
     fileName: name
+  };
+}
+
+export function updateVolume(vol) {
+  return {
+    type: UPDATE_VOLUME,
+    volume: -((100 - vol) / 8)
   };
 }
 

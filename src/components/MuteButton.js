@@ -10,11 +10,18 @@ import Slider from "@material-ui/core/Slider";
 import VolumeOff from "@material-ui/icons/VolumeOff";
 import VolumeUp from "@material-ui/icons/VolumeUp";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { updateVolume } from "../actions/shared";
 // const MuteButtonStyle = {
 //   color: "#692d55",
 //   position: "relative",
 //   margin: "0 auto 0 0 "
 // };
+
+const VolButton = {
+  color: "#692d55",
+  position: "relative"
+};
+
 const VolumeSlider = withStyles({
   root: {
     color: "#692D54",
@@ -45,7 +52,7 @@ const VolumeSlider = withStyles({
 class MuteButton extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: 50 };
+    this.state = { value: 100, beforeMuteVal: 100 };
     this.handleChange = this.handleChange.bind(this);
     this.handleMute = this.handleMute.bind(this);
     this.handleUnmute = this.handleUnmute.bind(this);
@@ -56,25 +63,27 @@ class MuteButton extends React.Component {
     } else if (this.state.value === 0 && newValue !== 0) {
       this.props.dispatch(toggleUnmute());
     }
+    this.props.dispatch(updateVolume(newValue));
     this.setState({ value: newValue });
   }
+
   handleMute() {
     this.props.dispatch(toggleMute());
-    this.setState({ value: 0 });
+    this.setState({ beforeMuteVal: this.state.value, value: 0 });
   }
 
   handleUnmute() {
     this.props.dispatch(toggleUnmute());
-    this.setState({ value: 50 });
+    this.setState({ value: this.state.beforeMuteVal });
   }
 
   render() {
     return (
       <div>
         {this.props.muted ? (
-          <VolumeOff onClick={() => this.handleUnmute()} />
+          <VolumeOff style={VolButton} onClick={() => this.handleUnmute()} />
         ) : (
-          <VolumeUp onClick={() => this.handleMute()} style={{}} />
+          <VolumeUp style={VolButton} onClick={() => this.handleMute()} />
         )}
 
         <div
@@ -99,7 +108,8 @@ class MuteButton extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    muted: state.shared.muted
+    muted: state.shared.muted,
+    volume: state.shared.volume
   };
 }
 
