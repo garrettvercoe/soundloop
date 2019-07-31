@@ -1,4 +1,5 @@
 import { addLoop, activateLoop } from "./loops";
+import ToggleMode from "../components/ToggleMode";
 
 //OVERALL
 export const TOGGLE_PLAY = "TOGGLE_PLAY";
@@ -13,7 +14,7 @@ export const RESET_LOOP_COUNT = "RESET_LOOP_COUNT";
 export const SCREEN_RESIZE = "SCREEN_RESIZE";
 export const UPDATE_FILENAME = "UPDATE_FILENAME";
 export const UPDATE_VOLUME = "UPDATE_VOLUME";
-
+export const TOGGLE_MODE = "TOGGLE_MODE";
 export function togglePlay() {
   return {
     type: TOGGLE_PLAY,
@@ -33,6 +34,10 @@ export function updateVolume(vol) {
     type: UPDATE_VOLUME,
     volume: -((100 - vol) / 8)
   };
+}
+
+export function toggleMode(toggled) {
+  return { type: TOGGLE_MODE, mode: toggled };
 }
 
 export function screenResize(width, height) {

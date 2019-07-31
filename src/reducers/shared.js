@@ -9,7 +9,8 @@ import {
   RESET_LOOP_COUNT,
   SCREEN_RESIZE,
   UPDATE_FILENAME,
-  UPDATE_VOLUME
+  UPDATE_VOLUME,
+  TOGGLE_MODE
 } from "../actions/shared";
 
 export default function shared(
@@ -23,7 +24,7 @@ export default function shared(
     screenHeight: window.innerHeight,
     loopCount: 1,
     muted: false,
-    mode: false,
+    mode: "angular",
     fileName: "MyProject",
     volume: 0
   },
@@ -38,6 +39,11 @@ export default function shared(
       return Object.assign({}, state, {
         playing: false
       });
+    case TOGGLE_MODE:
+      return Object.assign({}, state, {
+        mode: action.mode
+      });
+
     case UPDATE_FILENAME:
       return Object.assign({}, state, {
         fileName: action.fileName
