@@ -30,13 +30,13 @@ class ToneButton extends React.Component {
     // iterate through loops array and compare radii
     var acceptableRange = 50;
     var loopArray = this.props.loops;
-    
+
     var id = 0;
     var curr = loopArray[id].radius;
     var diff = Math.abs(distToCenter - curr);
 
     for (var i = 0; i < loopArray.length; i++) {
-      if (this.props.loops[i].active){
+      if (this.props.loops[i].active) {
         var newdiff = Math.abs(distToCenter - loopArray[i].radius);
         if (newdiff < diff) {
           diff = newdiff;
@@ -112,9 +112,8 @@ class ToneButton extends React.Component {
       this.props.dispatch(
         updateTone(intervalId, this.props.color, this.props.sound, 0)
       );
-        }
     }
-  
+  }
 
   handleStop() {
     if (this.props.playing === false){
@@ -131,9 +130,12 @@ class ToneButton extends React.Component {
     //   }
     // });
 
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5))
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
       }
     }
   }
@@ -191,7 +193,12 @@ class ToneButton extends React.Component {
               outline: "none"
             }}
           >
-            <div className="note-select">{this.props.children}</div>
+            <div
+              className="note-select"
+              style={{ color: this.props.textColor }}
+            >
+              {this.props.note}
+            </div>
           </div>
         </Draggable>
       </React.Fragment>
@@ -200,7 +207,6 @@ class ToneButton extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state); // state
   return {
     loops: state.loops,
     tones: state.tones,

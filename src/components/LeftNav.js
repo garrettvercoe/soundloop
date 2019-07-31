@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import NewLoop from "./NewLoop";
 import "../styles/index.css";
-import NewToneMenu from "./NewToneMenu";
 import ToneButton from "./ToneButton";
 import Download from "./Download";
 import TextField from "@material-ui/core/TextField";
@@ -13,11 +12,10 @@ import {
   faTerminal,
   faGlobeAmericas
 } from "@fortawesome/free-solid-svg-icons";
-import { tsConstructorType } from "@babel/types";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import Radio from "@material-ui/core/Radio";
 import Slider from "@material-ui/core/Slider";
 
+import { updateFilename } from "../actions/shared";
 import {
   red,
   pink,
@@ -30,7 +28,8 @@ import {
   yellow,
   amber,
   orange,
-  deepOrange
+  deepOrange,
+  grey
 } from "@material-ui/core/colors/";
 
 const colorHues = [
@@ -47,6 +46,7 @@ const colorHues = [
   orange,
   deepOrange
 ];
+const textLookup = [0, 600, 800, 800, 800, 200, 100, 50];
 const LibListStyle = {
   textAlign: "left",
   margin: 0,
@@ -124,7 +124,7 @@ const OctaveSlider = withStyles({
   },
   mark: {
     height: 7,
-    width: 1.5,
+    width: 2,
     marginTop: -2
   },
   markActive: {
@@ -152,9 +152,6 @@ class Library extends React.Component {
     this.buttons = [];
     this.buttonList = [];
     this.sounds = [
-      "A",
-      "A#",
-      "B",
       "C",
       "C#",
       "D",
@@ -163,39 +160,39 @@ class Library extends React.Component {
       "F",
       "F#",
       "G",
-      "G#"
+      "G#",
+      "A",
+      "A#",
+      "B"
     ];
-
     this.octaves = [1, 2, 3, 4, 5, 6, 7];
     for (let j = 0; j < this.octaves.length; j++) {
       for (let i = 0; i < colorHues.length; i++) {
-        console.log(colorHues[i][this.octaves[j] * 100]);
         this.buttons.push({
           color: colorHues[i][this.octaves[j] * 100],
           sound: this.sounds[i] + this.octaves[j],
-          note: this.sounds[i]
+          note: this.sounds[i],
+          textColor: colorHues[i][textLookup[this.octaves[j]]]
         });
       }
 
       this.buttonList.push(this.buttons);
-
       this.buttons = [];
     }
-    this.state = { octave: 4, tones: this.buttonList };
-
+    this.state = { octave: 4, tones: this.buttonList, noteSelected: false };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-    console.log(this.state);
-  }
   handleChange(event, newValue) {
     this.setState({ octave: newValue });
   }
+
   render() {
     return (
       <React.Fragment>
         <br />
+        {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
+
         <h3 className="light inl-blk"> OCTAVE</h3>
         <OctaveSlider
           defaultValue={4}
@@ -211,7 +208,12 @@ class Library extends React.Component {
         <ul style={LibListStyle}>
           {this.state.tones[this.state.octave - 1].map(item => (
             <li style={LibListItemStyle} key={item.color}>
-              <ToneButton color={item.color} sound={item.sound} />
+              <ToneButton
+                color={item.color}
+                sound={item.sound}
+                note={item.note}
+                textColor={item.textColor}
+              />
             </li>
           ))}
         </ul>
@@ -278,18 +280,15 @@ const ProjectField = withStyles({
   }
 })(TextField);
 
-class ShareMenu extends React.Component {
+class ShareMenuUnconnected extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: "MyProject"
-    };
+
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ name: event.target.value });
-    console.log(this.state.name);
+    this.props.dispatch(updateFilename(event.target.value));
   }
   render() {
     return (
@@ -297,18 +296,25 @@ class ShareMenu extends React.Component {
         <ProjectField
           id="standard-name"
           label="Project Name"
-          defaultValue={this.state.name}
-          value={this.state.name}
+          defaultValue={this.props.name}
+          value={this.props.name}
           onChange={this.handleChange}
           margin="normal"
         />
-        <Download name={this.state.name} />
+        <Download name={this.props.name} />
         <Upload />
       </React.Fragment>
     );
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    name: state.shared.fileName
+  };
+}
+
+const ShareMenu = connect(mapStateToProps)(ShareMenuUnconnected);
 export default class LeftNav extends React.Component {
   constructor(props) {
     super(props);

@@ -90,7 +90,6 @@ class UploadPopUp extends React.Component {
       const binaryStr = reader.result;
       var importedLoop = JSON.parse(binaryStr);
       this.props.dispatch(importFile(importedLoop));
-      console.log(importedLoop);
     };
 
     acceptedFiles.forEach(file => reader.readAsBinaryString(file));

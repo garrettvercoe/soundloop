@@ -14,20 +14,32 @@ import { createStore } from "redux";
 import MountedLoops from "./MountedLoops";
 import Cord from "../components/Cord";
 import LeftNav from "../components/LeftNav";
+import { screenResize } from "../actions/shared";
 
 const store = createStore(reducer, middleware);
+
 class App extends Component {
+  componentWillMount() {
+    this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
+  }
+  componentDidMount() {
+    window.addEventListener("resize", () => {
+      store.dispatch(screenResize(window.innerWidth, window.innerHeight));
+      this.screenWidth = store.getState().shared.screenWidth;
+      this.screenHeight = store.getState().shared.screenHeight;
+    });
+  }
   render() {
     // Stage is a div container
     // Layer is actual canvas element (so you may have several canvases in the stage)
     // And then we have canvas shapes inside the Layer
     return (
       <React.Fragment>
-        <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Stage width={this.screenWidth} height={this.screenHeight}>
           <Provider store={store}>
-            
             <MountedLoops />
-            
+
             <MountedTones />
             <Cord />
           </Provider>

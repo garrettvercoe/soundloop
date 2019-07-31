@@ -46,18 +46,14 @@ class MuteButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: 50 };
-    console.log("state: " + JSON.stringify(this.state));
-    console.log("props " + JSON.stringify(this.props));
     this.handleChange = this.handleChange.bind(this);
     this.handleMute = this.handleMute.bind(this);
     this.handleUnmute = this.handleUnmute.bind(this);
   }
   handleChange(event, newValue) {
     if (newValue === 0) {
-      console.log("lets mute");
       this.props.dispatch(toggleMute());
     } else if (this.state.value === 0 && newValue !== 0) {
-      console.log("lets unmute");
       this.props.dispatch(toggleUnmute());
     }
     this.setState({ value: newValue });

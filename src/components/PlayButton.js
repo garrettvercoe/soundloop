@@ -52,7 +52,6 @@ class PlayButton extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state); // state
   return {
     playing: state.shared.playing
   };

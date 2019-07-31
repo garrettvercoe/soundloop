@@ -67,7 +67,6 @@ class ToneKonva extends React.Component {
     this.circle.rotate(this.props.rotation);
 
     this.anim = new Konva.Animation(frame => {
-
       var angleDiff = (frame.timeDiff * angularSpeed) / 1000;
 
       this.circle.rotate(angleDiff);
@@ -93,16 +92,15 @@ class ToneKonva extends React.Component {
 
   componentDidUpdate(prevProps) {
     // on delete (when prev != current color), move circle back to original position and offset but keep rotation
-    if (prevProps.color !== this.props.color){
-      this.circle.x(this.props.x)
-      this.circle.y(this.props.y)
-      this.circle.offset({x:this.props.offset.x, y:this.props.offset.y})
+    if (prevProps.color !== this.props.color) {
+      this.circle.x(this.props.x);
+      this.circle.y(this.props.y);
+      this.circle.offset({ x: this.props.offset.x, y: this.props.offset.y });
     }
 
     if (prevProps.playing !== this.props.playing) {
       if (this.props.playing) {
         this.anim.start();
-        
       } else {
         this.anim.isRunning() && this.anim.stop();
         // on pause, update the rotation value of the loop in the store
@@ -111,8 +109,7 @@ class ToneKonva extends React.Component {
         );
       }
     }
-  } 
-
+  }
 
   findClosestLoop(distToCenter) {
     // iterate through loops array and compare radii
@@ -123,7 +120,7 @@ class ToneKonva extends React.Component {
     var diff = Math.abs(distToCenter - curr);
 
     for (var i = 0; i < loopArray.length; i++) {
-      if (loopArray[i].active){
+      if (loopArray[i].active) {
         var newdiff = Math.abs(distToCenter - loopArray[i].radius);
         if (newdiff < diff) {
           diff = newdiff;
@@ -144,7 +141,7 @@ class ToneKonva extends React.Component {
     // finds closest tone and returns the index so that color can be changed
     var min = 100;
     var ret = 0;
-    for (var i = 0; i < this.props.tones.length; i++){
+    for (var i = 0; i < this.props.tones.length; i++) {
       // need to compare pt + or - offset
       // attached loop must be the same as the loopToSnap
       if (this.props.tones[i].attachedLoop === loop){
@@ -166,18 +163,18 @@ class ToneKonva extends React.Component {
   findTrueOffset(offX, offY, angle){
 
     var originalAngle = Math.atan2(offX, offY);
-    var angleRad = angle * (Math.PI/180);
+    var angleRad = angle * (Math.PI / 180);
     var newAngle = originalAngle - angleRad;
-    var dist = Math.sqrt((offX*offX)+(offY*offY))
+    var dist = Math.sqrt(offX * offX + offY * offY);
     const offX2 = Math.sin(newAngle) * dist;
-    const offY2 = Math.cos(newAngle) * dist ;
-    return {x: offX2, y: offY2}
+    const offY2 = Math.cos(newAngle) * dist;
+    return { x: offX2, y: offY2 };
   }
 
   findTrueCoordinates(x1, y1, angle, distance) {
     // current angle
     var originalAngle = Math.atan2(y1, x1);
-    var angleRad = angle * (Math.PI/180);
+    var angleRad = angle * (Math.PI / 180);
     var newAngle = originalAngle - angleRad;
     const x2 = this.cx + Math.cos(newAngle) * distance;
     const y2 = this.cy + Math.sin(newAngle) * distance;
@@ -226,10 +223,7 @@ class ToneKonva extends React.Component {
   }
   }
 
-  
-
-  handleDragEnd(){
-
+  handleDragEnd() {
     var loopRotation = this.props.loops[this.props.attachedLoop].rotation;
     var circX = this.circle.x();
     var circY = this.circle.y();
@@ -241,14 +235,32 @@ class ToneKonva extends React.Component {
     var newX = circX-trueOff.x;
     var newY = circY-trueOff.y;
 
-    this.snap(newX, newY)
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5))
+    this.snap(newX, newY);
+    for (var i = 0; i < this.props.tones.length; i++) {
+      if (
+        this.props.tones[i].sound === null &&
+        this.props.loops[this.props.tones[i].attachedLoop].active === true
+      ) {
+        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
       }
     }
     // this.props.dispatch(deleteTone(this.props.id));
-    this.props.dispatch(replaceTone(this.props.id, this.cx, this.cy, "transparent", "#fff", 1.5, this.props.offset.x, (this.props.offset.y), this.props.attachedLoop, 20, null, loopRotation))
+    this.props.dispatch(
+      replaceTone(
+        this.props.id,
+        this.cx,
+        this.cy,
+        "transparent",
+        "#fff",
+        1.5,
+        this.props.offset.x,
+        this.props.offset.y,
+        this.props.attachedLoop,
+        20,
+        null,
+        loopRotation
+      )
+    );
   }
 
   render() {

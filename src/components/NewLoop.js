@@ -31,7 +31,6 @@ class NewLoop extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state); // state
   return {
     loops: state.loops,
     loopCount: state.shared.loopCount

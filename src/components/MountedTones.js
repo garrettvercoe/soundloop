@@ -31,7 +31,6 @@ class MountedTones extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state); // state
   return {
     tones: state.tones,
     loops: state.loops,

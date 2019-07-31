@@ -42,7 +42,9 @@ function mapStateToProps(state) {
   return {
     loops: state.loops,
     centerY: state.shared.center.y,
-    mode: state.shared.mode
+    mode: state.shared.mode,
+    center: state.shared.center,
+    height: state.shared.screenHeight
   };
 }
 
