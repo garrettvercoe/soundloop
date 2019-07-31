@@ -31,7 +31,7 @@ class LoopKonva extends React.Component {
             coords.x - this.props.center.x,
             coords.y - this.props.center.y,
             this.props.id,
-            (this.props.shared.center.y)/25,
+            this.props.screenHeight/50,
             null,
             0
           )
@@ -58,7 +58,7 @@ class LoopKonva extends React.Component {
           coords.x - this.props.center.x,
           coords.y - this.props.center.y,
           this.props.id,
-          (this.props.shared.center.y)/25,
+          this.props.screenHeight/50,
           null,
           0
         )
@@ -86,7 +86,8 @@ function mapStateToProps(state) {
   return {
     center: state.shared.center,
     shared: state.shared,
-    mode: state.shared.mode
+    mode: state.shared.mode,
+    screenHeight: state.shared.screenHeight
   };
 }
 

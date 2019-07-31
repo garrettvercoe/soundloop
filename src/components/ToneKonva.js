@@ -236,14 +236,14 @@ class ToneKonva extends React.Component {
     var newY = circY-trueOff.y;
 
     this.snap(newX, newY);
-    for (var i = 0; i < this.props.tones.length; i++) {
-      if (
-        this.props.tones[i].sound === null &&
-        this.props.loops[this.props.tones[i].attachedLoop].active === true
-      ) {
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
-      }
-    }
+    // for (var i = 0; i < this.props.tones.length; i++) {
+    //   if (
+    //     this.props.tones[i].sound === null &&
+    //     this.props.loops[this.props.tones[i].attachedLoop].active === true
+    //   ) {
+    //     this.props.dispatch(updateTone(i, "transparent", null, 1.5));
+    //   }
+    // }
     // this.props.dispatch(deleteTone(this.props.id));
     this.props.dispatch(
       replaceTone(
@@ -256,7 +256,7 @@ class ToneKonva extends React.Component {
         this.props.offset.x,
         this.props.offset.y,
         this.props.attachedLoop,
-        20,
+        this.props.screenHeight/50,
         null,
         loopRotation
       )
@@ -297,7 +297,8 @@ function mapStateToProps(state) {
     rot: state.shared.rotation,
     tones: state.tones,
     center: state.shared.center,
-    mode: state.shared.mode
+    mode: state.shared.mode,
+    screenHeight: state.shared.screenHeight
   };
 }
 

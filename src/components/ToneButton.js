@@ -130,14 +130,14 @@ class ToneButton extends React.Component {
     //   }
     // });
 
-    for (var i = 0; i < this.props.tones.length; i++) {
-      if (
-        this.props.tones[i].sound === null &&
-        this.props.loops[this.props.tones[i].attachedLoop].active === true
-      ) {
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
-      }
-    }
+    // for (var i = 0; i < this.props.tones.length; i++) {
+    //   if (
+    //     this.props.tones[i].sound === null &&
+    //     this.props.loops[this.props.tones[i].attachedLoop].active === true
+    //   ) {
+    //     this.props.dispatch(updateTone(i, "transparent", null, 1.5));
+    //   }
+    // }
   }
   }
 

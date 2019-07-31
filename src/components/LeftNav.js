@@ -5,6 +5,7 @@ import "../styles/index.css";
 import ToneButton from "./ToneButton";
 import Download from "./Download";
 import TextField from "@material-ui/core/TextField";
+import Switch from '@material-ui/core/Switch';
 import Upload from "./Upload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -146,6 +147,20 @@ const OctaveSlider = withStyles({
   }
 })(Slider);
 
+const ModeSwitch = withStyles({
+  switchBase: {
+    color: purple[300],
+    '&$checked': {
+      color: purple[500],
+    },
+    '&$checked + $track': {
+      backgroundColor: purple[500],
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 class Library extends React.Component {
   constructor(props) {
     super(props);
@@ -192,7 +207,10 @@ class Library extends React.Component {
       <React.Fragment>
         <br />
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
-
+        <h3 className="light inl-blk"> SWITCH </h3>
+        <ModeSwitch 
+          // onChange={}
+        />
         <h3 className="light inl-blk"> OCTAVE</h3>
         <OctaveSlider
           defaultValue={4}
