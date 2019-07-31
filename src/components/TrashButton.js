@@ -33,7 +33,7 @@ class TrashButton extends React.Component {
             className="inl-blk fa-lg"
             style={TrashButtonActive}
             icon={faRedoAlt}
-            onClick={this.props.mode ? (() => this.props.dispatch(trashAllAngular())) : (() => this.props.dispatch(trashAllLinear()))}
+            onClick={this.props.mode==="angular" ? (() => this.props.dispatch(trashAllAngular())) : (() => this.props.dispatch(trashAllLinear()))}
           />
         )}
       </React.Fragment>

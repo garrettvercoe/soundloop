@@ -11,7 +11,7 @@ class LoopKonva extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.mode){
+    if (this.props.mode === "angular"){
       var numTones = 16;
       var interval = (2 * Math.PI) / numTones;
       var currAngle = 0;

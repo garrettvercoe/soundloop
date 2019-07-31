@@ -52,9 +52,9 @@ class ToneKonva extends React.Component {
   componentDidMount() {
     //var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed);
     // var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
-    if (this.props.mode){
+    if (this.props.mode === "angular"){
       var angularSpeed = 75;
-    } else {
+    } else if (this.props.mode === "linear"){
       var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed)
     }
     console.log(this.props);

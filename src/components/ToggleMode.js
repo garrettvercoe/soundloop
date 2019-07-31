@@ -5,13 +5,17 @@ import { connect } from "react-redux";
 
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import { toggleMode, trashAll } from "../actions/shared";
+import { toggleMode, trashAllLinear, trashAllAngular } from "../actions/shared";
 class ToggleMode extends React.Component {
   handleClick = (event, newVal) => {
     if (newVal !== null) {
       console.log("being passed: " + newVal);
       if (newVal !== this.props.mode) {
-        this.props.dispatch(trashAll());
+        if (newVal === "angular"){
+          this.props.dispatch(trashAllAngular());
+        } else {
+          this.props.dispatch(trashAllLinear());
+        }
       }
       this.props.dispatch(toggleMode(newVal));
     }
