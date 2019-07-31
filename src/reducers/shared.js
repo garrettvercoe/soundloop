@@ -17,7 +17,8 @@ export default function shared(
       y: window.innerHeight / 2
     },
     loopCount: 1,
-    muted: false
+    muted: false,
+    mode: false
   },
   action
 ) {

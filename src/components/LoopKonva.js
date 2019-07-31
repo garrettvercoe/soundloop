@@ -11,7 +11,35 @@ class LoopKonva extends React.Component {
   }
 
   componentDidMount() {
-    var numTones = Math.pow(2, 4 - this.props.id);
+    if (this.props.mode){
+      var numTones = 16;
+      var interval = (2 * Math.PI) / numTones;
+      var currAngle = 0;
+      for (var i = 0; i < numTones; i++) {
+        var coords = this.findAngleCoord(
+          this.props.center.x,
+          this.props.center.y,
+          currAngle,
+          this.props.radius
+        );
+        console.log(coords);
+        this.props.dispatch(
+          addTone(
+            "transparent",
+            "#fff",
+            1.5,
+            coords.x - this.props.center.x,
+            coords.y - this.props.center.y,
+            this.props.id,
+            (this.props.shared.center.y)/25,
+            null,
+            0
+          )
+        );
+        currAngle = currAngle + interval;
+      }
+    } else {
+    var numTones = Math.pow(2, 5 - this.props.id);
     var interval = (2 * Math.PI) / numTones;
     var currAngle = 0;
     for (var i = 0; i < numTones; i++) {
@@ -30,18 +58,18 @@ class LoopKonva extends React.Component {
           coords.x - this.props.center.x,
           coords.y - this.props.center.y,
           this.props.id,
-          20,
+          (this.props.shared.center.y)/25,
           null,
           0
         )
       );
-      //this.props.dispatch(addTone(cx, cy, "#fff9f3", "#ed1e79", 1.5, coords.x-cx, (coords.y-cy), this.props.id, 20, null));
       currAngle = currAngle + interval;
     }
   }
+}
 
   render() {
-    console.log("LOOP ID::: " + this.props.id);
+    console.log("LOOP ID: " + this.props.id);
     return (
       <Circle
         x={this.props.center.x}
@@ -57,7 +85,9 @@ class LoopKonva extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    center: state.shared.center
+    center: state.shared.center,
+    shared: state.shared,
+    mode: state.shared.mode
   };
 }
 

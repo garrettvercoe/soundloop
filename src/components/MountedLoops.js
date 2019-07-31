@@ -8,11 +8,20 @@ import { addLoop, activateLoop } from "../actions/loops";
 
 class MountedLoops extends React.Component {
   componentDidMount() {
-    this.props.dispatch(addLoop(window.innerHeight / 3));
-    this.props.dispatch(addLoop(window.innerHeight / 6));
-    this.props.dispatch(addLoop(window.innerHeight / 12));
-    this.props.dispatch(addLoop(window.innerHeight / 24));
-    this.props.dispatch(addLoop(window.innerHeight / 48));
+
+    // if mode true then dispatch this way
+    if (this.props.mode){
+      var interval = this.props.centerY/7
+      for (var i = 0; i < 5; i++){
+        this.props.dispatch(addLoop((window.innerHeight / 3) - (interval*i)))
+      }
+    } else {
+      this.props.dispatch(addLoop(window.innerHeight / 3));
+      this.props.dispatch(addLoop(window.innerHeight / 6));
+      this.props.dispatch(addLoop(window.innerHeight / 12));
+      this.props.dispatch(addLoop(window.innerHeight / 24));
+      this.props.dispatch(addLoop(window.innerHeight / 48));
+    }
     this.props.dispatch(activateLoop(0));
   }
 
@@ -31,7 +40,9 @@ class MountedLoops extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    loops: state.loops
+    loops: state.loops,
+    centerY: state.shared.center.y,
+    mode: state.shared.mode
   };
 }
 

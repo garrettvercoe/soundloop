@@ -24,10 +24,9 @@ class ToneKonva extends React.Component {
     this.handleDragStart = this.handleDragStart.bind(this);
     this.snap = this.snap.bind(this);
     this.findClosestLoop = this.findClosestLoop.bind(this);
-    this.findFakeOffset = this.findFakeOffset.bind(this);
+    this.findTrueOffset = this.findTrueOffset.bind(this);
   }
 
-  // CHECK HERE FOR STRANGE SPEED STUFF
   getAngle() {
     var radius = this.props.loops[this.props.attachedLoop].radius;
     var x1 = this.props.x - this.props.offset.x;
@@ -52,8 +51,12 @@ class ToneKonva extends React.Component {
 
   componentDidMount() {
     //var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed);
-    var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
-    //var angularSpeed = 75;
+    // var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
+    if (this.props.mode){
+      var angularSpeed = 75;
+    } else {
+      var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed)
+    }
     console.log(this.props);
     var angle = this.getAngle();
     // console.log("ANGLE: " + angle)
@@ -103,12 +106,6 @@ class ToneKonva extends React.Component {
       } else {
         this.anim.isRunning() && this.anim.stop();
         // on pause, update the rotation value of the loop in the store
-        console.log("PAUSE");
-        console.log("OFFSET FOR " + this.props.id + ": " + this.circle.offsetX() + ", " + this.circle.offsetY());
-        console.log("ROT FOR " + this.props.id + ": " + this.circle.rotation());
-        var fakeOff = this.findFakeOffset(this.circle.offsetX(), this.circle.offsetY(), this.circle.rotation());
-        // console.log("fake offX: " + fakeOff.x);
-        // console.log("fake offY: " + fakeOff.y); 
         this.props.dispatch(
           updateLoop(this.props.attachedLoop, this.circle.rotation())
         );
@@ -143,28 +140,30 @@ class ToneKonva extends React.Component {
     }
   }
 
-  findClosestInterval(a, b){
+  findClosestInterval(a, b, loop){
     // finds closest tone and returns the index so that color can be changed
     var min = 100;
     var ret = 0;
     for (var i = 0; i < this.props.tones.length; i++){
       // need to compare pt + or - offset
-      var x = this.cx - this.props.tones[i].offset.x;
-      var y = this.cy - this.props.tones[i].offset.y;
-      var diffX = x-a;
-      var diffY = y-b;
-      var dist = Math.sqrt((diffX*diffX)+(diffY*diffY));
-      if (dist < min){
-        min = dist;
-        ret = this.props.tones[i].id;
+      // attached loop must be the same as the loopToSnap
+      if (this.props.tones[i].attachedLoop === loop){
+        var x = this.cx - this.props.tones[i].offset.x;
+        var y = this.cy - this.props.tones[i].offset.y;
+        var diffX = x-a;
+        var diffY = y-b;
+        var dist = Math.sqrt((diffX*diffX)+(diffY*diffY));
+        if (dist < min){
+          min = dist;
+          ret = this.props.tones[i].id;
+        }
       }
-      
     }
     return ret;
   }
 
   // find new offset values for snap, depending on rotation
-  findFakeOffset(offX, offY, angle){
+  findTrueOffset(offX, offY, angle){
 
     var originalAngle = Math.atan2(offX, offY);
     var angleRad = angle * (Math.PI/180);
@@ -175,7 +174,7 @@ class ToneKonva extends React.Component {
     return {x: offX2, y: offY2}
   }
 
-  findFakeCoordinates(x1, y1, angle, distance) {
+  findTrueCoordinates(x1, y1, angle, distance) {
     // current angle
     var originalAngle = Math.atan2(y1, x1);
     var angleRad = angle * (Math.PI/180);
@@ -186,19 +185,20 @@ class ToneKonva extends React.Component {
   }
 
   snap(x1, y1) {
-    console.log("X in snap: " + x1)
-    console.log("Y in snap: " + y1)
-    
     // calculate virtual location with rotation
     // first calculate distance
     var a = y1 - this.cy;
     var b = x1 - this.cx;
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
+
+    
     if (loopToSnap){
+      console.log("LSNAP in TK: " + loopToSnap.index)
       var angle = this.props.loops[loopToSnap.index].rotation;
-      var fakeCoords = this.findFakeCoordinates(b, a, angle, distToCenter)
-      var intervalId = this.findClosestInterval(fakeCoords.x, fakeCoords.y)
+      var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter)
+      var intervalId = this.findClosestInterval(trueCoords.x, trueCoords.y, loopToSnap.index)
+      console.log("Actual loop it snaps to: " + this.props.tones[intervalId].attachedLoop)
       if( !this.props.playing){
       this.props.dispatch(
         updateTone(
@@ -213,12 +213,17 @@ class ToneKonva extends React.Component {
   }
 
   handleDragStart(){
+    if (this.props.playing === false){
+    console.log("zIndex: " + this.circle.zIndex())
+    // move current tone above all of the others
+    this.circle.zIndex(this.props.tones.length)
     // for all tones, if sound null make them visible on drag
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "#fff", null, 1.5))
-      }
-    }
+    // for (var i = 0; i < this.props.tones.length; i++){
+    //   if (this.props.tones[i].sound === null && this.props.loops[this.props.tones[i].attachedLoop].active === true){
+    //     this.props.dispatch(updateTone(i, "#fff", null, 1.5))
+    //   }
+    // }
+  }
   }
 
   
@@ -230,11 +235,11 @@ class ToneKonva extends React.Component {
     var circY = this.circle.y();
     var offsetX = this.circle.offsetX();
     var offsetY = this.circle.offsetY();
-    var fakeOff = this.findFakeOffset(offsetX, offsetY, this.circle.rotation())
+    var trueOff = this.findTrueOffset(offsetX, offsetY, this.circle.rotation())
     
     // new x and y are coord at original
-    var newX = circX-fakeOff.x;
-    var newY = circY-fakeOff.y;
+    var newX = circX-trueOff.x;
+    var newY = circY-trueOff.y;
 
     this.snap(newX, newY)
     for (var i = 0; i < this.props.tones.length; i++){
@@ -279,7 +284,8 @@ function mapStateToProps(state) {
     loops: state.loops,
     rot: state.shared.rotation,
     tones: state.tones,
-    center: state.shared.center
+    center: state.shared.center,
+    mode: state.shared.mode
   };
 }
 

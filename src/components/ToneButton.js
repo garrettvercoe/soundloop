@@ -3,7 +3,7 @@ import "../styles/index.css";
 
 import Draggable from "react-draggable"; // The default
 import { connect } from "react-redux";
-import { addTone, updateTone } from "../actions/tones";
+import { updateTone } from "../actions/tones";
 import { playTone } from "../actions/cord";
 class ToneButton extends React.Component {
   constructor(props) {
@@ -36,7 +36,6 @@ class ToneButton extends React.Component {
     var diff = Math.abs(distToCenter - curr);
 
     for (var i = 0; i < loopArray.length; i++) {
-      console.log("LOOP ARRAY: " + JSON.stringify(loopArray[i]))
       if (this.props.loops[i].active){
         var newdiff = Math.abs(distToCenter - loopArray[i].radius);
         if (newdiff < diff) {
@@ -61,26 +60,29 @@ class ToneButton extends React.Component {
     return { x: x2, y: y2 };
   }
 
-  findClosestInterval(a, b) {
+  findClosestInterval(a, b, loop) {
     // finds closest tone and returns the index so that color can be changed
     var min = 100;
     var ret = 0;
     for (var i = 0; i < this.props.tones.length; i++) {
       // need to compare pt + or - offset
-      var x = this.cx - this.props.tones[i].offset.x;
-      var y = this.cy - this.props.tones[i].offset.y;
-      var diffX = x - a;
-      var diffY = y - b;
-      var dist = Math.sqrt(diffX * diffX + diffY * diffY);
-      if (dist < min) {
-        min = dist;
-        ret = this.props.tones[i].id;
+      if (this.props.tones[i].attachedLoop === loop){
+        var x = this.cx - this.props.tones[i].offset.x;
+        var y = this.cy - this.props.tones[i].offset.y;
+        var diffX = x - a;
+        var diffY = y - b;
+        var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+        if (dist < min) {
+          min = dist;
+          ret = this.props.tones[i].id;
+        }
       }
     }
     return ret;
   }
 
-  findFakeCoordinates(x1, y1, angle, distance) {
+  // convert current cursor location to coordinates
+  findTrueCoordinates(x1, y1, angle, distance) {
     // current angle from center
     var originalAngle = Math.atan2(y1, x1);
     // original angle in radians
@@ -99,11 +101,13 @@ class ToneButton extends React.Component {
     var b = x1 - this.cx;
     var distToCenter = Math.sqrt(a * a + b * b);
     var loopToSnap = this.findClosestLoop(distToCenter);
+    
     if (loopToSnap) {
+      console.log("LSNAP in TB: " + loopToSnap.index)
       var angle = this.props.loops[loopToSnap.index].rotation;
-      var fakeCoords = this.findFakeCoordinates(b, a, angle, distToCenter);
+      var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
 
-      var intervalId = this.findClosestInterval(fakeCoords.x, fakeCoords.y);
+      var intervalId = this.findClosestInterval(trueCoords.x, trueCoords.y, loopToSnap.index);
 
       this.props.dispatch(
         updateTone(intervalId, this.props.color, this.props.sound, 0)
@@ -113,12 +117,10 @@ class ToneButton extends React.Component {
   
 
   handleStop() {
+    if (this.props.playing === false){
     this.rect = this.selector.current.getBoundingClientRect();
     const x = this.rect.left;
     const y = this.rect.top;
-
-    console.log("X button: " + x)
-    console.log("Y button: " + y)
 
     this.snap(x, y);
 
@@ -135,6 +137,7 @@ class ToneButton extends React.Component {
       }
     }
   }
+  }
 
   handleClick() {
     if (!this.props.playing) {
@@ -143,11 +146,12 @@ class ToneButton extends React.Component {
   }
 
   handleDrag(){
-    for (var i = 0; i < this.props.tones.length; i++){
-      if (this.props.tones[i].sound === null && !this.props.playing && this.props.loops[this.props.tones[i].attachedLoop].active === true){
-        this.props.dispatch(updateTone(i, "#fff", null, 1.5))
-      }
-    }
+    
+    // for (var i = 0; i < this.props.tones.length; i++){
+    //   if (this.props.tones[i].sound === null && !this.props.playing && this.props.loops[this.props.tones[i].attachedLoop].active === true){
+    //     this.props.dispatch(updateTone(i, "#fff", null, 1.5))
+    //   }
+    // }
   }
 
   render() {
@@ -186,7 +190,7 @@ class ToneButton extends React.Component {
               border: "none",
               outline: "none"
             }}
-          >{JSON.stringify(this.state.deltaPosition)}
+          >
             <div className="note-select">{this.props.children}</div>
           </div>
         </Draggable>
