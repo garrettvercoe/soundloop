@@ -118,7 +118,9 @@ class ToneButton extends React.Component {
           intervalId,
           this.props.color,
           this.props.sound,
-          this.props.screenHeight / 50
+          //  this.props.screenHeight / 50,
+          this.props.toneSizes[this.props.selectedSustain],
+          this.props.selectedSustain
         )
       );
     }
@@ -152,7 +154,9 @@ class ToneButton extends React.Component {
 
   handleClick() {
     if (!this.props.playing) {
-      this.props.dispatch(playTone(this.props.sound));
+      this.props.dispatch(
+        playTone(this.props.sound, this.props.selectedSustain)
+      );
     }
   }
 
@@ -225,8 +229,12 @@ function mapStateToProps(state) {
     tones: state.tones,
     playing: state.shared.playing,
     center: state.shared.center,
-    screenHeight: state.shared.screenHeight
+    screenHeight: state.shared.screenHeight,
+    selectedSustain: state.shared.selectedSustain,
+    toneSizes: state.shared.toneSizes
   };
 }
+
+//
 
 export default connect(mapStateToProps)(ToneButton);

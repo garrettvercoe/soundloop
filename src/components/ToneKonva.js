@@ -81,13 +81,13 @@ class ToneKonva extends React.Component {
         frame.time < this.timerInit + 10 &&
         this.props.sound !== null
       ) {
-        this.props.dispatch(playTone(this.props.sound, this.props.color));
+        this.props.dispatch(playTone(this.props.sound, this.props.duration));
       } else if (
         frame.time % this.timerLoop < this.timerInit + 20 &&
         frame.time % this.timerLoop > this.timerInit - 20 &&
         this.props.sound !== null
       ) {
-        this.props.dispatch(playTone(this.props.sound));
+        this.props.dispatch(playTone(this.props.sound, this.props.duration));
       }
     }, this.circle.getLayer());
 

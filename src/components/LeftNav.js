@@ -5,7 +5,6 @@ import "../styles/index.css";
 import ToneButton from "./ToneButton";
 import Download from "./Download";
 import TextField from "@material-ui/core/TextField";
-import Switch from "@material-ui/core/Switch";
 import Upload from "./Upload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,6 +16,7 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import ToggleMode from "./ToggleMode";
 import { updateFilename, updateTempo } from "../actions/shared";
+import SustainMenu from "./SustainButton";
 import {
   red,
   pink,
@@ -220,11 +220,11 @@ class LibraryUnconnected extends React.Component {
       this.buttons = [];
     }
     this.state = { octave: 4, tones: this.buttonList, noteSelected: false };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleOctave = this.handleOctave.bind(this);
     this.handleTempoChange = this.handleTempoChange.bind(this);
   }
 
-  handleChange(event, newValue) {
+  handleOctave(event, newValue) {
     this.setState({ octave: newValue });
   }
 
@@ -246,17 +246,6 @@ class LibraryUnconnected extends React.Component {
           min={70}
           max={150}
         /> */}
-        <h3 className="light inl-blk"> OCTAVE</h3>
-        <OctaveSlider
-          defaultValue={4}
-          onChange={this.handleChange}
-          aria-labelledby="discrete-slider"
-          valueLabelDisplay="on"
-          step={1}
-          marks
-          min={1}
-          max={7}
-        />
         <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
           {this.state.tones[this.state.octave - 1].map(item => (
@@ -270,6 +259,19 @@ class LibraryUnconnected extends React.Component {
             </li>
           ))}
         </ul>
+        <br />
+        <h3 className="light inl-blk"> OCTAVE</h3>
+        <OctaveSlider
+          defaultValue={4}
+          onChange={this.handleOctave}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="on"
+          step={1}
+          marks
+          min={1}
+          max={7}
+        />
+        <SustainMenu />
       </React.Fragment>
     );
   }

@@ -46,13 +46,14 @@ export function resizeTone(tone) {
   };
 }
 
-export function updateTone(id, color, sound, strokeWidth) {
+export function updateTone(id, color, sound, size, sustain) {
   return {
     type: UPDATE_TONE,
     id: id,
     color: color,
     sound: sound,
-    radius: strokeWidth
+    radius: size,
+    duration: sustain
   };
 }
 
@@ -69,27 +70,26 @@ export function replaceTone(
   rad,
   sound,
   rotation
-){
-return{
-  type: REPLACE_TONE,
-  id: id,
-  position: {
-    x: xCoord,
-    y: yCoord
-  },
-  offset: {
-    x: offsetx,
-    y: offsety
-  },
-  color: colorCode,
-  stroke: stroke,
-  strokeWidth: strokeWidth,
-  attachedLoop: attLoop,
-  radius: rad,
-  sound: sound,
-  rotation: rotation
-};
-
+) {
+  return {
+    type: REPLACE_TONE,
+    id: id,
+    position: {
+      x: xCoord,
+      y: yCoord
+    },
+    offset: {
+      x: offsetx,
+      y: offsety
+    },
+    color: colorCode,
+    stroke: stroke,
+    strokeWidth: strokeWidth,
+    attachedLoop: attLoop,
+    radius: rad,
+    sound: sound,
+    rotation: rotation
+  };
 }
 
 export function receiveTones(tones) {

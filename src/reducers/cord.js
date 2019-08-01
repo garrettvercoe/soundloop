@@ -7,7 +7,7 @@ export default function cord(state = {}, action) {
     case PLAY_TONE:
       return Object.assign({}, state, {
         index: index++,
-        color: action.color,
+        //color: action.color,
         sounds: sounds(state.sounds, action)
       });
     case TRASH_ALL_LINEAR:
@@ -30,7 +30,7 @@ export default function cord(state = {}, action) {
 function sounds(state = [], action) {
   switch (action.type) {
     case PLAY_TONE:
-      return [...state, action.sound];
+      return [...state, { sound: action.sound, duration: action.duration }];
     default:
       return state;
   }

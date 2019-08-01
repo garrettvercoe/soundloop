@@ -19,6 +19,7 @@ class MountedTones extends React.Component {
               radius={item.radius}
               attachedLoop={item.attachedLoop}
               sound={item.sound}
+              duration={item.duration}
               strokeWidth={item.strokeWidth}
               id={item.id}
               rotation={item.rotation}
