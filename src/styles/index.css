@@ -136,6 +136,17 @@ code {
   cursor: pointer;
 }
 
+.sustain-select {
+  display: block;
+  font-weight: 500;
+
+  font-size: 10px;
+  text-align: center;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
 .transition {
   /* The default, as in, you get this without defining anything */
   transition-timing-function: ease;

@@ -18,10 +18,12 @@ class LoopKonva extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.mode === "angular"){
+    if (this.props.mode === "angular") {
       this.numTones = 16;
-    } else if (this.props.mode === "linear"){
+    } else if (this.props.mode === "linear") {
       this.numTones = Math.pow(2, 5 - this.props.id);
+    } else if (this.props.mode === "init") {
+      this.numTones = 32;
     }
     var interval = (2 * Math.PI) / this.numTones;
     var currAngle = 0;
@@ -32,19 +34,19 @@ class LoopKonva extends React.Component {
         currAngle,
         this.props.radius
       );
-        
+
       this.props.dispatch(
-          addTone(
-            "transparent",
-            "#fff",
-            1.5,
-            coords.x - this.props.center.x,
-            coords.y - this.props.center.y,
-            this.props.id,
-            this.props.screenHeight/50,
-            null,
-            0
-          )
+        addTone(
+          "transparent",
+          "#fff",
+          1.5,
+          coords.x - this.props.center.x,
+          coords.y - this.props.center.y,
+          this.props.id,
+          this.props.screenHeight / 50,
+          null,
+          0
+        )
       );
       currAngle = currAngle + interval;
     }

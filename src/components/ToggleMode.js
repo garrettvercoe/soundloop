@@ -12,7 +12,7 @@ class ToggleMode extends React.Component {
     if (newVal !== null) {
       console.log("being passed: " + newVal);
       if (newVal !== this.props.mode) {
-        if (newVal === "angular"){
+        if (newVal === "angular") {
           this.props.dispatch(toggleMode(newVal));
           this.props.dispatch(trashAllAngular());
         } else {
@@ -23,8 +23,8 @@ class ToggleMode extends React.Component {
     }
   };
   render() {
-    var mode = this.props.mode
-    if (this.props.mode === "init"){
+    var mode = this.props.mode;
+    if (this.props.mode === "init") {
       mode = "angular";
     }
     return (
@@ -34,11 +34,7 @@ class ToggleMode extends React.Component {
           WARNING: Switching modes will reset your SoundLoop!{" "}
         </h3>
         <br />
-        <ToggleButtonGroup
-          value={mode}
-          exclusive
-          onChange={this.handleClick}
-        >
+        <ToggleButtonGroup value={mode} exclusive onChange={this.handleClick}>
           <ToggleButton value="angular">Angular</ToggleButton>
           <ToggleButton value="linear">Linear</ToggleButton>
         </ToggleButtonGroup>

@@ -5,7 +5,6 @@ import "../styles/index.css";
 import ToneButton from "./ToneButton";
 import Download from "./Download";
 import TextField from "@material-ui/core/TextField";
-import Switch from "@material-ui/core/Switch";
 import Upload from "./Upload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +15,8 @@ import {
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import ToggleMode from "./ToggleMode";
+import SustainMenu from "./SustainButton";
+
 import { updateFilename } from "../actions/shared";
 import {
   red,
@@ -147,20 +148,6 @@ const OctaveSlider = withStyles({
   }
 })(Slider);
 
-const ModeSwitch = withStyles({
-  switchBase: {
-    color: purple[300],
-    "&$checked": {
-      color: purple[500]
-    },
-    "&$checked + $track": {
-      backgroundColor: purple[500]
-    }
-  },
-  checked: {},
-  track: {}
-})(Switch);
-
 class Library extends React.Component {
   constructor(props) {
     super(props);
@@ -194,11 +181,16 @@ class Library extends React.Component {
       this.buttonList.push(this.buttons);
       this.buttons = [];
     }
-    this.state = { octave: 4, tones: this.buttonList, noteSelected: false };
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      octave: 4,
+
+      tones: this.buttonList,
+      noteSelected: false
+    };
+    this.handleOctave = this.handleOctave.bind(this);
   }
 
-  handleChange(event, newValue) {
+  handleOctave(event, newValue) {
     this.setState({ octave: newValue });
   }
 
@@ -207,18 +199,6 @@ class Library extends React.Component {
       <React.Fragment>
         <br />
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
-
-        <h3 className="light inl-blk"> OCTAVE</h3>
-        <OctaveSlider
-          defaultValue={4}
-          onChange={this.handleChange}
-          aria-labelledby="discrete-slider"
-          valueLabelDisplay="on"
-          step={1}
-          marks
-          min={1}
-          max={7}
-        />
         <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
           {this.state.tones[this.state.octave - 1].map(item => (
@@ -232,6 +212,19 @@ class Library extends React.Component {
             </li>
           ))}
         </ul>
+        <br />
+        <h3 className="light inl-blk"> OCTAVE</h3>
+        <OctaveSlider
+          defaultValue={4}
+          onChange={this.handleOctave}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="on"
+          step={1}
+          marks
+          min={1}
+          max={7}
+        />
+        <SustainMenu />
       </React.Fragment>
     );
   }

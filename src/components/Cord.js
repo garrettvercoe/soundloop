@@ -66,11 +66,14 @@ class Cord extends React.Component {
     if (this.props.volume !== prevProps.volume) {
       Tone.Master.volume.value = this.props.volume;
     }
-    if (this.props.sounds && prevProps.sounds !== this.props.sounds) {
+    if (
+      this.props.sounds.length > 0 &&
+      prevProps.sounds !== this.props.sounds
+    ) {
       if (!this.props.muted) {
         this.synth.triggerAttackRelease(
-          this.props.sounds[this.props.index],
-          "8n"
+          this.props.sounds[this.props.index].sound,
+          this.props.sounds[this.props.index].duration
         );
       }
 

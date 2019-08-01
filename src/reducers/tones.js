@@ -1,4 +1,11 @@
-import { ADD_TONE, RECEIVE_TONES, RESIZE_TONE, UPDATE_TONE, DELETE_TONE, REPLACE_TONE } from "../actions/tones";
+import {
+  ADD_TONE,
+  RECEIVE_TONES,
+  RESIZE_TONE,
+  UPDATE_TONE,
+  DELETE_TONE,
+  REPLACE_TONE
+} from "../actions/tones";
 import { strictEqual } from "assert";
 import { stat } from "fs";
 import { TRASH_ALL_LINEAR, TRASH_ALL_ANGULAR } from "../actions/shared";
@@ -12,8 +19,6 @@ export default function tones(state = [], action) {
         {
           id: nextToneId++,
           color: action.color,
-          stroke: action.stroke,
-          strokeWidth: action.strokeWidth,
           attachedLoop: action.attachedLoop,
           radius: action.radius,
           sound: action.sound,
@@ -22,33 +27,34 @@ export default function tones(state = [], action) {
         }
       ];
 
-      // return new state with modified tone color, sound, and stroke with everything else same
+    // return new state with modified tone color, sound, and stroke with everything else same
     case UPDATE_TONE:
       //console.log(...state);
       var id = action.id;
-      
+
       return [
-        ...state.slice(0, id), 
+        ...state.slice(0, id),
         {
-          ...state[id], 
+          ...state[id],
           color: action.color,
           sound: action.sound,
-          radius: action.radius
-        }, 
-        ...state.slice(id+1)
+          radius: action.radius,
+          duration: action.duration
+        },
+        ...state.slice(id + 1)
       ];
 
     case RESIZE_TONE:
       return { state };
 
     case DELETE_TONE:
-        // let x = [...state.filter((i, index) => index !== action.id)];
-        // return x;
+      // let x = [...state.filter((i, index) => index !== action.id)];
+      // return x;
       var id = action.id;
-        return [
-          ...state.slice(0, id), 
-          {
-            id: id,
+      return [
+        ...state.slice(0, id),
+        {
+          id: id,
           color: action.color,
           stroke: action.stroke,
           strokeWidth: action.strokeWidth,
@@ -58,16 +64,16 @@ export default function tones(state = [], action) {
           position: action.position,
           offset: action.offset,
           rotation: action.rotation
-          }, 
-          ...state.slice(id+1)
-        ];
+        },
+        ...state.slice(id + 1)
+      ];
 
     case REPLACE_TONE:
-        var id = action.id;
-        return [
-          ...state.slice(0, id), 
-          {
-            id: id,
+      var id = action.id;
+      return [
+        ...state.slice(0, id),
+        {
+          id: id,
           color: action.color,
           stroke: action.stroke,
           strokeWidth: action.strokeWidth,
@@ -77,18 +83,18 @@ export default function tones(state = [], action) {
           position: action.position,
           offset: action.offset,
           rotation: action.rotation
-          }, 
-          ...state.slice(id+1)
-        ];
+        },
+        ...state.slice(id + 1)
+      ];
 
     case TRASH_ALL_LINEAR:
       nextToneId = 0;
-      
+
       return [];
 
     case TRASH_ALL_ANGULAR:
       nextToneId = 0;
-      
+
       return [];
 
     case RECEIVE_TONES:

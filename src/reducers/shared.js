@@ -11,6 +11,7 @@ import {
   SCREEN_RESIZE,
   UPDATE_FILENAME,
   UPDATE_VOLUME,
+  UPDATE_SUSTAIN,
   TOGGLE_MODE
 } from "../actions/shared";
 
@@ -26,8 +27,19 @@ export default function shared(
     loopCount: 1,
     muted: false,
     mode: "angular",
+
+    selectedSustain: "8n",
     fileName: "MyProject",
-    volume: 0
+    volume: 0,
+    toneSizes: {
+      "32n": 10,
+      "16n": 14,
+      "8n": 16,
+      "4n": 18,
+      "2n": 20,
+      "1m": 25,
+      "2m": 30
+    }
   },
   action
 ) {
@@ -48,6 +60,10 @@ export default function shared(
     case UPDATE_FILENAME:
       return Object.assign({}, state, {
         fileName: action.fileName
+      });
+    case UPDATE_SUSTAIN:
+      return Object.assign({}, state, {
+        selectedSustain: action.selectedSustain
       });
     case UPDATE_VOLUME:
       return Object.assign({}, state, {

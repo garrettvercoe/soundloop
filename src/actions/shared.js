@@ -16,6 +16,8 @@ export const SCREEN_RESIZE = "SCREEN_RESIZE";
 export const UPDATE_FILENAME = "UPDATE_FILENAME";
 export const UPDATE_VOLUME = "UPDATE_VOLUME";
 export const TOGGLE_MODE = "TOGGLE_MODE";
+export const UPDATE_SUSTAIN = "UPDATE_SUSTAIN";
+
 export function togglePlay() {
   return {
     type: TOGGLE_PLAY,
@@ -27,6 +29,13 @@ export function updateFilename(name) {
   return {
     type: UPDATE_FILENAME,
     fileName: name
+  };
+}
+
+export function updateSustain(sus) {
+  return {
+    type: UPDATE_SUSTAIN,
+    selectedSustain: sus
   };
 }
 
@@ -87,7 +96,7 @@ export function toggleUnmute() {
 }
 
 export function trashAllLinear() {
-  console.log("TRASH ALL LIN")
+  console.log("TRASH ALL LIN");
   return dispatch => {
     dispatch({ type: TRASH_ALL_LINEAR });
     dispatch(addLoop(window.innerHeight / 3));
@@ -102,12 +111,12 @@ export function trashAllLinear() {
 
 export function trashAllAngular() {
   // var interval = this.props.centerY/7;
-  console.log("TRASH ALL ANG")
-  var interval = window.innerHeight/14;
+  console.log("TRASH ALL ANG");
+  var interval = window.innerHeight / 14;
   return dispatch => {
     dispatch({ type: TRASH_ALL_ANGULAR });
-    for (var i = 0; i < 5; i++){
-      dispatch(addLoop((window.innerHeight / 3) - (interval*i)))
+    for (var i = 0; i < 5; i++) {
+      dispatch(addLoop(window.innerHeight / 3 - interval * i));
     }
     dispatch(activateLoop(0));
     dispatch(resetLoopCount());
