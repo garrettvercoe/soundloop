@@ -2,7 +2,7 @@ import { PLAY_TONE } from "../actions/cord";
 import { TRASH_ALL_LINEAR, TRASH_ALL_ANGULAR } from "../actions/shared";
 
 let index = 0;
-export default function cord(state = {}, action) {
+export default function cord(state = { sounds: [] }, action) {
   switch (action.type) {
     case PLAY_TONE:
       return Object.assign({}, state, {

@@ -219,7 +219,8 @@ class ToneKonva extends React.Component {
             intervalId,
             this.props.color,
             this.props.sound,
-            this.props.screenHeight / 50
+            this.props.radius,
+            this.props.duration
           )
         );
       }

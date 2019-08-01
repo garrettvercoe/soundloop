@@ -70,7 +70,7 @@ const MenuItemStyleActive = {
 };
 
 const LeftNavMenu = {
-  marginTop: "20vh"
+  marginTop: "14.5vh"
 };
 const LibListItemStyle = {
   display: "inline-block",
@@ -235,7 +235,6 @@ class LibraryUnconnected extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <br />
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
         {/* <h3 className="light inl-blk"> TEMPO</h3>
         <TempoSlider
@@ -296,6 +295,7 @@ class CreateMenu extends React.Component {
     return (
       <React.Fragment>
         <LibraryContainer />
+        <hr />
         <NewLoop />
         <ToggleMode />
       </React.Fragment>
@@ -455,7 +455,7 @@ export default class LeftNav extends React.Component {
                 width: "7.5rem",
                 margin: "0",
                 display: "block",
-                paddingBottom: "4rem"
+                paddingBottom: "1.75rem"
               }}
             />
 
