@@ -11,7 +11,8 @@ import {
   SCREEN_RESIZE,
   UPDATE_FILENAME,
   UPDATE_VOLUME,
-  TOGGLE_MODE
+  TOGGLE_MODE,
+  UPDATE_TEMPO
 } from "../actions/shared";
 
 export default function shared(
@@ -27,7 +28,8 @@ export default function shared(
     muted: false,
     mode: "angular",
     fileName: "MyProject",
-    volume: 0
+    volume: 0,
+    tempo: 110
   },
   action
 ) {
@@ -53,6 +55,11 @@ export default function shared(
       return Object.assign({}, state, {
         volume: action.volume
       });
+
+    case UPDATE_TEMPO:
+      return Object.assign({}, state, {
+        tempo: action.tempo
+      })
 
     case SCREEN_RESIZE:
       return Object.assign({}, state, {

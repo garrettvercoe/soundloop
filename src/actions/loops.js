@@ -5,6 +5,7 @@ export const ADD_LOOP = "ADD_LOOP";
 export const UPDATE_LOOP = "UPDATE_LOOP";
 export const RECEIVE_LOOPS = "RECEIVE_LOOPS";
 export const ACTIVATE_LOOP = "ACTIVATE_LOOP";
+export const UPDATE_LOOP_SPEED = "UPDATE_LOOP_SPEED";
 
 let nextLoopId = 0;
 export function addLoop(rad) {
@@ -24,6 +25,14 @@ export function updateLoop(id, rotation) {
     type: UPDATE_LOOP,
     id: id,
     rotation: rotation
+  };
+}
+
+export function updateLoopSpeed(id, speed) {
+  return {
+    type: UPDATE_LOOP_SPEED,
+    id: id,
+    speed: speed
   };
 }
 

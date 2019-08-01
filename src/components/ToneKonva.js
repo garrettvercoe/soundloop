@@ -54,17 +54,20 @@ class ToneKonva extends React.Component {
     //var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed);
     // var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
 
-    if (this.props.mode === "angular") {
-      this.angularSpeed = 75;
-    } else if (this.props.mode === "linear") {
-      this.angularSpeed = Math.floor(
-        this.props.loops[this.props.attachedLoop].speed
-      );
-    }
-    var angle = this.getAngle();
+    // if (this.props.mode === "angular") {
+    //   // this.angularSpeed = this.props.tempo;
+    //   this.angularSpeed = this.calcTempo();
+    // } else if (this.props.mode === "linear") {
+    //   this.angularSpeed = Math.floor(
+    //     this.props.loops[this.props.attachedLoop].speed
+    //   );
+    // }
+    this.angularSpeed=this.props.loops[this.props.attachedLoop].speed
+
+    this.angle = this.getAngle();
     // console.log("ANGLE: " + angle)
-    var timerInit = ((360 - (angle % 360)) / this.angularSpeed) * 1000;
-    var timerLoop = (360 / this.angularSpeed) * 1000;
+    this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
+    this.timerLoop = (360 / this.angularSpeed) * 1000;
 
     // rotate circle initially to loop rotation
     this.circle.rotate(this.props.rotation);
@@ -74,14 +77,14 @@ class ToneKonva extends React.Component {
 
       this.circle.rotate(angleDiff);
       if (
-        timerInit - 10 < frame.time &&
-        frame.time < timerInit + 10 &&
+        this.timerInit - 10 < frame.time &&
+        frame.time < this.timerInit + 10 &&
         this.props.sound !== null
       ) {
         this.props.dispatch(playTone(this.props.sound, this.props.color));
       } else if (
-        frame.time % timerLoop < timerInit + 20 &&
-        frame.time % timerLoop > timerInit - 20 &&
+        frame.time % this.timerLoop < this.timerInit + 20 &&
+        frame.time % this.timerLoop > this.timerInit - 20 &&
         this.props.sound !== null
       ) {
         this.props.dispatch(playTone(this.props.sound));
@@ -99,6 +102,13 @@ class ToneKonva extends React.Component {
       this.circle.x(this.props.x);
       this.circle.y(this.props.y);
       this.circle.offset({ x: this.props.offset.x, y: this.props.offset.y });
+    }
+
+    if (prevProps.tempo !== this.props.tempo){
+      console.log("UPDATE TEMPO: " + this.props.tempo)
+      this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
+      this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
+      this.timerLoop = (360 / this.angularSpeed) * 1000;
     }
 
     if (prevProps.playing !== this.props.playing) {
@@ -310,7 +320,8 @@ function mapStateToProps(state) {
     tones: state.tones,
     center: state.shared.center,
     mode: state.shared.mode,
-    screenHeight: state.shared.screenHeight
+    screenHeight: state.shared.screenHeight,
+    tempo: state.shared.tempo
   };
 }
 

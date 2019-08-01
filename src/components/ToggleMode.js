@@ -9,7 +9,7 @@ import { toggleMode, trashAllLinear, trashAllAngular } from "../actions/shared";
 class ToggleMode extends React.Component {
   // mode is then checked in ToneKonva, LoopKonva
   handleClick = (event, newVal) => {
-    if (newVal !== null) {
+    if (newVal !== null && !this.props.playing) {
       console.log("being passed: " + newVal);
       if (newVal !== this.props.mode) {
         if (newVal === "angular"){
@@ -23,10 +23,6 @@ class ToggleMode extends React.Component {
     }
   };
   render() {
-    var mode = this.props.mode
-    if (this.props.mode === "init"){
-      mode = "angular";
-    }
     return (
       <React.Fragment>
         <br />
@@ -35,7 +31,7 @@ class ToggleMode extends React.Component {
         </h3>
         <br />
         <ToggleButtonGroup
-          value={mode}
+          value={this.props.mode}
           exclusive
           onChange={this.handleClick}
         >
@@ -49,7 +45,8 @@ class ToggleMode extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    mode: state.shared.mode
+    mode: state.shared.mode,
+    playing: state.shared.playing
   };
 }
 

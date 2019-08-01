@@ -3,6 +3,7 @@ import { Circle } from "react-konva";
 import { connect } from "react-redux";
 import { addTone } from "../actions/tones";
 import { throwStatement } from "@babel/types";
+import { updateLoopSpeed } from "../actions/loops";
 
 class LoopKonva extends React.Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class LoopKonva extends React.Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(updateLoopSpeed(this.props.id, this.calcTempo()))
+    
     if (this.props.mode === "angular"){
       this.numTones = 16;
     } else if (this.props.mode === "linear"){
@@ -50,6 +53,29 @@ class LoopKonva extends React.Component {
     }
   }
 
+  calcTempo(){
+    // 90*((window.innerHeight/3)/action.radius)
+    if (this.props.mode === "linear") {
+      var multiplier = (window.innerHeight/3)/this.props.radius;
+      this.tempo = ((this.props.tempo * 2)/60)*multiplier;
+    } else if (this.props.mode === "angular") {
+      this.tempo = (this.props.tempo * 2)/60;
+    }
+    var toneRatio = this.tempo/16;
+    var loopRatio = toneRatio * 360;
+    return loopRatio;
+  }
+
+  componentDidUpdate(prevProps){
+    if (prevProps.tempo !== this.props.tempo){
+      console.log("UPDATED IN LOOP")
+      console.log("Radius is: " + this.props.radius)
+      console.log("Speed is: " + this.props.speed)
+      console.log("ID is: " + this.props.id)
+      this.props.dispatch(updateLoopSpeed(this.props.id, this.calcTempo()))
+    }
+  }
+
   render() {
     return (
       <Circle
@@ -69,7 +95,8 @@ function mapStateToProps(state) {
     center: state.shared.center,
     shared: state.shared,
     mode: state.shared.mode,
-    screenHeight: state.shared.screenHeight
+    screenHeight: state.shared.screenHeight,
+    tempo: state.shared.tempo
   };
 }
 

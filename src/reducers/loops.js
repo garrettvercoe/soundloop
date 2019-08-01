@@ -1,4 +1,4 @@
-import { ADD_LOOP, UPDATE_LOOP, ACTIVATE_LOOP } from "../actions/loops";
+import { ADD_LOOP, UPDATE_LOOP, ACTIVATE_LOOP, UPDATE_LOOP_SPEED } from "../actions/loops";
 
 import { TRASH_ALL_LINEAR, TRASH_ALL_ANGULAR } from "../actions/shared";
 let nextLoopId = 0;
@@ -10,7 +10,7 @@ export default function loops(state = [], action) {
         {
           id: nextLoopId++,
           radius: action.radius,
-          speed: 20000 / action.radius,
+          speed:  90,
           rotation: action.rotation,
           active: action.active
         }
@@ -33,6 +33,16 @@ export default function loops(state = [], action) {
         },
         ...state.slice(action.id + 1)
       ];
+
+      case UPDATE_LOOP_SPEED:
+          return [
+            ...state.slice(0, action.id),
+            {
+              ...state[action.id],
+              speed: action.speed
+            },
+            ...state.slice(action.id + 1)
+          ];
 
     case ACTIVATE_LOOP:
       return [

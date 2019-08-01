@@ -16,7 +16,7 @@ import {
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import ToggleMode from "./ToggleMode";
-import { updateFilename } from "../actions/shared";
+import { updateFilename, updateTempo } from "../actions/shared";
 import {
   red,
   pink,
@@ -147,21 +147,46 @@ const OctaveSlider = withStyles({
   }
 })(Slider);
 
-const ModeSwitch = withStyles({
-  switchBase: {
-    color: purple[300],
-    "&$checked": {
-      color: purple[500]
-    },
-    "&$checked + $track": {
-      backgroundColor: purple[500]
+const TempoSlider = withStyles({
+  root: {
+    color: "#692D54",
+    height: 2
+  },
+  thumb: {
+    height: 28,
+    width: 28,
+
+    marginTop: -14,
+    marginLeft: -14,
+    "&:focus,&:hover,&$active": {
+      boxShadow:
+        "0 3px 1px rgba(0,0,0,0.01),0 2px 4px rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.001)",
+      // Reset on touch devices, it doesn't add specificity
+      "@media (hover: none)": {}
     }
   },
-  checked: {},
-  track: {}
-})(Switch);
+  active: {},
+  track: {
+    height: 3,
+    borderRadius: 4
+  },
+  rail: {
+    height: 3,
+    borderRadius: 4
+  },
 
-class Library extends React.Component {
+  valueLabel: {
+    left: "calc(-50% + 12px)",
+    top: 8,
+
+    "& *": {
+      background: "transparent",
+      color: "#fff"
+    }
+  }
+})(Slider);
+
+class LibraryUnconnected extends React.Component {
   constructor(props) {
     super(props);
     this.buttons = [];
@@ -196,10 +221,15 @@ class Library extends React.Component {
     }
     this.state = { octave: 4, tones: this.buttonList, noteSelected: false };
     this.handleChange = this.handleChange.bind(this);
+    this.handleTempoChange = this.handleTempoChange.bind(this);
   }
 
   handleChange(event, newValue) {
     this.setState({ octave: newValue });
+  }
+
+  handleTempoChange(event, newValue) {
+    this.props.dispatch(updateTempo(newValue));
   }
 
   render() {
@@ -207,7 +237,15 @@ class Library extends React.Component {
       <React.Fragment>
         <br />
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
-
+        {/* <h3 className="light inl-blk"> TEMPO</h3>
+        <TempoSlider
+          defaultValue={110}
+          onChange={this.handleTempoChange}
+          aria-labelledby="continuous-slider"
+          valueLabelDisplay="on"
+          min={70}
+          max={150}
+        /> */}
         <h3 className="light inl-blk"> OCTAVE</h3>
         <OctaveSlider
           defaultValue={4}
@@ -236,6 +274,8 @@ class Library extends React.Component {
     );
   }
 }
+
+const Library = connect(mapStateToProps)(LibraryUnconnected)
 
 class LibraryContainer extends React.Component {
   render() {
@@ -326,7 +366,8 @@ class ShareMenuUnconnected extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    name: state.shared.fileName
+    name: state.shared.fileName,
+    tempo: state.shared.tempo
   };
 }
 
@@ -352,6 +393,7 @@ export default class LeftNav extends React.Component {
   handleCreate() {
     this.setState({ showing: "createMenu" });
   }
+
   showMenu() {
     switch (this.state.showing) {
       case "createMenu":
@@ -425,3 +467,5 @@ export default class LeftNav extends React.Component {
     );
   }
 }
+
+

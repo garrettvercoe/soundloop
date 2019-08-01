@@ -16,6 +16,7 @@ export const SCREEN_RESIZE = "SCREEN_RESIZE";
 export const UPDATE_FILENAME = "UPDATE_FILENAME";
 export const UPDATE_VOLUME = "UPDATE_VOLUME";
 export const TOGGLE_MODE = "TOGGLE_MODE";
+export const UPDATE_TEMPO = "UPDATE_TEMPO";
 export function togglePlay() {
   return {
     type: TOGGLE_PLAY,
@@ -34,6 +35,13 @@ export function updateVolume(vol) {
   return {
     type: UPDATE_VOLUME,
     volume: -((100 - vol) / 8)
+  };
+}
+
+export function updateTempo(tempo) {
+  return {
+    type: UPDATE_TEMPO,
+    tempo: tempo
   };
 }
 
@@ -90,13 +98,13 @@ export function trashAllLinear() {
   console.log("TRASH ALL LIN")
   return dispatch => {
     dispatch({ type: TRASH_ALL_LINEAR });
+    dispatch(resetLoopCount());
     dispatch(addLoop(window.innerHeight / 3));
     dispatch(addLoop(window.innerHeight / 6));
     dispatch(addLoop(window.innerHeight / 12));
     dispatch(addLoop(window.innerHeight / 24));
     dispatch(addLoop(window.innerHeight / 48));
     dispatch(activateLoop(0));
-    dispatch(resetLoopCount());
   };
 }
 
@@ -106,11 +114,11 @@ export function trashAllAngular() {
   var interval = window.innerHeight/14;
   return dispatch => {
     dispatch({ type: TRASH_ALL_ANGULAR });
+    dispatch(resetLoopCount());
     for (var i = 0; i < 5; i++){
       dispatch(addLoop((window.innerHeight / 3) - (interval*i)))
     }
     dispatch(activateLoop(0));
-    dispatch(resetLoopCount());
   };
 }
 
