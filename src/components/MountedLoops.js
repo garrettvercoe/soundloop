@@ -10,10 +10,10 @@ class MountedLoops extends React.Component {
   componentDidMount() {
 
     // if mode true then dispatch this way
-    if (this.props.mode==="init"){
+    if (this.props.mode==="angular"){
       var interval = this.props.centerY/7
       for (var i = 0; i < 5; i++){
-        this.props.dispatch(addLoop((window.innerHeight / 3) - (interval*i)))
+        this.props.dispatch(addLoop((window.innerHeight / 3) - (interval * i)))
       }
     } else {
       this.props.dispatch(addLoop(window.innerHeight / 3));

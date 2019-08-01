@@ -49,26 +49,18 @@ class ToneKonva extends React.Component {
       return 360 - deg;
     } else return deg;
   }
-  // componentWillUpdate(prevProps) {
-  //   if (prevProps.mode !== this.props.mode {
-
-  //   }
-  // }
 
   componentDidMount() {
     //var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed);
     // var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
 
-    if (this.props.mode === "linear") {
+    if (this.props.mode === "angular") {
       this.angularSpeed = 75;
-    } else if (this.props.mode === "angular") {
+    } else if (this.props.mode === "linear") {
       this.angularSpeed = Math.floor(
         this.props.loops[this.props.attachedLoop].speed
       );
-    } else if (this.props.mode === "init") {
-      this.angularSpeed = 75;
     }
-    console.log(this.props);
     var angle = this.getAngle();
     // console.log("ANGLE: " + angle)
     var timerInit = ((360 - (angle % 360)) / this.angularSpeed) * 1000;
