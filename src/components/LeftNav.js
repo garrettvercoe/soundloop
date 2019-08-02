@@ -86,6 +86,9 @@ const CardStyle = {
   height: "100vh",
   backgroundColor: "#fff",
   borderRadius: "1%",
+  // overflowX: "auto",
+  // maxWidth: "100%",
+  //overflowX: "hidden",
   boxShadow: "0 20px 10px rgba(0,0,0,0.01), 0 6px 6px rgba(0,0,0,0.05)"
 };
 
@@ -98,7 +101,10 @@ const LeftNavStyle = {
   backgroundColor: "#692D55"
 };
 
-const contentContainer = { padding: "2rem", position: "relative" };
+const contentContainer = {
+  padding: "2rem",
+  position: "relative"
+};
 
 const OctaveSlider = withStyles({
   root: {
@@ -276,7 +282,7 @@ class LibraryUnconnected extends React.Component {
   }
 }
 
-const Library = connect(mapStateToProps)(LibraryUnconnected)
+const Library = connect(mapStateToProps)(LibraryUnconnected);
 
 class LibraryContainer extends React.Component {
   render() {
@@ -469,5 +475,3 @@ export default class LeftNav extends React.Component {
     );
   }
 }
-
-
