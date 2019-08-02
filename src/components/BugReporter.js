@@ -122,6 +122,7 @@ export default class NewToneMenu extends React.Component {
               id="contactform"
               action="https://formspree.io/grv9ff@virginia.edu"
               method="POST"
+              target="_blank"
             >
               <Form.Group widths="equal">
                 <Form.Input
@@ -156,7 +157,9 @@ export default class NewToneMenu extends React.Component {
                 placeholder="Please let us know your thoughts / issues. If bug: detail your device, OS, and browser so that we are able to test it. Thank you!"
               />
               <br />
-              <Form.Button className="submit-ticket">SUBMIT TICKET</Form.Button>
+              <Form.Button className="submit-ticket" onClick={this.handleClose}>
+                SUBMIT TICKET
+              </Form.Button>
             </Form>
           </DialogContent>
         </Dialog>
