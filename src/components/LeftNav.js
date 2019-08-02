@@ -229,6 +229,7 @@ class LibraryUnconnected extends React.Component {
   }
 
   handleTempoChange(event, newValue) {
+
     this.props.dispatch(updateTempo(newValue));
   }
 
@@ -237,7 +238,7 @@ class LibraryUnconnected extends React.Component {
       <React.Fragment>
         <br />
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
-        {/* <h3 className="light inl-blk"> TEMPO</h3>
+        <h3 className="light inl-blk"> TEMPO</h3>
         <TempoSlider
           defaultValue={110}
           onChange={this.handleTempoChange}
@@ -245,7 +246,8 @@ class LibraryUnconnected extends React.Component {
           valueLabelDisplay="on"
           min={70}
           max={150}
-        /> */}
+          disabled = {!this.props.playing ? false : true}
+        />
         <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
           {this.state.tones[this.state.octave - 1].map(item => (
@@ -369,7 +371,8 @@ class ShareMenuUnconnected extends React.Component {
 function mapStateToProps(state) {
   return {
     name: state.shared.fileName,
-    tempo: state.shared.tempo
+    tempo: state.shared.tempo,
+    playing: state.shared.playing
   };
 }
 

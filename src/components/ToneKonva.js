@@ -19,6 +19,10 @@ class ToneKonva extends React.Component {
     this.cx = this.props.center.x;
     this.cy = this.props.center.y;
     this.angularSpeed = 0;
+    this.trueTime = 0;
+    this.lastTrueTime = 0;
+    this.lastTime = 0;
+    this.lastTempo = 110;
 
     this.getAngle = this.getAngle.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
@@ -66,8 +70,11 @@ class ToneKonva extends React.Component {
 
     this.angle = this.getAngle();
     // console.log("ANGLE: " + angle)
+    console.log("ANGLE for " + this.props.id + " initially: " + this.angle)
     this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
     this.timerLoop = (360 / this.angularSpeed) * 1000;
+    // console.log("INITIAL TIMER INIT for " + this.props.id + ": " + this.timerInit)
+    // console.log("INITIAL TIMER LOOP for " + this.props.id + ": "  + this.timerLoop)
 
     // rotate circle initially to loop rotation
     this.circle.rotate(this.props.rotation);
@@ -76,17 +83,26 @@ class ToneKonva extends React.Component {
       var angleDiff = (frame.timeDiff * this.angularSpeed) / 1000;
 
       this.circle.rotate(angleDiff);
+      this.trueTime = frame.time - this.lastTime;
+      console.log("TRUE TIME of " + this.props.id +  ": " + this.trueTime)
+      // console.log("LAST TIME of " + this.props.id +  ": " + this.lastTime)
+      // console.log("FRAME TIME of " + this.props.id +  ": " + frame.time)
+      // console.log("Rotate with timerInit " + this.timerInit + " and timerLoop" +  this.timerLoop)
       if (
-        this.timerInit - 10 < frame.time &&
-        frame.time < this.timerInit + 10 &&
+        this.timerInit - 10 < this.trueTime &&
+        this.trueTime < this.timerInit + 10 &&
         this.props.sound !== null
       ) {
         this.props.dispatch(playTone(this.props.sound, this.props.duration));
+        // console.log("TIMER INIT MOUNT: " + this.timerInit)
+        // console.log("TIMER LOOP MOUNT: " + this.timerLoop)
       } else if (
-        frame.time % this.timerLoop < this.timerInit + 20 &&
-        frame.time % this.timerLoop > this.timerInit - 20 &&
+        this.trueTime % this.timerLoop < this.timerInit + 20 &&
+        this.trueTime % this.timerLoop > this.timerInit - 20 &&
         this.props.sound !== null
       ) {
+        // console.log("TIMER INIT MOUNT: " + this.timerInit)
+        // console.log("TIMER LOOP MOUNT: " + this.timerLoop)
         this.props.dispatch(playTone(this.props.sound, this.props.duration));
       }
     }, this.circle.getLayer());
@@ -105,17 +121,58 @@ class ToneKonva extends React.Component {
     }
 
     if (prevProps.tempo !== this.props.tempo){
-      console.log("UPDATE TEMPO: " + this.props.tempo)
+      if(this.lastTrueTime !== this.trueTime){
+      this.lastTime += this.trueTime;
+      this.lastTrueTime = this.trueTime;
+      }
+      console.log("LAST TIME for " + this.props.id + ": " + this.lastTime)
+      console.log("TRUE TIME: " + this.trueTime)
+      // timerInit and timerLoop update when tempo changes
+      // need to reset frame.time
+      // console.log("UPDATE TEMPO: " + this.props.tempo)
+      this.angle = this.getAngle();
+      // console.log ("TEST OF NEW ANG: " + this.circle.rotation())
+      // console.log ("TEST OF NEW ANG 2: " + (this.circle.rotation()-this.angle))
+      // console.log ("TEST OF NEW ANG 3: " + (360 - (this.circle.rotation()%360)))
+      // console.log ("TEST OF NEW ANG 4: " + ((this.circle.rotation()%360)))
+      
+      var newAngle = (this.angle + this.circle.rotation())%360
+      // console.log ("TEST OF NEW ANG 5: " + newAngle)
+      
+      this.angle = newAngle;
+      console.log("ANGLE for " + this.props.id + " updated: " + this.angle)
       this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
       this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
+      
       this.timerLoop = (360 / this.angularSpeed) * 1000;
+      console.log ("TRUE TIME UPDATE: " + this.trueTime)
+      console.log("TIMER INIT UPDATE for " + this.props.id + ": " + this.timerInit)
+      console.log("TIMER LOOP UPDATE for " + this.props.id + ": " + this.timerLoop)
     }
 
     if (prevProps.playing !== this.props.playing) {
       if (this.props.playing) {
+        // // if (this.lastTempo !== this.props.tempo){
+        //   // console.log ("TEMPO HAS CHANGED to " + this.props.tempo + " IN PAUSE")
+        //   // set lastTempo to the current at play
+        //   this.lastTempo = this.props.tempo;
+        //   // console.log("lastTempo is: " + this.lastTempo)
+        //   this.lastTime += this.trueTime;
+          
+        //   var newAngle = (this.angle + this.circle.rotation())%360
+          
+        //   this.angle = newAngle;
+        //   this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
+        //   this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
+          
+        //   this.timerLoop = (360 / this.angularSpeed) * 1000;
+        //   // console.log("TRUE TIME UPDATE: " + this.trueTime)
+        //   // console.log("TIMER INIT UPDATE for " + this.props.id + ": " + this.timerInit)
+        //   // console.log("TIMER LOOP UPDATE for " + this.props.id + ": " + this.timerLoop)
+        // // }
         this.anim.start();
       } else {
-        this.anim.isRunning() && this.anim.stop();
+        this.anim.isRunning() && this.anim.stop(); 
         // on pause, update the rotation value of the loop in the store
         this.props.dispatch(
           updateLoop(this.props.attachedLoop, this.circle.rotation())
