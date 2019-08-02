@@ -33,9 +33,7 @@ class SustainButton extends React.Component {
         onClick={this.handleClick}
         style={{
           borderRadius: "100%",
-          // border: "2px solid",
-          // borderColor: "#692d54",
-
+          border: "none",
           backgroundColor:
             this.props.sustain === this.props.selectedSustain
               ? "#692d54"
@@ -72,7 +70,7 @@ const ConnectedSustainButton = connect(mapStateToProps)(SustainButton);
 export default class SustainMenu extends React.Component {
   render() {
     var susToPass = ["32n", "16n", "8n", "4n", "2n", "1m", "2m"];
-    var susToShow = ["1/32", "1/16", "1/8", "1/4", "1/2", "1"];
+    var susToShow = ["32", "1/16", "1/8", "1/4", "1/2", "1"];
 
     return (
       <React.Fragment>

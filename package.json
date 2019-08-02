@@ -23,6 +23,7 @@
     "react-transition-group": "^4.2.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "semantic-ui-react": "^0.87.3",
     "tone": "^13.4.9"
   },
   "scripts": {

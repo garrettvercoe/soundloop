@@ -82,7 +82,8 @@ export default function tones(state = [], action) {
           sound: action.sound,
           position: action.position,
           offset: action.offset,
-          rotation: action.rotation
+          rotation: action.rotation,
+          duration: action.duration
         },
         ...state.slice(id + 1)
       ];

@@ -15,7 +15,7 @@ import MountedLoops from "./MountedLoops";
 import Cord from "../components/Cord";
 import LeftNav from "../components/LeftNav";
 import { screenResize } from "../actions/shared";
-
+import BugReporter from "./BugReporter";
 const store = createStore(reducer, middleware);
 
 class App extends Component {
@@ -45,6 +45,7 @@ class App extends Component {
           </Provider>
           <Portal>
             <Provider store={store}>
+              <BugReporter />
               <LeftNav />
               <BottomNav />
             </Provider>

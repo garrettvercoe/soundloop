@@ -70,7 +70,7 @@ const MenuItemStyleActive = {
 };
 
 const LeftNavMenu = {
-  marginTop: "20vh"
+  marginTop: "14.5vh"
 };
 const LibListItemStyle = {
   display: "inline-block",
@@ -86,6 +86,9 @@ const CardStyle = {
   height: "100vh",
   backgroundColor: "#fff",
   borderRadius: "1%",
+  // overflowX: "auto",
+  // maxWidth: "100%",
+  //overflowX: "hidden",
   boxShadow: "0 20px 10px rgba(0,0,0,0.01), 0 6px 6px rgba(0,0,0,0.05)"
 };
 
@@ -98,7 +101,10 @@ const LeftNavStyle = {
   backgroundColor: "#692D55"
 };
 
-const contentContainer = { padding: "2rem", position: "relative" };
+const contentContainer = {
+  padding: "2rem",
+  position: "relative"
+};
 
 const OctaveSlider = withStyles({
   root: {
@@ -236,7 +242,6 @@ class LibraryUnconnected extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <br />
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
         <h3 className="light inl-blk"> TEMPO</h3>
         <TempoSlider
@@ -279,7 +284,7 @@ class LibraryUnconnected extends React.Component {
   }
 }
 
-const Library = connect(mapStateToProps)(LibraryUnconnected)
+const Library = connect(mapStateToProps)(LibraryUnconnected);
 
 class LibraryContainer extends React.Component {
   render() {
@@ -298,6 +303,7 @@ class CreateMenu extends React.Component {
     return (
       <React.Fragment>
         <LibraryContainer />
+        <hr />
         <NewLoop />
         <ToggleMode />
       </React.Fragment>
@@ -458,7 +464,7 @@ export default class LeftNav extends React.Component {
                 width: "7.5rem",
                 margin: "0",
                 display: "block",
-                paddingBottom: "4rem"
+                paddingBottom: "1.75rem"
               }}
             />
 
@@ -472,5 +478,3 @@ export default class LeftNav extends React.Component {
     );
   }
 }
-
-
