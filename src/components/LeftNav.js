@@ -227,23 +227,19 @@ class LibraryUnconnected extends React.Component {
     }
     this.state = { octave: 4, tones: this.buttonList, noteSelected: false };
     this.handleOctave = this.handleOctave.bind(this);
-    this.handleTempoChange = this.handleTempoChange.bind(this);
   }
 
   handleOctave(event, newValue) {
     this.setState({ octave: newValue });
   }
 
-  handleTempoChange(event, newValue) {
-
-    this.props.dispatch(updateTempo(newValue));
-  }
+  
 
   render() {
     return (
       <React.Fragment>
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
-        <h3 className="light inl-blk"> TEMPO</h3>
+        {/* <h3 className="light inl-blk"> TEMPO</h3>
         <TempoSlider
           defaultValue={110}
           onChange={this.handleTempoChange}
@@ -252,7 +248,7 @@ class LibraryUnconnected extends React.Component {
           min={70}
           max={150}
           disabled = {!this.props.playing ? false : true}
-        />
+        /> */}
         <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
           {this.state.tones[this.state.octave - 1].map(item => (
@@ -298,18 +294,40 @@ class LibraryContainer extends React.Component {
   }
 }
 
-class CreateMenu extends React.Component {
+class CreateMenuUnconnected extends React.Component {
+  constructor(props){
+    super(props);
+    this.handleTempoChange = this.handleTempoChange.bind(this);
+  }
+
+  handleTempoChange(event, newValue) {
+    this.props.dispatch(updateTempo(newValue));
+  }
+
   render() {
     return (
       <React.Fragment>
         <LibraryContainer />
         <hr />
         <NewLoop />
+        <h3 className="light inl-blk"> TEMPO</h3>
+        <TempoSlider
+          defaultValue={110}
+          onChange={this.handleTempoChange}
+          aria-labelledby="continuous-slider"
+          valueLabelDisplay="on"
+          min={70}
+          max={150}
+          disabled = {!this.props.playing ? false : true}
+        />
         <ToggleMode />
       </React.Fragment>
     );
   }
 }
+
+const CreateMenu = connect(mapStateToProps)(CreateMenuUnconnected);
+
 class TerminalMenu extends React.Component {
   render() {
     return (
