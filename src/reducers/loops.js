@@ -10,7 +10,7 @@ export default function loops(state = [], action) {
         {
           id: nextLoopId++,
           radius: action.radius,
-          speed:  90,
+          speed:  82.5,
           rotation: action.rotation,
           active: action.active
         }

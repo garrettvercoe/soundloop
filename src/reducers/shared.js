@@ -32,7 +32,7 @@ export default function shared(
     selectedSustain: "8n",
     fileName: "MyProject",
     volume: 0,
-    tempo: 110,
+    tempo: 1,
     toneSizes: {
       "32n": 10,
       "16n": 14,

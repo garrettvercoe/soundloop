@@ -9,6 +9,7 @@ const contentContainer = { padding: "1rem 0  0 2rem" };
 
 class NewLoop extends React.Component {
   handleClick = () => {
+    // if loopCount is less than 5
     if (this.props.loopCount < 5) {
       this.props.dispatch(activateLoop(this.props.loopCount));
     }

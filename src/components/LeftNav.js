@@ -176,6 +176,14 @@ const TempoSlider = withStyles({
     height: 3,
     borderRadius: 4
   },
+  mark: {
+    height: 7,
+    width: 2,
+    marginTop: -2
+  },
+  markActive: {
+    backgroundColor: "currentColor"
+  },
   rail: {
     height: 3,
     borderRadius: 4
@@ -312,12 +320,14 @@ class CreateMenuUnconnected extends React.Component {
         <NewLoop />
         <h3 className="light inl-blk"> TEMPO</h3>
         <TempoSlider
-          defaultValue={110}
+          defaultValue={1}
           onChange={this.handleTempoChange}
           aria-labelledby="continuous-slider"
           valueLabelDisplay="on"
-          min={70}
-          max={150}
+          min={.5}
+          max={2}
+          step={.5}
+          marks
           disabled = {!this.props.playing ? false : true}
         />
         <ToggleMode />
