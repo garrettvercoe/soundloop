@@ -61,6 +61,9 @@ class Cord extends React.Component {
         //   this.line.stroke("#692D55");
         // }
       });
+    } else {
+      if (prevProps.playing !== this.props.playing) {
+      }
     }
 
     if (this.props.volume !== prevProps.volume) {
