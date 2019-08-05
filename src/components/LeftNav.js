@@ -17,6 +17,7 @@ import Slider from "@material-ui/core/Slider";
 import ToggleMode from "./ToggleMode";
 import { updateFilename, updateTempo } from "../actions/shared";
 import SustainMenu from "./SustainButton";
+import SoundEffects from "./SoundEffects";
 import {
   red,
   pink,
@@ -233,8 +234,6 @@ class LibraryUnconnected extends React.Component {
     this.setState({ octave: newValue });
   }
 
-  
-
   render() {
     return (
       <React.Fragment>
@@ -295,7 +294,7 @@ class LibraryContainer extends React.Component {
 }
 
 class CreateMenuUnconnected extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.handleTempoChange = this.handleTempoChange.bind(this);
   }
@@ -318,8 +317,9 @@ class CreateMenuUnconnected extends React.Component {
           valueLabelDisplay="on"
           min={70}
           max={150}
-          disabled = {!this.props.playing ? false : true}
+          disabled={!this.props.playing ? false : true}
         />
+        {/* <SoundEffects /> */}
         <ToggleMode />
       </React.Fragment>
     );

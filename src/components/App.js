@@ -16,6 +16,15 @@ import Cord from "../components/Cord";
 import LeftNav from "../components/LeftNav";
 import { screenResize } from "../actions/shared";
 import BugReporter from "./BugReporter";
+import ReactGA from "react-ga";
+
+function initializeReactGA() {
+  ReactGA.initialize("UA-145158244-1");
+  ReactGA.pageview("/app");
+}
+
+initializeReactGA();
+
 const store = createStore(reducer, middleware);
 
 class App extends Component {
