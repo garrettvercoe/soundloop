@@ -13,7 +13,8 @@ import {
   UPDATE_VOLUME,
   TOGGLE_MODE,
   UPDATE_TEMPO,
-  UPDATE_SUSTAIN
+  UPDATE_SUSTAIN,
+  UPDATE_OCTAVE
 } from "../actions/shared";
 
 export default function shared(
@@ -28,7 +29,7 @@ export default function shared(
     loopCount: 1,
     muted: false,
     mode: "angular",
-
+    octave: 4,
     selectedSustain: "8n",
     fileName: "MyProject",
     volume: 0,
@@ -41,7 +42,8 @@ export default function shared(
       "2n": 20,
       "1m": 25,
       "2m": 30
-    }
+    },
+    sounds: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
   },
   action
 ) {
@@ -67,6 +69,12 @@ export default function shared(
       return Object.assign({}, state, {
         selectedSustain: action.selectedSustain
       });
+
+    case UPDATE_OCTAVE:
+      return Object.assign({}, state, {
+        octave: action.octave
+      });
+
     case UPDATE_VOLUME:
       return Object.assign({}, state, {
         volume: action.volume
@@ -75,7 +83,7 @@ export default function shared(
     case UPDATE_TEMPO:
       return Object.assign({}, state, {
         tempo: action.tempo
-      })
+      });
 
     case SCREEN_RESIZE:
       return Object.assign({}, state, {

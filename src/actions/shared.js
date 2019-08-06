@@ -18,6 +18,7 @@ export const UPDATE_VOLUME = "UPDATE_VOLUME";
 export const TOGGLE_MODE = "TOGGLE_MODE";
 export const UPDATE_TEMPO = "UPDATE_TEMPO";
 export const UPDATE_SUSTAIN = "UPDATE_SUSTAIN";
+export const UPDATE_OCTAVE = "UPDATE_OCTAVE";
 
 export function togglePlay() {
   return {
@@ -37,6 +38,13 @@ export function updateSustain(sus) {
   return {
     type: UPDATE_SUSTAIN,
     selectedSustain: sus
+  };
+}
+
+export function updateOctave(oct) {
+  return {
+    type: UPDATE_OCTAVE,
+    octave: oct
   };
 }
 
@@ -124,8 +132,8 @@ export function trashAllAngular() {
   return dispatch => {
     dispatch({ type: TRASH_ALL_ANGULAR });
     dispatch(resetLoopCount());
-    for (var i = 0; i < 5; i++){
-      dispatch(addLoop((window.innerHeight / 3) - (interval*i)))
+    for (var i = 0; i < 5; i++) {
+      dispatch(addLoop(window.innerHeight / 3 - interval * i));
     }
     dispatch(activateLoop(0));
   };

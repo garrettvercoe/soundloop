@@ -17,6 +17,7 @@ import LeftNav from "../components/LeftNav";
 import { screenResize } from "../actions/shared";
 import BugReporter from "./BugReporter";
 import ReactGA from "react-ga";
+import MouseTracker from "./MouseTracker";
 
 function initializeReactGA() {
   ReactGA.initialize("UA-145158244-1");
@@ -28,6 +29,14 @@ initializeReactGA();
 const store = createStore(reducer, middleware);
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      x: 0,
+      y: 0
+    };
+    this._onMouseMove = this._onMouseMove.bind(this);
+  }
   componentWillMount() {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
@@ -39,12 +48,16 @@ class App extends Component {
       this.screenHeight = store.getState().shared.screenHeight;
     });
   }
+
+  _onMouseMove(e) {
+    this.setState({ x: e.screenX, y: e.screenY });
+  }
   render() {
     // Stage is a div container
     // Layer is actual canvas element (so you may have several canvases in the stage)
     // And then we have canvas shapes inside the Layer
     return (
-      <React.Fragment>
+      <div onMouseMove={this._onMouseMove}>
         <Stage width={this.screenWidth} height={this.screenHeight}>
           <Provider store={store}>
             <MountedLoops />
@@ -53,14 +66,19 @@ class App extends Component {
             <Cord />
           </Provider>
           <Portal>
-            <Provider store={store}>
-              <BugReporter />
-              <LeftNav />
-              <BottomNav />
-            </Provider>
+            <div onMouseMove={this._onMouseMove}>
+              <Provider store={store}>
+                <MouseTracker
+                  cursorPos={{ x: this.state.x, y: this.state.y }}
+                />
+                <BugReporter />
+                <LeftNav />
+                <BottomNav />
+              </Provider>
+            </div>
           </Portal>
         </Stage>
-      </React.Fragment>
+      </div>
     );
   }
 }
