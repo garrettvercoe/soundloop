@@ -92,9 +92,13 @@ class ToneKonva extends React.Component {
     //   this.circle.offset({ x: this.props.offset.x, y: this.props.offset.y });
     // }
 
-    // if (prevProps.color !== this.props.color && this.props.) {
+    if (prevProps.sound !== this.props.sound && this.props.sound !== null) {
+      this.innerCircle.fill("#fff")
+    }
 
-    // }
+    if (prevProps.sound !== this.props.sound && this.props.sound === null) {
+      this.innerCircle.fill("transparent")
+    }
 
     // TEMPO CHANGE
     // listen for when speed of attached loop changes, was not consistent when listening for tempo to change
@@ -109,7 +113,7 @@ class ToneKonva extends React.Component {
       }
       this.angle = this.getAngle();
 
-      var newAngle = (this.angle + this.circle.rotation()) % 360;
+      var newAngle = (this.angle + this.group.rotation()) % 360;
 
       this.angle = newAngle;
       this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
