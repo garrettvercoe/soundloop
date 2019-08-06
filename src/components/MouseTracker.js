@@ -143,6 +143,8 @@ class Cursor extends React.Component {
 
     if (loopToSnap) {
       var angle = this.props.loops[loopToSnap.index].rotation;
+      console.log("ANGLE LOOP: " + angle)
+      console.log("Loop to snap index: " + loopToSnap.index)
 
       var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
 
@@ -205,10 +207,8 @@ class Cursor extends React.Component {
   }
   handleClick() {
     if (this.props.playing === false) {
-      const x =
-        this.props.cursorPos.x;
-      const y =
-        this.props.cursorPos.y;
+      const x = this.props.cursorPos.x;
+      const y = this.props.cursorPos.y;
 
       if (this.props.mode === "ADD") {
         this.snap(x, y);
@@ -222,6 +222,13 @@ class Cursor extends React.Component {
     }
   }
   render() {
+    if (this.props.playing){
+      this.width = 0;
+      this.height = 0;
+    } else {
+      this.width = 2 * this.props.toneSizes[this.props.selectedSustain];
+      this.height = 2 * this.props.toneSizes[this.props.selectedSustain]
+    }
     return (
       <React.Fragment>
         <div
@@ -232,8 +239,8 @@ class Cursor extends React.Component {
               this.props.cursorPos.x-this.props.toneSizes[this.props.selectedSustain],
             top:
               this.props.cursorPos.y-this.props.toneSizes[this.props.selectedSustain],
-            width: 2 * this.props.toneSizes[this.props.selectedSustain],
-            height: 2 * this.props.toneSizes[this.props.selectedSustain],
+            width: this.width,
+            height: this.height,
 
             borderRadius: "50%",
             pointerEvents: this.findPointerEvent(),

@@ -109,7 +109,7 @@ class ToneKonva extends React.Component {
       }
       this.angle = this.getAngle();
       
-      var newAngle = (this.angle + this.circle.rotation())%360
+      var newAngle = (this.angle + this.group.rotation())%360
       
       this.angle = newAngle;
       this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
@@ -142,7 +142,7 @@ class ToneKonva extends React.Component {
         }
         // on pause, update the rotation value of the loop in the store
         this.props.dispatch(
-          updateLoop(this.props.attachedLoop, this.circle.rotation())
+          updateLoop(this.props.attachedLoop, this.group.rotation())
         );
       }
     }
