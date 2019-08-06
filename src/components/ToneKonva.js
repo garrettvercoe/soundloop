@@ -20,11 +20,9 @@ class ToneKonva extends React.Component {
     this.lastTime = 0;
 
     this.getAngle = this.getAngle.bind(this);
-    this.handleDragEnd = this.handleDragEnd.bind(this);
-    this.handleDragStart = this.handleDragStart.bind(this);
-    this.snap = this.snap.bind(this);
-    this.findClosestLoop = this.findClosestLoop.bind(this);
-    this.findTrueOffset = this.findTrueOffset.bind(this);
+
+    // this.findClosestLoop = this.findClosestLoop.bind(this);
+    // this.findTrueOffset = this.findTrueOffset.bind(this);
   }
 
   getAngle() {
@@ -50,8 +48,7 @@ class ToneKonva extends React.Component {
   }
 
   componentDidMount() {
-    
-    this.angularSpeed = this.props.loops[this.props.attachedLoop].speed
+    this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
 
     this.angle = this.getAngle();
     this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
@@ -96,31 +93,37 @@ class ToneKonva extends React.Component {
     // }
 
     // if (prevProps.color !== this.props.color && this.props.) {
-        
+
     // }
 
     // TEMPO CHANGE
     // listen for when speed of attached loop changes, was not consistent when listening for tempo to change
-    if (prevProps.loops[this.props.attachedLoop].speed !== this.props.loops[this.props.attachedLoop].speed) {
+    if (
+      prevProps.loops[this.props.attachedLoop].speed !==
+      this.props.loops[this.props.attachedLoop].speed
+    ) {
       // check to see if changed within same pause
       if (this.lastTrueTime !== this.trueTime) {
         this.lastTime += this.trueTime;
         this.lastTrueTime = this.trueTime;
       }
       this.angle = this.getAngle();
-      
-      var newAngle = (this.angle + this.group.rotation())%360
-      
+
+      var newAngle = (this.angle + this.circle.rotation()) % 360;
+
       this.angle = newAngle;
       this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
       this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
-      
+
       this.timerLoop = (360 / this.angularSpeed) * 1000;
     }
 
-    if (prevProps.loops[this.props.attachedLoop].active !== this.props.loops[this.props.attachedLoop].active 
-      && !this.props.loops[this.props.attachedLoop].active) {
-          this.props.dispatch(updateTone(this.props.id, "transparent", null, 0));
+    if (
+      prevProps.loops[this.props.attachedLoop].active !==
+        this.props.loops[this.props.attachedLoop].active &&
+      !this.props.loops[this.props.attachedLoop].active
+    ) {
+      this.props.dispatch(updateTone(this.props.id, "transparent", null, 0));
     }
 
     if (prevProps.playing !== this.props.playing) {
@@ -130,15 +133,24 @@ class ToneKonva extends React.Component {
           this.props.sound === null &&
           this.props.loops[this.props.attachedLoop].active === true
         ) {
-          this.props.dispatch(updateTone(this.props.id, "transparent", null, 0));
+          this.props.dispatch(
+            updateTone(this.props.id, "transparent", null, 0)
+          );
         }
       } else {
-        this.anim.isRunning() && this.anim.stop(); 
+        this.anim.isRunning() && this.anim.stop();
         if (
           this.props.sound === null &&
           this.props.loops[this.props.attachedLoop].active === true
-          ) {
-            this.props.dispatch(updateTone(this.props.id, "#692D55", null, this.props.screenHeight / 350));
+        ) {
+          this.props.dispatch(
+            updateTone(
+              this.props.id,
+              "#692D55",
+              null,
+              this.props.screenHeight / 350
+            )
+          );
         }
         // on pause, update the rotation value of the loop in the store
         this.props.dispatch(
@@ -148,163 +160,168 @@ class ToneKonva extends React.Component {
     }
   }
 
-  findClosestLoop(distToCenter) {
-    // iterate through loops array and compare radii
-    var acceptableRange = 50;
-    var loopArray = this.props.loops;
-    var id = 0;
-    var curr = loopArray[id].radius;
-    var diff = Math.abs(distToCenter - curr);
+  // findClosestLoop(distToCenter) {
+  //   // iterate through loops array and compare radii
+  //   var acceptableRange = 50;
+  //   var loopArray = this.props.loops;
+  //   var id = 0;
+  //   var curr = loopArray[id].radius;
+  //   var diff = Math.abs(distToCenter - curr);
 
-    for (var i = 0; i < loopArray.length; i++) {
-      if (loopArray[i].active) {
-        var newdiff = Math.abs(distToCenter - loopArray[i].radius);
-        if (newdiff < diff) {
-          diff = newdiff;
-          curr = loopArray[i].radius;
-          id = i;
-        }
-      }
-    }
+  //   for (var i = 0; i < loopArray.length; i++) {
+  //     if (loopArray[i].active) {
+  //       var newdiff = Math.abs(distToCenter - loopArray[i].radius);
+  //       if (newdiff < diff) {
+  //         diff = newdiff;
+  //         curr = loopArray[i].radius;
+  //         id = i;
+  //       }
+  //     }
+  //   }
 
-    if (diff < acceptableRange) {
-      return { index: id, value: curr };
-    } else {
-      return null;
-    }
-  }
+  //   if (diff < acceptableRange) {
+  //     return { index: id, value: curr };
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
-  findClosestInterval(a, b, loop) {
-    // finds closest tone and returns the index so that color can be changed
-    var min = 100;
-    var ret = 0;
-    for (var i = 0; i < this.props.tones.length; i++) {
-      // need to compare pt + or - offset
-      // attached loop must be the same as the loopToSnap
-      if (this.props.tones[i].attachedLoop === loop) {
-        var x = this.cx - this.props.tones[i].offset.x;
-        var y = this.cy - this.props.tones[i].offset.y;
-        var diffX = x - a;
-        var diffY = y - b;
-        var dist = Math.sqrt(diffX * diffX + diffY * diffY);
-        if (dist < min) {
-          min = dist;
-          ret = this.props.tones[i].id;
-        }
-      }
-    }
-    return ret;
-  }
+  // findClosestInterval(a, b, loop) {
+  //   // finds closest tone and returns the index so that color can be changed
+  //   var min = 100;
+  //   var ret = 0;
+  //   for (var i = 0; i < this.props.tones.length; i++) {
+  //     // need to compare pt + or - offset
+  //     // attached loop must be the same as the loopToSnap
+  //     if (this.props.tones[i].attachedLoop === loop) {
+  //       var x = this.cx - this.props.tones[i].offset.x;
+  //       var y = this.cy - this.props.tones[i].offset.y;
+  //       var diffX = x - a;
+  //       var diffY = y - b;
+  //       var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+  //       if (dist < min) {
+  //         min = dist;
+  //         ret = this.props.tones[i].id;
+  //       }
+  //     }
+  //   }
+  //   return ret;
+  // }
 
   // find new offset values for snap, depending on rotation
-  findTrueOffset(offX, offY, angle) {
-    var originalAngle = Math.atan2(offX, offY);
-    var angleRad = angle * (Math.PI / 180);
-    var newAngle = originalAngle - angleRad;
-    var dist = Math.sqrt(offX * offX + offY * offY);
-    const offX2 = Math.sin(newAngle) * dist;
-    const offY2 = Math.cos(newAngle) * dist;
-    return { x: offX2, y: offY2 };
-  }
+  // findTrueOffset(offX, offY, angle) {
+  //   var originalAngle = Math.atan2(offX, offY);
+  //   var angleRad = angle * (Math.PI / 180);
+  //   var newAngle = originalAngle - angleRad;
+  //   var dist = Math.sqrt(offX * offX + offY * offY);
+  //   const offX2 = Math.sin(newAngle) * dist;
+  //   const offY2 = Math.cos(newAngle) * dist;
+  //   return { x: offX2, y: offY2 };
+  // }
 
-  findTrueCoordinates(x1, y1, angle, distance) {
-    // current angle
-    var originalAngle = Math.atan2(y1, x1);
-    var angleRad = angle * (Math.PI / 180);
-    var newAngle = originalAngle - angleRad;
-    const x2 = this.cx + Math.cos(newAngle) * distance;
-    const y2 = this.cy + Math.sin(newAngle) * distance;
-    return { x: x2, y: y2 };
-  }
+  // findTrueCoordinates(x1, y1, angle, distance) {
+  //   // current angle
+  //   var originalAngle = Math.atan2(y1, x1);
+  //   var angleRad = angle * (Math.PI / 180);
+  //   var newAngle = originalAngle - angleRad;
+  //   const x2 = this.cx + Math.cos(newAngle) * distance;
+  //   const y2 = this.cy + Math.sin(newAngle) * distance;
+  //   return { x: x2, y: y2 };
+  // }
 
-  snap(x1, y1) {
-    // calculate virtual location with rotation
-    // first calculate distance
-    var a = y1 - this.cy;
-    var b = x1 - this.cx;
-    var distToCenter = Math.sqrt(a * a + b * b);
-    var loopToSnap = this.findClosestLoop(distToCenter);
+  // snap(x1, y1) {
+  //   // calculate virtual location with rotation
+  //   // first calculate distance
+  //   var a = y1 - this.cy;
+  //   var b = x1 - this.cx;
+  //   var distToCenter = Math.sqrt(a * a + b * b);
+  //   var loopToSnap = this.findClosestLoop(distToCenter);
 
-    if (loopToSnap) {
-      var angle = this.props.loops[loopToSnap.index].rotation;
-      var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
-      var intervalId = this.findClosestInterval(
-        trueCoords.x,
-        trueCoords.y,
-        loopToSnap.index
-      );
-      if (!this.props.playing) {
-        this.props.dispatch(
-          updateTone(
-            intervalId,
-            this.props.color,
-            this.props.sound,
-            this.props.radius,
-            this.props.duration
-          )
-        );
-      }
-    }
-  }
+  //   if (loopToSnap) {
+  //     console.log("LSNAP in TK: " + loopToSnap.index);
+  //     var angle = this.props.loops[loopToSnap.index].rotation;
+  //     var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
+  //     var intervalId = this.findClosestInterval(
+  //       trueCoords.x,
+  //       trueCoords.y,
+  //       loopToSnap.index
+  //     );
+  //     console.log(
+  //       "Actual loop it snaps to: " + this.props.tones[intervalId].attachedLoop
+  //     );
+  //     if (!this.props.playing) {
+  //       this.props.dispatch(
+  //         updateTone(
+  //           intervalId,
+  //           this.props.color,
+  //           this.props.sound,
+  //           this.props.radius,
+  //           this.props.duration
+  //         )
+  //       );
+  //     }
+  //   }
+  // }
 
-  handleDragStart() {
-    if (this.props.playing === false) {
-      // move current tone above all of the others
-      this.circle.zIndex(this.props.tones.length);
-      // for all tones, if sound null make them visible on drag
-      var radius = this.props.screenHeight / 350;
-      for (var i = 0; i < this.props.tones.length; i++) {
-        if (
-          this.props.tones[i].sound === null &&
-          this.props.loops[this.props.tones[i].attachedLoop].active === true
-        ) {
-          this.props.dispatch(updateTone(i, "#692D55", null, radius));
-        }
-      }
-    }
-  }
+  // handleDragStart() {
+  //   if (this.props.playing === false) {
+  //     console.log("zIndex: " + this.circle.zIndex());
+  //     // move current tone above all of the others
+  //     this.circle.zIndex(this.props.tones.length);
+  //     // for all tones, if sound null make them visible on drag
+  //     var radius = this.props.screenHeight / 350;
+  //     for (var i = 0; i < this.props.tones.length; i++) {
+  //       if (
+  //         this.props.tones[i].sound === null &&
+  //         this.props.loops[this.props.tones[i].attachedLoop].active === true
+  //       ) {
+  //         this.props.dispatch(updateTone(i, "#692D55", null, radius));
+  //       }
+  //     }
+  //   }
+  // }
 
   // delete
-  handleDragEnd() {
-    var loopRotation = this.props.loops[this.props.attachedLoop].rotation;
-    var circX = this.circle.x();
-    var circY = this.circle.y();
-    var offsetX = this.circle.offsetX();
-    var offsetY = this.circle.offsetY();
-    var trueOff = this.findTrueOffset(offsetX, offsetY, this.circle.rotation());
+  // handleDragEnd() {
+  //   var loopRotation = this.props.loops[this.props.attachedLoop].rotation;
+  //   var circX = this.circle.x();
+  //   var circY = this.circle.y();
+  //   var offsetX = this.circle.offsetX();
+  //   var offsetY = this.circle.offsetY();
+  //   var trueOff = this.findTrueOffset(offsetX, offsetY, this.circle.rotation());
 
-    // new x and y are coord at original
-    var newX = circX - trueOff.x;
-    var newY = circY - trueOff.y;
+  //   // new x and y are coord at original
+  //   var newX = circX - trueOff.x;
+  //   var newY = circY - trueOff.y;
 
-    this.snap(newX, newY);
-    // make the tones transparent on drag end
-    for (var i = 0; i < this.props.tones.length; i++) {
-      if (
-        this.props.tones[i].sound === null &&
-        this.props.loops[this.props.tones[i].attachedLoop].active === true
-      ) {
-        this.props.dispatch(updateTone(i, "transparent", null, 1.5));
-      }
-    }
-    // this.props.dispatch(deleteTone(this.props.id));
-    this.props.dispatch(
-      replaceTone(
-        this.props.id,
-        this.cx,
-        this.cy,
-        "transparent",
-        "#fff",
-        1.5,
-        this.props.offset.x,
-        this.props.offset.y,
-        this.props.attachedLoop,
-        this.props.screenHeight / 50,
-        null,
-        loopRotation
-      )
-    );
-  }
+  //   this.snap(newX, newY);
+  //   // make the tones transparent on drag end
+  //   for (var i = 0; i < this.props.tones.length; i++) {
+  //     if (
+  //       this.props.tones[i].sound === null &&
+  //       this.props.loops[this.props.tones[i].attachedLoop].active === true
+  //     ) {
+  //       this.props.dispatch(updateTone(i, "transparent", null, 1.5));
+  //     }
+  //   }
+  //   // this.props.dispatch(deleteTone(this.props.id));
+  //   this.props.dispatch(
+  //     replaceTone(
+  //       this.props.id,
+  //       this.cx,
+  //       this.cy,
+  //       "transparent",
+  //       "#fff",
+  //       1.5,
+  //       this.props.offset.x,
+  //       this.props.offset.y,
+  //       this.props.attachedLoop,
+  //       this.props.screenHeight / 50,
+  //       null,
+  //       loopRotation
+  //     )
+  //   );
+  // }
 
   render() {
     var color = "transparent";
@@ -312,34 +329,34 @@ class ToneKonva extends React.Component {
       color = this.props.color;
     }
     return (
-      <Group 
+      <Group
         x={this.props.x}
         y={this.props.y}
         offset={this.props.offset}
-        ref={node => {this.group = node;}}>
-      <Circle
-        // x={this.props.x}
-        // y={this.props.y}
-        fill={color}
-        stroke={this.props.stroke}
-        strokeWidth={this.props.strokeWidth}
-        radius={this.props.radius}
-        // offset={this.props.offset}
         ref={node => {
-          this.circle = node;
+          this.group = node;
         }}
-        // onClick={()=>this.props.dispatch(deleteTone(this.props.id))}
-        draggable={true}
-        onDragStart={this.handleDragStart}
-        onDragEnd={this.handleDragEnd}
-      />
-      <Circle
-        fill={"transparent"}
-        radius={this.props.screenHeight / 350}
-        ref={node => {
-          this.innerCircle = node;
-        }}
-      />
+      >
+        <Circle
+          // x={this.props.x}
+          // y={this.props.y}
+          fill={color}
+          stroke={this.props.stroke}
+          strokeWidth={this.props.strokeWidth}
+          radius={this.props.radius}
+          // offset={this.props.offset}
+          ref={node => {
+            this.circle = node;
+          }}
+          // onClick={()=>this.props.dispatch(deleteTone(this.props.id))}
+        />
+        <Circle
+          fill={"transparent"}
+          radius={this.props.screenHeight / 350}
+          ref={node => {
+            this.innerCircle = node;
+          }}
+        />
       </Group>
     );
   }
