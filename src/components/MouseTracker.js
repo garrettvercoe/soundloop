@@ -177,11 +177,11 @@ class Cursor extends React.Component {
 
       const x =
         this.props.cursorPos.x -
-        185 -
-        this.props.toneSizes[this.props.selectedSustain];
+        37 -
+        2 * this.props.toneSizes[this.props.selectedSustain];
       const y =
-        this.props.cursorPos.x -
-        185 -
+        this.props.cursorPos.y -
+        135 -
         this.props.toneSizes[this.props.selectedSustain];
 
       this.snap(x, y);
