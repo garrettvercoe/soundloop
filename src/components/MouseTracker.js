@@ -172,8 +172,17 @@ class Cursor extends React.Component {
 
     if (this.props.playing === false) {
       // this.rect = this.selector.current.getBoundingClientRect();
-      const x = this.props.cursorPos.x - 200;
-      const y = this.props.cursorPos.y - 150;
+      // const x = this.props.cursorPos.x - 200;
+      // const y = this.props.cursorPos.y - 150;
+
+      const x =
+        this.props.cursorPos.x -
+        185 -
+        this.props.toneSizes[this.props.selectedSustain];
+      const y =
+        this.props.cursorPos.x -
+        185 -
+        this.props.toneSizes[this.props.selectedSustain];
 
       this.snap(x, y);
 
@@ -203,8 +212,8 @@ class Cursor extends React.Component {
             position: "absolute",
             left:
               this.props.cursorPos.x -
-              185 -
-              this.props.toneSizes[this.props.selectedSustain],
+              37 -
+              2 * this.props.toneSizes[this.props.selectedSustain],
             top:
               this.props.cursorPos.y -
               135 -

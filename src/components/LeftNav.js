@@ -233,7 +233,7 @@ class LibraryUnconnected extends React.Component {
       <React.Fragment>
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
 
-        <h3 className="light inl-blk"> NOTES</h3>
+        <h3 className="light inl-blk"> ADD NOTES</h3>
         <ul style={LibListStyle}>
           {this.state.tones[this.props.octave - 1].map(item => (
             <li style={LibListItemStyle} key={item.color}>
@@ -300,11 +300,11 @@ class CreateMenuUnconnected extends React.Component {
           onChange={this.handleTempoChange}
           aria-labelledby="continuous-slider"
           valueLabelDisplay="on"
-          min={.5}
+          min={0.5}
           max={2}
-          step={.5}
+          step={0.5}
           marks
-          disabled = {!this.props.playing ? false : true}
+          disabled={!this.props.playing ? false : true}
         />
         {/* <SoundEffects /> */}
         <ToggleMode />
