@@ -128,7 +128,21 @@ code {
 .plus-icon {
   color: #808080;
   padding-right: 0.75rem;
+  padding-left: 0.75rem;
   right: 0px;
+}
+
+.minus-icon {
+  color: #808080;
+  padding-right: 0.75rem;
+  right: 0px;
+}
+
+.minus-icon:hover {
+  transition: all 0.2s ease-in-out;
+  color: #692d55;
+  cursor: pointer;
+  transform: translatey(-1px);
 }
 
 .bug-icon {
@@ -216,6 +230,10 @@ textarea:focus {
 .center {
   display: block;
   margin: 0 auto;
+}
+
+.test {
+  display:inline;
 }
 
 .note-select {

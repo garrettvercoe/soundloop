@@ -152,6 +152,14 @@ class ToneKonva extends React.Component {
     if (prevProps.playing !== this.props.playing) {
       if (this.props.playing) {
         this.anim.start();
+        for (var i = 0; i < this.props.tones.length; i++) {
+          if (
+            this.props.tones[i].sound === null &&
+            this.props.loops[this.props.tones[i].attachedLoop].active === true
+          ) {
+            this.props.dispatch(updateTone(i, "transparent", null, 1.5));
+          }
+        }
       } else {
         this.anim.isRunning() && this.anim.stop(); 
         // on pause, update the rotation value of the loop in the store
@@ -283,6 +291,7 @@ class ToneKonva extends React.Component {
     }
   }
 
+  // delete
   handleDragEnd() {
     var loopRotation = this.props.loops[this.props.attachedLoop].rotation;
     var circX = this.circle.x();

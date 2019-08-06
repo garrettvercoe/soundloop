@@ -43,22 +43,19 @@ class NewLoop extends React.Component {
       <React.Fragment>
         <br />
         <div>
-        <div className="tone-add" onClick={this.handlePlusClick}>
+          <FontAwesomeIcon
+            className="minus-icon inl-blk fa-lg"
+            icon={faMinusCircle}
+            onClick={this.handleMinusClick}
+          />
+          <h3 className="light inl-blk">LOOP</h3>
           <FontAwesomeIcon
             className="plus-icon inl-blk fa-lg"
             icon={faPlusCircle}
+            onClick={this.handlePlusClick}
           />
         </div>
-        </div>
-        <div >
-          <h3 className="light inl-blk">LOOP</h3>
-        </div>
-        <div className="tone-add" onClick={this.handleMinusClick}>
-          <FontAwesomeIcon
-            className="plus-icon inl-blk fa-lg"
-            icon={faMinusCircle}
-          />
-        </div>
+        <br />
       </React.Fragment>
     );
   }
