@@ -50,11 +50,6 @@ class App extends Component {
   }
 
   _onMouseMove(e) {
-    console.log("Mouse move")
-    console.log("X client: " + e.clientX)
-    console.log("Y client: " + e.clientY)
-    console.log("X: " + e.screenX)
-    console.log("Y: " + e.screenY)
     this.setState({ x: e.clientX, y: e.clientY });
   }
   render() {

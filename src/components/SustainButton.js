@@ -74,7 +74,7 @@ export default class SustainMenu extends React.Component {
 
     return (
       <React.Fragment>
-        <h3 className="light inl-blk"> DURATION</h3>
+        <h4 className="light inl-blk desc"> Duration</h4>
         <ul style={LibListStyle}>
           {susToShow.map((item, i) => (
             <li style={LibListItemStyle} key={item.color}>

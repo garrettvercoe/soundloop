@@ -151,29 +151,34 @@ class Cursor extends React.Component {
         trueCoords.y,
         loopToSnap.index
       );
-      // return
 
-      this.props.dispatch(
-        updateTone(
-          intervalId,
-          this.color,
-          this.props.sound + this.props.octave,
-
-          //  this.props.screenHeight / 50,
-          this.props.toneSizes[this.props.selectedSustain],
-          this.props.selectedSustain
-        )
-      );
+      return intervalId;
     }
     return false;
   }
 
-  pickUp() {}
-  putDown() {}
-  erase() {}
+  pickUp(at) {
+    //pass in data first to cursor
+    this.props.dispatch(updateTone(at, "transparent", null, 1.5));
+  }
+  putDown(at) {
+    this.props.dispatch(
+      updateTone(
+        at,
+        this.color,
+        this.props.sound + this.props.octave,
+
+        //  this.props.screenHeight / 50,
+        this.props.toneSizes[this.props.selectedSustain],
+        this.props.selectedSustain
+      )
+    );
+  }
+  erase(at) {
+    this.props.dispatch(updateTone(at, "transparent", null, 1.5));
+  }
 
   showRightCursor() {
-    console.log("running");
     switch (this.props.mode) {
       case "ADD":
         return "pointer";
@@ -205,19 +210,20 @@ class Cursor extends React.Component {
   }
   handleClick() {
     if (this.props.playing === false) {
-      const x =
-        this.props.cursorPos.x;
-      const y =
-        this.props.cursorPos.y;
+      const x = this.props.cursorPos.x;
+      const y = this.props.cursorPos.y;
 
-      if (this.props.mode === "ADD") {
-        this.snap(x, y);
-      } else if (this.props.mode === "MOVE_UNSELECTED") {
-        this.pickUp();
-      } else if (this.props.mode === "MOVE_SELECTED") {
-        this.putDown();
-      } else if (this.props.mode === "ERASE") {
-        this.erase();
+      var toneId = this.snap(x, y);
+      if (toneId !== false) {
+        if (this.props.mode === "ADD") {
+          this.putDown(toneId);
+        } else if (this.props.mode === "MOVE_UNSELECTED") {
+          this.pickUp(toneId);
+        } else if (this.props.mode === "MOVE_SELECTED") {
+          this.putDown(toneId);
+        } else if (this.props.mode === "ERASE") {
+          this.erase(toneId);
+        }
       }
     }
   }
@@ -229,9 +235,11 @@ class Cursor extends React.Component {
           style={{
             position: "absolute",
             left:
-              this.props.cursorPos.x-this.props.toneSizes[this.props.selectedSustain],
+              this.props.cursorPos.x -
+              this.props.toneSizes[this.props.selectedSustain],
             top:
-              this.props.cursorPos.y-this.props.toneSizes[this.props.selectedSustain],
+              this.props.cursorPos.y -
+              this.props.toneSizes[this.props.selectedSustain],
             width: 2 * this.props.toneSizes[this.props.selectedSustain],
             height: 2 * this.props.toneSizes[this.props.selectedSustain],
 

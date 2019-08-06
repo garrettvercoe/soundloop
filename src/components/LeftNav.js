@@ -247,7 +247,7 @@ class LibraryUnconnected extends React.Component {
       <React.Fragment>
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
 
-        <h3 className="light inl-blk"> ADD NOTES</h3>
+        <h3 className="light inl-blk"> CREATE</h3>
         <ul style={LibListStyle}>
           {this.state.tones[this.props.octave - 1].map(item => (
             <li style={LibListItemStyle} key={item.color}>
@@ -273,7 +273,7 @@ class LibraryUnconnected extends React.Component {
           </div>
         </ul>
         <br />
-        <h3 className="light inl-blk"> OCTAVE</h3>
+        <h4 className="light inl-blk desc">Octave</h4>
         <OctaveSlider
           defaultValue={4}
           onChange={this.handleOctave}
