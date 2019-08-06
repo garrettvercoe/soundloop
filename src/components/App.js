@@ -50,7 +50,12 @@ class App extends Component {
   }
 
   _onMouseMove(e) {
-    this.setState({ x: e.screenX, y: e.screenY });
+    console.log("Mouse move")
+    console.log("X client: " + e.clientX)
+    console.log("Y client: " + e.clientY)
+    console.log("X: " + e.screenX)
+    console.log("Y: " + e.screenY)
+    this.setState({ x: e.clientX, y: e.clientY });
   }
   render() {
     // Stage is a div container
