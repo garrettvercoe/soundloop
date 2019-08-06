@@ -203,11 +203,10 @@ class Cursor extends React.Component {
             position: "absolute",
             left:
               this.props.cursorPos.x -
-              185 -
               this.props.toneSizes[this.props.selectedSustain],
             top:
               this.props.cursorPos.y -
-              135 -
+              110 -
               this.props.toneSizes[this.props.selectedSustain],
             width: 2 * this.props.toneSizes[this.props.selectedSustain],
             height: 2 * this.props.toneSizes[this.props.selectedSustain],

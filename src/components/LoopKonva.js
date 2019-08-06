@@ -43,13 +43,11 @@ class LoopKonva extends React.Component {
 
       this.props.dispatch(
         addTone(
-          "transparent",
-          "#fff",
-          1.5,
+          "#692D55",
           coords.x - this.props.center.x,
           coords.y - this.props.center.y,
           this.props.id,
-          this.props.screenHeight / 50,
+          this.props.screenHeight / 350,
           null,
           0
         )

@@ -8,8 +8,6 @@ export const REPLACE_TONE = "REPLACE_TONE";
 
 export function addTone(
   colorCode,
-  stroke,
-  strokeWidth,
   offsetx,
   offsety,
   attLoop,
@@ -25,8 +23,6 @@ export function addTone(
       y: offsety
     },
     color: colorCode,
-    stroke: stroke,
-    strokeWidth: strokeWidth,
     attachedLoop: attLoop,
     radius: rad,
     sound: sound,

@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/index.css";
-import { Circle, Layer } from "react-konva";
+import { Circle, Group } from "react-konva";
 import { connect } from "react-redux";
 import Konva from "konva";
 import { updateLoop } from "../actions/loops";
@@ -50,43 +50,21 @@ class ToneKonva extends React.Component {
   }
 
   componentDidMount() {
-    //var angularSpeed = Math.floor(this.props.loops[this.props.attachedLoop].speed);
-    // var angularSpeed = this.props.loops[this.props.attachedLoop].speed;
-
-    // if (this.props.mode === "angular") {
-    //   // this.angularSpeed = this.props.tempo;
-    //   this.angularSpeed = this.calcTempo();
-    // } else if (this.props.mode === "linear") {
-    //   this.angularSpeed = Math.floor(
-    //     this.props.loops[this.props.attachedLoop].speed
-    //   );
-    // }
-    console.log("SPEED for " + this.props.id + " initially: " + this.props.loops[this.props.attachedLoop].speed)
-    this.angularSpeed=this.props.loops[this.props.attachedLoop].speed
-    console.log("GET SPEED: " + this.angularSpeed)
+    
+    this.angularSpeed = this.props.loops[this.props.attachedLoop].speed
 
     this.angle = this.getAngle();
-    // console.log("ANGLE: " + angle)
-    console.log("ANGLE for " + this.props.id + " initially: " + this.angle)
     this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
     this.timerLoop = (360 / this.angularSpeed) * 1000;
-    // console.log("INITIAL TIMER INIT for " + this.props.id + ": " + this.timerInit)
-    // console.log("INITIAL TIMER LOOP for " + this.props.id + ": "  + this.timerLoop)
 
     // rotate circle initially to loop rotation
     // this.circle.rotate(this.props.rotation);
 
     this.anim = new Konva.Animation(frame => {
-      // trying to figure out whether issue in timeDiff or angularSpeed
-      // frame.timeDiff = 32;
-      // frame.frameRate = 24;
       var tDiff = frame.timeDiff;
       var angleDiff = (tDiff * this.angularSpeed) / 1000;
-      // console.log("TIMEDIFF LOOP " + this.props.attachedLoop + ": " + tDiff)
-      // console.log("ANGULAR SPEED " + this.props.attachedLoop + ": " + this.angularSpeed)
-      // console.log("ANGlEDIFF " + this.props.attachedLoop + ": " + angleDiff)
-
-      this.circle.rotate(angleDiff);
+      // rotate the group
+      this.group.rotate(angleDiff);
       this.trueTime = frame.time - this.lastTime;
 
       if (
@@ -95,18 +73,14 @@ class ToneKonva extends React.Component {
         this.props.sound !== null
       ) {
         this.props.dispatch(playTone(this.props.sound, this.props.duration));
-        // console.log("TIMER INIT MOUNT: " + this.timerInit)
-        // console.log("TIMER LOOP MOUNT: " + this.timerLoop)
       } else if (
         this.trueTime % this.timerLoop < this.timerInit + 20 &&
         this.trueTime % this.timerLoop > this.timerInit - 20 &&
         this.props.sound !== null
       ) {
-        // console.log("TIMER INIT MOUNT: " + this.timerInit)
-        // console.log("TIMER LOOP MOUNT: " + this.timerLoop)
         this.props.dispatch(playTone(this.props.sound, this.props.duration));
       }
-    }, this.circle.getLayer());
+    }, this.group.getLayer());
 
     // if (this.props.playing) {
     //   this.anim.start();
@@ -115,13 +89,18 @@ class ToneKonva extends React.Component {
 
   componentDidUpdate(prevProps) {
     // on delete (when prev != current color), move circle back to original position and offset but keep rotation
-    if (prevProps.color !== this.props.color) {
-      this.circle.x(this.props.x);
-      this.circle.y(this.props.y);
-      this.circle.offset({ x: this.props.offset.x, y: this.props.offset.y });
-    }
+    // if (prevProps.color !== this.props.color) {
+    //   this.circle.x(this.props.x);
+    //   this.circle.y(this.props.y);
+    //   this.circle.offset({ x: this.props.offset.x, y: this.props.offset.y });
+    // }
 
-    // listen for when speed of attached loop changes, not consistent when listening for tempo to change
+    // if (prevProps.color !== this.props.color && this.props.) {
+        
+    // }
+
+    // TEMPO CHANGE
+    // listen for when speed of attached loop changes, was not consistent when listening for tempo to change
     if (prevProps.loops[this.props.attachedLoop].speed !== this.props.loops[this.props.attachedLoop].speed) {
       // check to see if changed within same pause
       if (this.lastTrueTime !== this.trueTime) {
@@ -131,13 +110,9 @@ class ToneKonva extends React.Component {
       this.angle = this.getAngle();
       
       var newAngle = (this.angle + this.circle.rotation())%360
-      // console.log ("TEST OF NEW ANG 5: " + newAngle)
       
       this.angle = newAngle;
-      console.log("ANGLE for " + this.props.id + " updated: " + this.angle)
-      console.log("SPEED for " + this.props.id + " updated: " + this.props.loops[this.props.attachedLoop].speed)
       this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
-      console.log("GET SPEED UPDATE: " + this.angularSpeed)
       this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
       
       this.timerLoop = (360 / this.angularSpeed) * 1000;
@@ -145,23 +120,26 @@ class ToneKonva extends React.Component {
 
     if (prevProps.loops[this.props.attachedLoop].active !== this.props.loops[this.props.attachedLoop].active 
       && !this.props.loops[this.props.attachedLoop].active) {
-          this.props.dispatch(updateTone(this.props.id, "transparent", null, 1.5));
-
+          this.props.dispatch(updateTone(this.props.id, "transparent", null, 0));
     }
 
     if (prevProps.playing !== this.props.playing) {
       if (this.props.playing) {
         this.anim.start();
-        for (var i = 0; i < this.props.tones.length; i++) {
-          if (
-            this.props.tones[i].sound === null &&
-            this.props.loops[this.props.tones[i].attachedLoop].active === true
-          ) {
-            this.props.dispatch(updateTone(i, "transparent", null, 1.5));
-          }
+        if (
+          this.props.sound === null &&
+          this.props.loops[this.props.attachedLoop].active === true
+        ) {
+          this.props.dispatch(updateTone(this.props.id, "transparent", null, 0));
         }
       } else {
         this.anim.isRunning() && this.anim.stop(); 
+        if (
+          this.props.sound === null &&
+          this.props.loops[this.props.attachedLoop].active === true
+          ) {
+            this.props.dispatch(updateTone(this.props.id, "#692D55", null, this.props.screenHeight / 350));
+        }
         // on pause, update the rotation value of the loop in the store
         this.props.dispatch(
           updateLoop(this.props.attachedLoop, this.circle.rotation())
@@ -248,16 +226,12 @@ class ToneKonva extends React.Component {
     var loopToSnap = this.findClosestLoop(distToCenter);
 
     if (loopToSnap) {
-      console.log("LSNAP in TK: " + loopToSnap.index);
       var angle = this.props.loops[loopToSnap.index].rotation;
       var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
       var intervalId = this.findClosestInterval(
         trueCoords.x,
         trueCoords.y,
         loopToSnap.index
-      );
-      console.log(
-        "Actual loop it snaps to: " + this.props.tones[intervalId].attachedLoop
       );
       if (!this.props.playing) {
         this.props.dispatch(
@@ -275,7 +249,6 @@ class ToneKonva extends React.Component {
 
   handleDragStart() {
     if (this.props.playing === false) {
-      console.log("zIndex: " + this.circle.zIndex());
       // move current tone above all of the others
       this.circle.zIndex(this.props.tones.length);
       // for all tones, if sound null make them visible on drag
@@ -339,14 +312,19 @@ class ToneKonva extends React.Component {
       color = this.props.color;
     }
     return (
-      <Circle
+      <Group 
         x={this.props.x}
         y={this.props.y}
+        offset={this.props.offset}
+        ref={node => {this.group = node;}}>
+      <Circle
+        // x={this.props.x}
+        // y={this.props.y}
         fill={color}
         stroke={this.props.stroke}
         strokeWidth={this.props.strokeWidth}
         radius={this.props.radius}
-        offset={this.props.offset}
+        // offset={this.props.offset}
         ref={node => {
           this.circle = node;
         }}
@@ -355,7 +333,14 @@ class ToneKonva extends React.Component {
         onDragStart={this.handleDragStart}
         onDragEnd={this.handleDragEnd}
       />
-      
+      <Circle
+        fill={"transparent"}
+        radius={this.props.screenHeight / 350}
+        ref={node => {
+          this.innerCircle = node;
+        }}
+      />
+      </Group>
     );
   }
 }
@@ -365,7 +350,6 @@ function mapStateToProps(state) {
   return {
     playing: state.shared.playing,
     loops: state.loops,
-    rot: state.shared.rotation,
     tones: state.tones,
     center: state.shared.center,
     mode: state.shared.mode,
