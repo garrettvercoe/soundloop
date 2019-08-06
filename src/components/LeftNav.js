@@ -16,8 +16,12 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import ToggleMode from "./ToggleMode";
 import { updateFilename, updateTempo, updateOctave } from "../actions/shared";
+import { cursorErase, cursorMove } from "../actions/cursor";
 import SustainMenu from "./SustainButton";
 import SoundEffects from "./SoundEffects";
+import { ReactComponent as Move } from "../move.svg";
+import { ReactComponent as Erase } from "../erase.svg";
+
 import {
   red,
   pink,
@@ -222,10 +226,20 @@ class LibraryUnconnected extends React.Component {
     }
     this.state = { tones: this.buttonList, noteSelected: false };
     this.handleOctave = this.handleOctave.bind(this);
+    this.handleErase = this.handleErase.bind(this);
+    this.handleMove = this.handleMove.bind(this);
   }
 
   handleOctave(event, newValue) {
     this.props.dispatch(updateOctave(newValue));
+  }
+
+  handleErase() {
+    this.props.dispatch(cursorErase());
+  }
+
+  handleMove() {
+    this.props.dispatch(cursorMove());
   }
 
   render() {
@@ -245,6 +259,18 @@ class LibraryUnconnected extends React.Component {
               />
             </li>
           ))}
+          <div style={LibListItemStyle}>
+            <Move
+              style={{ width: "32px", cursor: "pointer" }}
+              onClick={() => this.handleMove()}
+            />
+          </div>
+          <div style={LibListItemStyle}>
+            <Erase
+              style={{ width: "32px", cursor: "pointer" }}
+              onClick={() => this.handleErase()}
+            />
+          </div>
         </ul>
         <br />
         <h3 className="light inl-blk"> OCTAVE</h3>
