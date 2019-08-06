@@ -24,7 +24,7 @@ class LoopKonva extends React.Component {
     // console.log("SPEED LOOP " + this.props.id + ": ")
     if (this.props.mode === "angular"){
       if (this.props.id < 2){
-        this.numTones = 16;
+        this.numTones = 32;
       } else {
         this.numTones = 16;
       }

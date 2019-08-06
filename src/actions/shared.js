@@ -5,7 +5,6 @@ import ToggleMode from "../components/ToggleMode";
 export const TOGGLE_PLAY = "TOGGLE_PLAY";
 export const TOGGLE_STOP = "TOGGLE_STOP";
 export const TOGGLE_RESTART = "TOGGLE_RESTART";
-export const ADD_LOOP_COUNT = "ADD_LOOP_COUNT";
 export const TOGGLE_MUTE = "TOGGLE_MUTE";
 export const TOGGLE_UNMUTE = "TOGGLE_UNMUTE";
 export const TRASH_ALL_LINEAR = "TRASH_ALL_LINEAR";
@@ -73,22 +72,6 @@ export function toggleStop() {
   };
 }
 
-let loopCount = 1;
-export function addLoopCount() {
-  return {
-    type: ADD_LOOP_COUNT,
-    loopCount: loopCount++
-  };
-}
-
-export function resetLoopCount() {
-  loopCount = 1;
-  return {
-    type: RESET_LOOP_COUNT,
-    loopCount: loopCount
-  };
-}
-
 export function toggleMute() {
   return {
     type: TOGGLE_MUTE,
@@ -107,7 +90,7 @@ export function trashAllLinear() {
   console.log("TRASH ALL LIN");
   return dispatch => {
     dispatch({ type: TRASH_ALL_LINEAR });
-    dispatch(resetLoopCount());
+    // dispatch(resetLoopCount());
     dispatch(addLoop(window.innerHeight / 3));
     dispatch(addLoop(window.innerHeight / 6));
     dispatch(addLoop(window.innerHeight / 12));
@@ -123,7 +106,7 @@ export function trashAllAngular() {
   var interval = window.innerHeight / 14;
   return dispatch => {
     dispatch({ type: TRASH_ALL_ANGULAR });
-    dispatch(resetLoopCount());
+    // dispatch(resetLoopCount());
     for (var i = 0; i < 5; i++){
       dispatch(addLoop((window.innerHeight / 3) - (interval*i)))
     }

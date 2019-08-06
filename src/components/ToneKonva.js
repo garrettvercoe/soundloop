@@ -143,6 +143,12 @@ class ToneKonva extends React.Component {
       this.timerLoop = (360 / this.angularSpeed) * 1000;
     }
 
+    if (prevProps.loops[this.props.attachedLoop].active !== this.props.loops[this.props.attachedLoop].active 
+      && !this.props.loops[this.props.attachedLoop].active) {
+          this.props.dispatch(updateTone(this.props.id, "transparent", null, 1.5));
+
+    }
+
     if (prevProps.playing !== this.props.playing) {
       if (this.props.playing) {
         this.anim.start();

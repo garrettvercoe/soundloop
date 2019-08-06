@@ -34,15 +34,15 @@ export default function loops(state = [], action) {
         ...state.slice(action.id + 1)
       ];
 
-      case UPDATE_LOOP_SPEED:
-          return [
-            ...state.slice(0, action.id),
-            {
-              ...state[action.id],
-              speed: action.speed
-            },
-            ...state.slice(action.id + 1)
-          ];
+    case UPDATE_LOOP_SPEED:
+      return [
+        ...state.slice(0, action.id),
+          {
+            ...state[action.id],
+            speed: action.speed
+          },
+          ...state.slice(action.id + 1)
+      ];
 
     case ACTIVATE_LOOP:
       return [

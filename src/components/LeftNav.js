@@ -317,7 +317,7 @@ class CreateMenuUnconnected extends React.Component {
         <LibraryContainer />
         <hr />
         <NewLoop />
-        <h3 className="light inl-blk"> TEMPO</h3>
+        <h3 className="light inl-blk"> SPEED</h3>
         <TempoSlider
           defaultValue={1}
           onChange={this.handleTempoChange}

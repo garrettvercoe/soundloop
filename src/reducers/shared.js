@@ -6,8 +6,6 @@ import {
   TOGGLE_UNMUTE,
   TRASH_ALL_LINEAR,
   TRASH_ALL_ANGULAR,
-  ADD_LOOP_COUNT,
-  RESET_LOOP_COUNT,
   SCREEN_RESIZE,
   UPDATE_FILENAME,
   UPDATE_VOLUME,
@@ -86,18 +84,6 @@ export default function shared(
           y: action.screenHeight / 2
         }
       });
-
-    case ADD_LOOP_COUNT:
-      return {
-        ...state,
-        loopCount: action.loopCount
-      };
-
-    case RESET_LOOP_COUNT:
-      return {
-        ...state,
-        loopCount: action.loopCount
-      };
 
     case TOGGLE_MUTE:
       return Object.assign({}, state, {
