@@ -1,10 +1,24 @@
-export const MAKE_VISIBLE = "MAKE_VISIBLE";
+export const CURSOR_ADD = "CURSOR_ADD";
+export const CURSOR_MOVE = "CURSOR_MOVE";
+export const CURSOR_ERASE = "CURSOR_ERASE";
 export const MAKE_INVISIBLE = "MAKE_INVISIBLE";
 
-export function makeVisible(s) {
+export function cursorAdd(s) {
   return {
-    type: MAKE_VISIBLE,
+    type: CURSOR_ADD,
     sound: s
+  };
+}
+
+export function cursorErase() {
+  return {
+    type: CURSOR_ERASE
+  };
+}
+
+export function cursorMove() {
+  return {
+    type: CURSOR_MOVE
   };
 }
 

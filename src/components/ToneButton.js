@@ -1,11 +1,10 @@
 import React from "react";
 import "../styles/index.css";
 
-import Draggable from "react-draggable"; // The default
 import { connect } from "react-redux";
 import { updateTone } from "../actions/tones";
 import { playTone } from "../actions/cord";
-import { makeVisible } from "../actions/cursor";
+import { cursorAdd } from "../actions/cursor";
 class ToneButton extends React.Component {
   constructor(props) {
     super(props);
@@ -17,13 +16,7 @@ class ToneButton extends React.Component {
   handleStop() {}
 
   handleClick() {
-    this.props.dispatch(
-      makeVisible(
-        this.props.note,
-        this.props.toneSizes[this.props.selectedSustain],
-        this.props.selectedSustain
-      )
-    );
+    this.props.dispatch(cursorAdd(this.props.note));
 
     var radius = this.props.screenHeight / 350;
     for (var i = 0; i < this.props.tones.length; i++) {

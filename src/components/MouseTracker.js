@@ -36,9 +36,11 @@ class Cursor extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
-
-    // this.selector = React.createRef();
-
+    this.showRightCursor = this.showRightCursor.bind(this);
+    this.findPointerEvent = this.findPointerEvent.bind(this);
+    this.pickUp = this.pickUp.bind(this);
+    this.putDown = this.putDown.bind(this);
+    this.erase = this.erase.bind(this);
     this.cx = this.props.center.x;
     this.cy = this.props.center.y;
 
@@ -48,10 +50,7 @@ class Cursor extends React.Component {
   }
 
   componentDidMount() {
-    console.log("sound" + this.props.sound);
-    console.log("sounds" + this.props.sounds);
     this.colorHue = this.props.sounds.indexOf(this.props.sound);
-    console.log("colorhue" + this.colorHue);
     this.color = colorHues[this.colorHue][this.props.octave * 100];
   }
 
@@ -144,6 +143,7 @@ class Cursor extends React.Component {
 
     if (loopToSnap) {
       var angle = this.props.loops[loopToSnap.index].rotation;
+
       var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
 
       var intervalId = this.findClosestInterval(
@@ -151,6 +151,7 @@ class Cursor extends React.Component {
         trueCoords.y,
         loopToSnap.index
       );
+      // return
 
       this.props.dispatch(
         updateTone(
@@ -164,17 +165,46 @@ class Cursor extends React.Component {
         )
       );
     }
+    return false;
   }
 
+  pickUp() {}
+  putDown() {}
+  erase() {}
+
+  showRightCursor() {
+    console.log("running");
+    switch (this.props.mode) {
+      case "ADD":
+        return "pointer";
+      case "ERASE":
+        return "crosshair";
+      case "MOVE_UNSELECTED":
+        return "grab";
+      case "MOVE_SELECTED":
+        return "grabbed";
+      default:
+        return "auto";
+    }
+  }
+
+  findPointerEvent() {
+    switch (this.props.mode) {
+      case "ERASE":
+        return "auto";
+      case "ADD":
+        return "auto";
+      case "MOVE_UNSELECTED":
+        return "auto";
+      case "MOVE_SELECTED":
+        return "auto";
+
+      default:
+        return "none";
+    }
+  }
   handleClick() {
-    // this.props.dispatch(makeInvisible());
-    console.log("clicked");
-
     if (this.props.playing === false) {
-      // this.rect = this.selector.current.getBoundingClientRect();
-      // const x = this.props.cursorPos.x - 200;
-      // const y = this.props.cursorPos.y - 150;
-
       const x =
         this.props.cursorPos.x -
         37 -
@@ -184,22 +214,14 @@ class Cursor extends React.Component {
         135 -
         this.props.toneSizes[this.props.selectedSustain];
 
-      this.snap(x, y);
-
-      // this.setState({
-      //   deltaPosition: {
-      //     x: 0,
-      //     y: 0
-      //   }
-      // });
-
-      for (var i = 0; i < this.props.tones.length; i++) {
-        if (
-          this.props.tones[i].sound === null &&
-          this.props.loops[this.props.tones[i].attachedLoop].active === true
-        ) {
-          // this.props.dispatch(updateTone(i, "transparent", null, 1.5));
-        }
+      if (this.props.mode === "ADD") {
+        this.snap(x, y);
+      } else if (this.props.mode === "MOVE_UNSELECTED") {
+        this.pickUp();
+      } else if (this.props.mode === "MOVE_SELECTED") {
+        this.putDown();
+      } else if (this.props.mode === "ERASE") {
+        this.erase();
       }
     }
   }
@@ -222,9 +244,9 @@ class Cursor extends React.Component {
             height: 2 * this.props.toneSizes[this.props.selectedSustain],
 
             borderRadius: "50%",
-            pointerEvents: this.props.visible ? "auto" : "none",
-            cursor: "grab ",
-            background: this.props.visible ? this.color : "transparent"
+            pointerEvents: this.findPointerEvent(),
+            cursor: this.showRightCursor(),
+            background: this.props.mode === "ADD" ? this.color : "transparent"
           }}
         />
       </React.Fragment>
@@ -234,7 +256,7 @@ class Cursor extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    visible: state.cursor.active,
+    mode: state.cursor.mode,
     loops: state.loops,
     tones: state.tones,
     sound: state.cursor.sound,
