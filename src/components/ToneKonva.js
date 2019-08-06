@@ -346,6 +346,7 @@ class ToneKonva extends React.Component {
         onDragStart={this.handleDragStart}
         onDragEnd={this.handleDragEnd}
       />
+      
     );
   }
 }

@@ -3,6 +3,7 @@ import tones from "./tones";
 import shared from "./shared";
 import cord from "./cord";
 import file from "./file";
+import cursor from "./cursor";
 import { combineReducers } from "redux";
 
 const appReducer = combineReducers({
@@ -10,7 +11,8 @@ const appReducer = combineReducers({
   tones,
   cord,
   shared,
-  file
+  file,
+  cursor
 });
 
 export default function(state, action) {

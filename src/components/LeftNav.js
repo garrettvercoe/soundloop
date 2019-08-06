@@ -15,7 +15,7 @@ import {
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import ToggleMode from "./ToggleMode";
-import { updateFilename, updateTempo } from "../actions/shared";
+import { updateFilename, updateTempo, updateOctave } from "../actions/shared";
 import SustainMenu from "./SustainButton";
 import SoundEffects from "./SoundEffects";
 import {
@@ -30,8 +30,7 @@ import {
   yellow,
   amber,
   orange,
-  deepOrange,
-  grey
+  deepOrange
 } from "@material-ui/core/colors/";
 
 const colorHues = [
@@ -87,9 +86,9 @@ const CardStyle = {
   height: "100vh",
   backgroundColor: "#fff",
   borderRadius: "1%",
-  // overflowX: "auto",
-  // maxWidth: "100%",
-  //overflowX: "hidden",
+  overflowY: "auto",
+  maxWidth: "100%",
+  overflowX: "hidden",
   boxShadow: "0 20px 10px rgba(0,0,0,0.01), 0 6px 6px rgba(0,0,0,0.05)"
 };
 
@@ -206,27 +205,14 @@ class LibraryUnconnected extends React.Component {
     super(props);
     this.buttons = [];
     this.buttonList = [];
-    this.sounds = [
-      "C",
-      "C#",
-      "D",
-      "D#",
-      "E",
-      "F",
-      "F#",
-      "G",
-      "G#",
-      "A",
-      "A#",
-      "B"
-    ];
+
     this.octaves = [1, 2, 3, 4, 5, 6, 7];
     for (let j = 0; j < this.octaves.length; j++) {
       for (let i = 0; i < colorHues.length; i++) {
         this.buttons.push({
           color: colorHues[i][this.octaves[j] * 100],
-          sound: this.sounds[i] + this.octaves[j],
-          note: this.sounds[i],
+          sound: this.props.sounds[i] + this.octaves[j],
+          note: this.props.sounds[i],
           textColor: colorHues[i][textLookup[this.octaves[j]]]
         });
       }
@@ -234,31 +220,22 @@ class LibraryUnconnected extends React.Component {
       this.buttonList.push(this.buttons);
       this.buttons = [];
     }
-    this.state = { octave: 4, tones: this.buttonList, noteSelected: false };
+    this.state = { tones: this.buttonList, noteSelected: false };
     this.handleOctave = this.handleOctave.bind(this);
   }
 
   handleOctave(event, newValue) {
-    this.setState({ octave: newValue });
+    this.props.dispatch(updateOctave(newValue));
   }
 
   render() {
     return (
       <React.Fragment>
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
-        {/* <h3 className="light inl-blk"> TEMPO</h3>
-        <TempoSlider
-          defaultValue={110}
-          onChange={this.handleTempoChange}
-          aria-labelledby="continuous-slider"
-          valueLabelDisplay="on"
-          min={70}
-          max={150}
-          disabled = {!this.props.playing ? false : true}
-        /> */}
+
         <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
-          {this.state.tones[this.state.octave - 1].map(item => (
+          {this.state.tones[this.props.octave - 1].map(item => (
             <li style={LibListItemStyle} key={item.color}>
               <ToneButton
                 color={item.color}
@@ -406,6 +383,8 @@ function mapStateToProps(state) {
   return {
     name: state.shared.fileName,
     tempo: state.shared.tempo,
+    sounds: state.shared.sounds,
+    octave: state.shared.octave,
     playing: state.shared.playing
   };
 }

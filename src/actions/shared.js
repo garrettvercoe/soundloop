@@ -17,6 +17,7 @@ export const UPDATE_VOLUME = "UPDATE_VOLUME";
 export const TOGGLE_MODE = "TOGGLE_MODE";
 export const UPDATE_TEMPO = "UPDATE_TEMPO";
 export const UPDATE_SUSTAIN = "UPDATE_SUSTAIN";
+export const UPDATE_OCTAVE = "UPDATE_OCTAVE";
 
 export function togglePlay() {
   return {
@@ -36,6 +37,13 @@ export function updateSustain(sus) {
   return {
     type: UPDATE_SUSTAIN,
     selectedSustain: sus
+  };
+}
+
+export function updateOctave(oct) {
+  return {
+    type: UPDATE_OCTAVE,
+    octave: oct
   };
 }
 
