@@ -28,10 +28,10 @@ export default function(state, action) {
       screenWidth: window.innerWidth,
       screenHeight: window.innerHeight,
       muted: false,
-      mode: "angular",
+      mode: action.data.shared.mode,
       octave: 4,
       selectedSustain: "8n",
-      fileName: "MyProject",
+      fileName: action.data.shared.fileName,
       volume: 0,
       tempo: 1,
       toneSizes: {
