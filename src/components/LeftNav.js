@@ -16,7 +16,7 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import ToggleMode from "./ToggleMode";
 import { updateFilename, updateTempo, updateOctave } from "../actions/shared";
-import { cursorErase, cursorMove } from "../actions/cursor";
+import { cursorErase, cursorMoveUnselected } from "../actions/cursor";
 import SustainMenu from "./SustainButton";
 import SoundEffects from "./SoundEffects";
 import { ReactComponent as Move } from "../move.svg";
@@ -239,7 +239,7 @@ class LibraryUnconnected extends React.Component {
   }
 
   handleMove() {
-    this.props.dispatch(cursorMove());
+    this.props.dispatch(cursorMoveUnselected());
   }
 
   render() {
@@ -261,13 +261,30 @@ class LibraryUnconnected extends React.Component {
           ))}
           <div style={LibListItemStyle}>
             <Move
-              style={{ width: "32px", cursor: "pointer" }}
+              style={{
+                width: "32px",
+                cursor: "pointer",
+                borderRadius: "50%",
+                boxShadow:
+                  this.props.mode === "MOVE_UNSELECTED" ||
+                  this.props.mode === "MOVE_SELECTED"
+                    ? " 0 10px 10px rgba(0, 0, 0, 0.08), 0 3px 3px rgba(0, 0, 0, 0.2)"
+                    : "none"
+              }}
               onClick={() => this.handleMove()}
             />
           </div>
           <div style={LibListItemStyle}>
             <Erase
-              style={{ width: "32px", cursor: "pointer" }}
+              style={{
+                width: "32px",
+                cursor: "pointer",
+                borderRadius: "50%",
+                boxShadow:
+                  this.props.mode === "ERASE"
+                    ? " 0 10px 10px rgba(0, 0, 0, 0.08), 0 3px 3px rgba(0, 0, 0, 0.2)"
+                    : "none"
+              }}
               onClick={() => this.handleErase()}
             />
           </div>
@@ -411,6 +428,7 @@ function mapStateToProps(state) {
     tempo: state.shared.tempo,
     sounds: state.shared.sounds,
     octave: state.shared.octave,
+    mode: state.cursor.mode,
     playing: state.shared.playing
   };
 }

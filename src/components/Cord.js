@@ -70,6 +70,7 @@ class Cord extends React.Component {
       Tone.Master.volume.value = this.props.volume;
     }
     if (
+      this.props.sounds &&
       this.props.sounds.length > 0 &&
       prevProps.sounds !== this.props.sounds
     ) {

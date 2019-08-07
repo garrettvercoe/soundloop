@@ -49,6 +49,7 @@ class SustainButton extends React.Component {
             this.props.sustain === this.props.selectedSustain
               ? "#692d54"
               : "#c4b2be",
+
           width: this.props.toneSizes[this.props.sustain] * 2 + "px",
           height: this.props.toneSizes[this.props.sustain] * 2 + "px",
           position: "relative",
