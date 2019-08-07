@@ -20,8 +20,6 @@ class LoopKonva extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(updateLoopSpeed(this.props.id, this.calcTempo()))
-    console.log("MOUNTED TEMPO: " + this.calcTempo())
-    // console.log("SPEED LOOP " + this.props.id + ": ")
     if (this.props.mode === "angular"){
       if (this.props.id < 2){
         this.numTones = 32;
@@ -74,13 +72,11 @@ class LoopKonva extends React.Component {
 
   componentDidUpdate(prevProps){
     if (prevProps.tempo !== this.props.tempo){
-      console.log("UPDATED IN LOOP ")
-      console.log("Tempo was: " + prevProps.tempo + " and now: " + this.props.tempo)
-      console.log("Radius is: " + this.props.radius)
-      console.log("ID is: " + this.props.id)
       this.props.dispatch(updateLoopSpeed(this.props.id, this.calcTempo()))
-      console.log("this.calcTempo() = " + this.calcTempo() )
     }
+
+    // on rotation update, update all tones accordingly,
+    // on pause, toneKonva updateLoop, then for all toneKonvas, rotate by that updated amount
   }
 
   render() {

@@ -93,7 +93,7 @@ class ToneKonva extends React.Component {
     // }
 
     if (prevProps.sound !== this.props.sound && this.props.sound !== null) {
-      this.innerCircle.fill("#fff")
+      this.innerCircle.fill("transparent")
     }
 
     if (prevProps.sound !== this.props.sound && this.props.sound === null) {
@@ -122,13 +122,27 @@ class ToneKonva extends React.Component {
       this.timerLoop = (360 / this.angularSpeed) * 1000;
     }
 
+    // if (
+    //   prevProps.loops[this.props.attachedLoop].active !==
+    //     this.props.loops[this.props.attachedLoop].active &&
+    //   !this.props.loops[this.props.attachedLoop].active
+    // ) {
+    //   this.props.dispatch(updateTone(this.props.id, "transparent", null, 0));
+    // }
+
     if (
-      prevProps.loops[this.props.attachedLoop].active !==
-        this.props.loops[this.props.attachedLoop].active &&
-      !this.props.loops[this.props.attachedLoop].active
-    ) {
-      this.props.dispatch(updateTone(this.props.id, "transparent", null, 0));
-    }
+        prevProps.loops[this.props.attachedLoop].active !==
+          this.props.loops[this.props.attachedLoop].active
+      ) {
+        if (this.props.loops[this.props.attachedLoop].active){
+          console.log("activate loop")
+        this.props.dispatch(updateTone(this.props.id, "#692D55", null, this.props.screenHeight / 350));
+        }
+        else if (!this.props.loops[this.props.attachedLoop].active){
+          console.log("deactivate loop")
+          this.props.dispatch(updateTone(this.props.id, "transparent", null, this.props.screenHeight / 350));
+          }
+      }
 
     if (prevProps.playing !== this.props.playing) {
       if (this.props.playing) {
@@ -329,7 +343,7 @@ class ToneKonva extends React.Component {
 
   render() {
     var color = "transparent";
-    if (this.props.loops[this.props.attachedLoop].active === true) {
+    if (this.props.loops[this.props.attachedLoop].active) {
       color = this.props.color;
     }
     return (

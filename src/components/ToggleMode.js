@@ -31,7 +31,7 @@ class ToggleMode extends React.Component {
         </h3>
         <br />
         <ToggleButtonGroup value={this.props.mode} exclusive onChange={this.handleClick}>
-          <ToggleButton value="angular">Angular</ToggleButton>
+          <ToggleButton className="MuiToggleButton-root" value="angular">Angular</ToggleButton>
           <ToggleButton value="linear">Linear</ToggleButton>
         </ToggleButtonGroup>
       </React.Fragment>

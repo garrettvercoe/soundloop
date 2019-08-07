@@ -26,6 +26,17 @@ class SustainButton extends React.Component {
     console.log("clicked");
     this.props.dispatch(updateSustain(this.props.sustain));
   };
+  // componentDidUpdate(prevProps){
+  //   if (prevProps.tempo !== this.props.tempo){
+  //     console.log("tempo change")
+  //     if (this.props.tempo === .5){
+  //       this.susToPass = ["16n", "8n", "4n", "2n", "1m", "2m", "4m"];
+  //     }
+  //     else if (this.props.tempo === 2){
+  //       this.susToPass = ["64n", "32n", "16n", "8n", "4n", "2n", "1m"];
+  //     }
+  //   }
+  // }
 
   render() {
     return (
@@ -61,17 +72,42 @@ class SustainButton extends React.Component {
 function mapStateToProps(state) {
   return {
     selectedSustain: state.shared.selectedSustain,
-    toneSizes: state.shared.toneSizes
+    toneSizes: state.shared.toneSizes,
+    tempo: state.shared.tempo
   };
 }
 
 const ConnectedSustainButton = connect(mapStateToProps)(SustainButton);
 
-export default class SustainMenu extends React.Component {
-  render() {
-    var susToPass = ["32n", "16n", "8n", "4n", "2n", "1m", "2m"];
-    var susToShow = ["", "16", "1/8", "1/4", "1/2", "1"];
+class SustainMenu extends React.Component {
 
+  
+  componentDidMount(){
+    console.log("susToPass mounted")
+    this.susToPass = ["32n", "16n", "8n", "4n", "2n", "1m", "2m"];
+  }
+
+  componentDidUpdate(prevProps){
+    if (prevProps.tempo !== this.props.tempo){
+      console.log("tempo change")
+      if (this.props.tempo === .5){
+        this.susToPass = ["16n", "8n", "4n", "2n", "1m", "2m", "4m"];
+      }
+      else if (this.props.tempo === 2){
+        this.susToPass = ["64n", "32n", "16n", "8n", "4n", "2n", "1m"];
+      }
+    }
+  }
+
+  render() {
+    var susToShow = ["", "16", "1/8", "1/4", "1/2", "1"];
+    // if (this.props.tempo === .5){
+    //   this.susToPass = ["16n", "8n", "4n", "2n", "1m", "2m", "4m"];
+    // }
+    // else if (this.props.tempo === 1){
+    //   this.susToPass = ["64n", "32n", "16n", "8n", "4n", "2n", "1m"];
+    // }
+    var susToPass = ["32n", "16n", "8n", "4n", "2n", "1m", "2m"];
     return (
       <React.Fragment>
         <h4 className="light inl-blk desc"> Duration</h4>
@@ -86,3 +122,5 @@ export default class SustainMenu extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(SustainMenu);
