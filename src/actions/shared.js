@@ -1,5 +1,4 @@
 import { addLoop, activateLoop } from "./loops";
-import ToggleMode from "../components/ToggleMode";
 
 //OVERALL
 export const TOGGLE_PLAY = "TOGGLE_PLAY";
@@ -61,10 +60,6 @@ export function updateTempo(tempo) {
   };
 }
 
-export function toggleMode(toggled) {
-  return { type: TOGGLE_MODE, mode: toggled };
-}
-
 export function screenResize(width, height) {
   return {
     type: SCREEN_RESIZE,
@@ -115,8 +110,8 @@ export function trashAllAngular() {
   return dispatch => {
     dispatch({ type: TRASH_ALL_ANGULAR });
     // dispatch(resetLoopCount());
-    for (var i = 0; i < 5; i++){
-      dispatch(addLoop((window.innerHeight / 3) - (interval*i)))
+    for (var i = 0; i < 5; i++) {
+      dispatch(addLoop(window.innerHeight / 3 - interval * i));
     }
     dispatch(activateLoop(0));
   };

@@ -7,30 +7,25 @@ import Tone from "tone";
 
 class Cord extends React.Component {
   componentDidMount() {
-    //playing around with creating a sound
+    this.melodyPlayer = new Tone.PolySynth(3, Tone.SimpleSynth)
+      .set({
+        volume: 0,
+        oscillator: {
+          type: "triangle"
+          // 'partials' : [16, 8, 4, 2, 1, 0.5, 1, 2]
+        },
+        envelope: {
+          attack: 0.01,
+          decay: 0.1,
+          sustain: 0.2,
+          release: 1.7
+        }
+      })
+      .toMaster();
 
-    //create a synth and connect it to the master output (your speakers)
-    // var distortion = new Tone.Distortion(1.5);
-    // var tremolo = new Tone.Tremolo().start();
-    // this.synth = new Tone.PolySynth().chain(distortion, tremolo, Tone.Master);
+    this.melodyPlayer.stealVoices = false;
 
-    //some overall compression to keep the levels in check
-    // var masterCompressor = new Tone.Compressor({
-    //   threshold: -6,
-    //   ratio: 3,
-    //   attack: 0.5,
-    //   release: 0.1
-    // });
-    // //give a little boost to the lows
-    // var lowBump = new Tone.Filter(200, "lowshelf");
-    //route everything through the filter
-    //and compressor before going to the speakers
-
-    // Tone.Master.chain(lowBump, masterCompressor);
-
-    this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
-
-    var max = this.props.height / 2 - 50;
+    var max = this.props.height / 2 - 75;
     var interval = max / 2;
     this.pts = [];
     var flux = 8;
@@ -70,13 +65,16 @@ class Cord extends React.Component {
       Tone.Master.volume.value = this.props.volume;
     }
     if (
+      this.props.sounds &&
       this.props.sounds.length > 0 &&
       prevProps.sounds !== this.props.sounds
     ) {
       if (!this.props.muted) {
-        this.synth.triggerAttackRelease(
+        this.melodyPlayer.triggerAttackRelease(
           this.props.sounds[this.props.index].sound,
-          this.props.sounds[this.props.index].duration
+          this.props.sounds[this.props.index].duration,
+          undefined,
+          (Math.random() * 0.5 + 0.5) * 0.8
         );
       }
 
@@ -89,8 +87,8 @@ class Cord extends React.Component {
   }
 
   render() {
-    var cordLength = this.props.height / 2 - 50;
-    var max = this.props.height / 2 - 50;
+    var cordLength = this.props.height / 2 - 75;
+    var max = this.props.height / 2 - 75;
     var interval = max / 2;
     var pts = [];
     var prevX = this.props.center.x;

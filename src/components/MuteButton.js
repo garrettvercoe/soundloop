@@ -79,19 +79,27 @@ class MuteButton extends React.Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          display: "inline-block",
+          position: "relative",
+          marginRight: "0",
+          marginLeft: "auto",
+
+          color: "#692d55"
+        }}
+      >
         {this.props.muted ? (
           <VolumeOff style={VolButton} onClick={() => this.handleUnmute()} />
         ) : (
           <VolumeUp style={VolButton} onClick={() => this.handleMute()} />
         )}
-
         <div
           style={{
             paddingLeft: "0.5rem",
+            paddingRight: "0.5rem",
             width: "100px",
-            float: "right",
-            color: "#692d55"
+            display: "inline-block"
           }}
         >
           <VolumeSlider
@@ -99,7 +107,7 @@ class MuteButton extends React.Component {
             value={this.state.value}
             onChange={this.handleChange}
             aria-labelledby="continuous-slider"
-          />{" "}
+          />
         </div>
       </div>
     );

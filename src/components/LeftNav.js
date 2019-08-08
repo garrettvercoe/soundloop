@@ -14,13 +14,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
-import ToggleMode from "./ToggleMode";
 import { updateFilename, updateTempo, updateOctave } from "../actions/shared";
-import { cursorErase, cursorMove } from "../actions/cursor";
+import { cursorErase, cursorMoveUnselected } from "../actions/cursor";
 import SustainMenu from "./SustainButton";
-import SoundEffects from "./SoundEffects";
 import { ReactComponent as Move } from "../move.svg";
 import { ReactComponent as Erase } from "../erase.svg";
+import TrashButton from "./TrashButton";
 
 import {
   red,
@@ -51,7 +50,7 @@ const colorHues = [
   orange,
   deepOrange
 ];
-const textLookup = [0, 600, 800, 800, 800, 200, 100, 50];
+const textLookup = [0, 600, 600, 800, 800, 200, 100, 50];
 const LibListStyle = {
   textAlign: "left",
   margin: 0,
@@ -157,53 +156,6 @@ const OctaveSlider = withStyles({
   }
 })(Slider);
 
-const TempoSlider = withStyles({
-  root: {
-    color: "#692D54",
-    height: 2
-  },
-  thumb: {
-    height: 28,
-    width: 28,
-
-    marginTop: -14,
-    marginLeft: -14,
-    "&:focus,&:hover,&$active": {
-      boxShadow:
-        "0 3px 1px rgba(0,0,0,0.01),0 2px 4px rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.001)",
-      // Reset on touch devices, it doesn't add specificity
-      "@media (hover: none)": {}
-    }
-  },
-  active: {},
-  track: {
-    height: 3,
-    borderRadius: 4
-  },
-  mark: {
-    height: 7,
-    width: 2,
-    marginTop: -2
-  },
-  markActive: {
-    backgroundColor: "currentColor"
-  },
-  rail: {
-    height: 3,
-    borderRadius: 4
-  },
-
-  valueLabel: {
-    left: "calc(-50% + 12px)",
-    top: 8,
-
-    "& *": {
-      background: "transparent",
-      color: "#fff"
-    }
-  }
-})(Slider);
-
 class LibraryUnconnected extends React.Component {
   constructor(props) {
     super(props);
@@ -239,15 +191,14 @@ class LibraryUnconnected extends React.Component {
   }
 
   handleMove() {
-    this.props.dispatch(cursorMove());
+    this.props.dispatch(cursorMoveUnselected());
   }
 
   render() {
     return (
       <React.Fragment>
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
-
-        <h3 className="light inl-blk"> CREATE</h3>
+        <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
           {this.state.tones[this.props.octave - 1].map(item => (
             <li style={LibListItemStyle} key={item.color}>
@@ -261,19 +212,36 @@ class LibraryUnconnected extends React.Component {
           ))}
           <div style={LibListItemStyle}>
             <Move
-              style={{ width: "32px", cursor: "pointer" }}
+              style={{
+                width: "32px",
+                cursor: "pointer",
+                borderRadius: "50%",
+                boxShadow:
+                  this.props.mode === "MOVE_UNSELECTED" ||
+                  this.props.mode === "MOVE_SELECTED"
+                    ? " 0 10px 10px rgba(0, 0, 0, 0.08), 0 3px 3px rgba(0, 0, 0, 0.2)"
+                    : "none"
+              }}
               onClick={() => this.handleMove()}
             />
           </div>
           <div style={LibListItemStyle}>
             <Erase
-              style={{ width: "32px", cursor: "pointer" }}
+              style={{
+                width: "32px",
+                cursor: "pointer",
+                borderRadius: "50%",
+                boxShadow:
+                  this.props.mode === "ERASE"
+                    ? " 0 10px 10px rgba(0, 0, 0, 0.08), 0 3px 3px rgba(0, 0, 0, 0.2)"
+                    : "none"
+              }}
               onClick={() => this.handleErase()}
             />
           </div>
         </ul>
         <br />
-        <h4 className="light inl-blk desc">Octave</h4>
+        <h3 className="light inl-blk"> OCTAVE</h3>
         <OctaveSlider
           defaultValue={4}
           onChange={this.handleOctave}
@@ -281,10 +249,12 @@ class LibraryUnconnected extends React.Component {
           valueLabelDisplay="on"
           step={1}
           marks
-          min={1}
-          max={7}
+          min={3}
+          max={6}
         />
+        <br /> <br />
         <SustainMenu />
+        <br />
       </React.Fragment>
     );
   }
@@ -318,22 +288,8 @@ class CreateMenuUnconnected extends React.Component {
     return (
       <React.Fragment>
         <LibraryContainer />
-        <hr />
         <NewLoop />
-        <h3 className="light inl-blk"> SPEED</h3>
-        <TempoSlider
-          defaultValue={1}
-          onChange={this.handleTempoChange}
-          aria-labelledby="continuous-slider"
-          valueLabelDisplay="on"
-          min={0.5}
-          max={2}
-          step={0.5}
-          marks
-          disabled={!this.props.playing ? false : true}
-        />
-        {/* <SoundEffects /> */}
-        <ToggleMode />
+        <TrashButton />
       </React.Fragment>
     );
   }
@@ -411,6 +367,7 @@ function mapStateToProps(state) {
     tempo: state.shared.tempo,
     sounds: state.shared.sounds,
     octave: state.shared.octave,
+    mode: state.cursor.mode,
     playing: state.shared.playing
   };
 }
@@ -466,7 +423,7 @@ export default class LeftNav extends React.Component {
               icon={faPlusCircle}
               onClick={() => this.handleCreate()}
             />
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               className="inl-blk fa-lg  menu-item"
               style={
                 this.state.showing === "terminalMenu"
@@ -475,7 +432,7 @@ export default class LeftNav extends React.Component {
               }
               icon={faTerminal}
               onClick={() => this.handleTerminal()}
-            />
+            /> */}
             <FontAwesomeIcon
               className="inl-blk fa-2x  menu-item"
               style={
@@ -497,7 +454,7 @@ export default class LeftNav extends React.Component {
                 width: "7.5rem",
                 margin: "0",
                 display: "block",
-                paddingBottom: "1.75rem"
+                paddingBottom: "10vh"
               }}
             />
 

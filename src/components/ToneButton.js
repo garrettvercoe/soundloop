@@ -1,6 +1,5 @@
 import React from "react";
 import "../styles/index.css";
-
 import { connect } from "react-redux";
 import { updateTone } from "../actions/tones";
 import { playTone } from "../actions/cord";
@@ -16,7 +15,7 @@ class ToneButton extends React.Component {
   handleStop() {}
 
   handleClick() {
-    this.props.dispatch(cursorAdd(this.props.note));
+    this.props.dispatch(cursorAdd(this.props.note, this.props.color));
 
     var radius = this.props.screenHeight / 350;
     for (var i = 0; i < this.props.tones.length; i++) {
@@ -39,42 +38,32 @@ class ToneButton extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <button
-          className="hover-shadow"
-          style={{
-            borderRadius: "100%",
-            border: "2px solid",
-            borderColor: this.props.color,
-            backgroundColor: "transparent",
-            width: "2rem",
-            height: "2rem",
-            position: "absolute",
-            outline: "none",
-            pointerEvents: "none"
-          }}
-        />
-        {/* <Draggable
-          position={this.state.deltaPosition}
-          onStop={this.handleStop}
-          onStart={this.handleDrag}
-        > */}
-        <div
-          ref={this.selector}
-          className="hover-shadow"
-          onClick={this.handleClick}
-          style={{
-            borderRadius: "100%",
-            backgroundColor: this.props.color,
-            width: "2rem",
-            zIndex: 1,
-            height: "2rem",
-
-            border: "none",
-            outline: "none"
-          }}
-        >
-          <div className="note-select" style={{ color: this.props.textColor }}>
-            {this.props.note}
+        <div className="outer-button">
+          <div
+            ref={this.selector}
+            className="hover-shadow"
+            onClick={this.handleClick}
+            style={{
+              borderRadius: "100%",
+              backgroundColor: this.props.color,
+              width: "2rem",
+              zIndex: 1,
+              height: "2rem",
+              boxShadow:
+                this.props.selectedNote === this.props.note &&
+                this.props.mode === "ADD"
+                  ? " 0 10px 10px rgba(0, 0, 0, 0.08), 0 3px 3px rgba(0, 0, 0, 0.2)"
+                  : "none",
+              border: "none",
+              outline: "none"
+            }}
+          >
+            <div
+              className="note-select"
+              style={{ color: this.props.textColor }}
+            >
+              {this.props.note}
+            </div>
           </div>
         </div>
       </React.Fragment>
@@ -85,8 +74,10 @@ class ToneButton extends React.Component {
 function mapStateToProps(state) {
   return {
     loops: state.loops,
+    selectedNote: state.cursor.sound,
     tones: state.tones,
     playing: state.shared.playing,
+    mode: state.cursor.mode,
     center: state.shared.center,
     screenHeight: state.shared.screenHeight,
     selectedSustain: state.shared.selectedSustain,

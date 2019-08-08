@@ -13,7 +13,7 @@ const LibListStyle = {
 const LibListItemStyle = {
   display: "inline-block",
   verticalAlign: "top",
-  padding: ".25rem"
+  padding: ".35rem"
 };
 
 class SustainButton extends React.Component {
@@ -49,6 +49,7 @@ class SustainButton extends React.Component {
             this.props.sustain === this.props.selectedSustain
               ? "#692d54"
               : "#c4b2be",
+
           width: this.props.toneSizes[this.props.sustain] * 2 + "px",
           height: this.props.toneSizes[this.props.sustain] * 2 + "px",
           position: "relative",
@@ -80,37 +81,34 @@ function mapStateToProps(state) {
 const ConnectedSustainButton = connect(mapStateToProps)(SustainButton);
 
 class SustainMenu extends React.Component {
-
-  
-  componentDidMount(){
-    console.log("susToPass mounted")
+  componentDidMount() {
+    console.log("susToPass mounted");
     this.susToPass = ["32n", "16n", "8n", "4n", "2n", "1m", "2m"];
   }
 
-  componentDidUpdate(prevProps){
-    if (prevProps.tempo !== this.props.tempo){
-      console.log("tempo change")
-      if (this.props.tempo === .5){
+  componentDidUpdate(prevProps) {
+    if (prevProps.tempo !== this.props.tempo) {
+      console.log("tempo change");
+      if (this.props.tempo === 0.5) {
         this.susToPass = ["16n", "8n", "4n", "2n", "1m", "2m", "4m"];
-      }
-      else if (this.props.tempo === 2){
+      } else if (this.props.tempo === 2) {
         this.susToPass = ["64n", "32n", "16n", "8n", "4n", "2n", "1m"];
       }
     }
   }
 
   render() {
-    var susToShow = ["", "16", "1/8", "1/4", "1/2", "1"];
+    var susToShow = ["16", "1/8", "1/4", "1/2", "1"];
     // if (this.props.tempo === .5){
     //   this.susToPass = ["16n", "8n", "4n", "2n", "1m", "2m", "4m"];
     // }
     // else if (this.props.tempo === 1){
     //   this.susToPass = ["64n", "32n", "16n", "8n", "4n", "2n", "1m"];
     // }
-    var susToPass = ["32n", "16n", "8n", "4n", "2n", "1m", "2m"];
+    var susToPass = ["16n", "8n", "4n", "2n", "1m"];
     return (
       <React.Fragment>
-        <h4 className="light inl-blk desc"> Duration</h4>
+        <h3 className="light inl-blk"> DURATION</h3>
         <ul style={LibListStyle}>
           {susToShow.map((item, i) => (
             <li style={LibListItemStyle} key={item.color}>

@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { makeInvisible } from "../actions/cursor";
+import {
+  makeInvisible,
+  cursorMoveSelected,
+  cursorMoveUnselected
+} from "../actions/cursor";
 import { updateTone } from "../actions/tones";
 import {
   red,
@@ -35,6 +39,9 @@ const colorHues = [
 class Cursor extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      color: "#000"
+    };
     this.handleClick = this.handleClick.bind(this);
     this.showRightCursor = this.showRightCursor.bind(this);
     this.findPointerEvent = this.findPointerEvent.bind(this);
@@ -51,17 +58,21 @@ class Cursor extends React.Component {
 
   componentDidMount() {
     this.colorHue = this.props.sounds.indexOf(this.props.sound);
-    this.color = colorHues[this.colorHue][this.props.octave * 100];
+    this.setState({ color: colorHues[this.colorHue][this.props.octave * 100] });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.sound !== this.props.sound) {
       this.colorHue = this.props.sounds.indexOf(this.props.sound);
-      this.color = colorHues[this.colorHue][this.props.octave * 100];
+      this.setState({
+        color: colorHues[this.colorHue][this.props.octave * 100]
+      });
     }
     if (prevProps.octave !== this.props.octave) {
       this.colorHue = this.props.sounds.indexOf(this.props.sound);
-      this.color = colorHues[this.colorHue][this.props.octave * 100];
+      this.setState({
+        color: colorHues[this.colorHue][this.props.octave * 100]
+      });
     }
   }
 
@@ -143,11 +154,7 @@ class Cursor extends React.Component {
 
     if (loopToSnap) {
       var angle = this.props.loops[loopToSnap.index].rotation;
-      console.log("ANGLE LOOP: " + angle)
-      console.log("Loop to snap index: " + loopToSnap.index)
-
       var trueCoords = this.findTrueCoordinates(b, a, angle, distToCenter);
-
       var intervalId = this.findClosestInterval(
         trueCoords.x,
         trueCoords.y,
@@ -161,23 +168,36 @@ class Cursor extends React.Component {
 
   pickUp(at) {
     //pass in data first to cursor
-    this.props.dispatch(updateTone(at, "transparent", null, 1.5));
+    if (this.props.tones[at].sound !== null) {
+      var sound = this.props.tones[at].sound.replace(/[0-9]/g, "");
+
+      this.props.dispatch(
+        updateTone(at, "#692d54", null, this.props.screenHeight / 350)
+      );
+      this.props.dispatch(cursorMoveSelected(sound));
+    }
   }
   putDown(at) {
     this.props.dispatch(
       updateTone(
         at,
-        this.color,
+        this.state.color,
         this.props.sound + this.props.octave,
-
         //  this.props.screenHeight / 50,
         this.props.toneSizes[this.props.selectedSustain],
         this.props.selectedSustain
       )
     );
+    if (this.props.mode === "MOVE_SELECTED") {
+      this.props.dispatch(cursorMoveUnselected());
+    }
   }
   erase(at) {
-    this.props.dispatch(updateTone(at, "transparent", null, 1.5));
+    if (this.props.tones[at].sound !== null) {
+      this.props.dispatch(
+        updateTone(at, "#692d54", null, this.props.screenHeight / 350)
+      );
+    }
   }
 
   showRightCursor() {
@@ -230,12 +250,12 @@ class Cursor extends React.Component {
     }
   }
   render() {
-    if (this.props.playing){
+    if (this.props.playing) {
       this.width = 0;
       this.height = 0;
     } else {
       this.width = 2 * this.props.toneSizes[this.props.selectedSustain];
-      this.height = 2 * this.props.toneSizes[this.props.selectedSustain]
+      this.height = 2 * this.props.toneSizes[this.props.selectedSustain];
     }
     return (
       <React.Fragment>
@@ -247,14 +267,18 @@ class Cursor extends React.Component {
               this.props.cursorPos.x -
               this.props.toneSizes[this.props.selectedSustain],
             top:
-              this.props.cursorPos.y-this.props.toneSizes[this.props.selectedSustain],
+              this.props.cursorPos.y -
+              this.props.toneSizes[this.props.selectedSustain],
             width: this.width,
             height: this.height,
 
             borderRadius: "50%",
             pointerEvents: this.findPointerEvent(),
             cursor: this.showRightCursor(),
-            background: this.props.mode === "ADD" ? this.color : "transparent"
+            background:
+              this.props.mode === "ADD" || this.props.mode === "MOVE_SELECTED"
+                ? this.state.color
+                : "transparent"
           }}
         />
       </React.Fragment>

@@ -37,15 +37,15 @@ export function updateLoopSpeed(id, speed) {
 }
 
 export function activateLoop(id) {
-    return dispatch => {
-      dispatch({
-        type: ACTIVATE_LOOP,
-        id: id,
-        active: true,
-        stroke: "#ed1e79"
-      });
-    };
-  }
+  return dispatch => {
+    dispatch({
+      type: ACTIVATE_LOOP,
+      id: id,
+      active: true,
+      stroke: "#ed1e79"
+    });
+  };
+}
 
 export function deactivateLoop(id) {
   return dispatch => {

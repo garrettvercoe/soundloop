@@ -1,8 +1,9 @@
 import {
   MAKE_INVISIBLE,
   CURSOR_ADD,
-  CURSOR_MOVE,
-  CURSOR_ERASE
+  CURSOR_ERASE,
+  CURSOR_MOVE_UNSELECTED,
+  CURSOR_MOVE_SELECTED
 } from "../actions/cursor";
 
 export default function shared(
@@ -19,9 +20,14 @@ export default function shared(
         mode: "ADD",
         sound: action.sound
       });
-    case CURSOR_MOVE:
+    case CURSOR_MOVE_UNSELECTED:
       return Object.assign({}, state, {
         mode: "MOVE_UNSELECTED"
+      });
+    case CURSOR_MOVE_SELECTED:
+      return Object.assign({}, state, {
+        mode: "MOVE_SELECTED",
+        sound: action.sound
       });
     case CURSOR_ERASE:
       return Object.assign({}, state, {
