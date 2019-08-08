@@ -56,7 +56,7 @@ class LoopKonva extends React.Component {
 
   calcTempo(){
     // 90*((window.innerHeight/3)/action.radius)
-    var baseTempo = 110 * this.props.tempo;
+    var baseTempo = this.props.tempo;
     console.log("NEW TEMPO OF " + this.props.id + ": " + baseTempo)
     console.log("TEMPO PROPS OF " + this.props.id + ": " + this.props.tempo)
     if (this.props.mode === "linear") {

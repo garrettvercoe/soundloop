@@ -65,13 +65,13 @@ class Tempo extends React.Component {
           }}
         >
           <TempoSlider
-            defaultValue={1}
+            defaultValue={110}
             onChange={this.handleTempoChange}
             aria-labelledby="continuous-slider"
             valueLabelDisplay="off"
-            min={0.5}
-            max={2}
-            step={0.5}
+            min={55}
+            max={220}
+            step={1}
             disabled={!this.props.playing ? false : true}
           />
         </div>
