@@ -13,7 +13,7 @@ const LibListStyle = {
 const LibListItemStyle = {
   display: "inline-block",
   verticalAlign: "top",
-  padding: ".25rem"
+  padding: ".35rem"
 };
 
 class SustainButton extends React.Component {
@@ -108,7 +108,7 @@ class SustainMenu extends React.Component {
     var susToPass = ["16n", "8n", "4n", "2n", "1m"];
     return (
       <React.Fragment>
-        <h4 className="light inl-blk desc"> Duration</h4>
+        <h3 className="light inl-blk"> DURATION</h3>
         <ul style={LibListStyle}>
           {susToShow.map((item, i) => (
             <li style={LibListItemStyle} key={item.color}>

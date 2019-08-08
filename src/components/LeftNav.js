@@ -198,8 +198,7 @@ class LibraryUnconnected extends React.Component {
     return (
       <React.Fragment>
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
-
-        <h3 className="light inl-blk"> CREATE</h3>
+        <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
           {this.state.tones[this.props.octave - 1].map(item => (
             <li style={LibListItemStyle} key={item.color}>
@@ -242,7 +241,7 @@ class LibraryUnconnected extends React.Component {
           </div>
         </ul>
         <br />
-        <h4 className="light inl-blk desc">Octave</h4>
+        <h3 className="light inl-blk"> OCTAVE</h3>
         <OctaveSlider
           defaultValue={4}
           onChange={this.handleOctave}
@@ -253,7 +252,9 @@ class LibraryUnconnected extends React.Component {
           min={3}
           max={6}
         />
+        <br /> <br />
         <SustainMenu />
+        <br />
       </React.Fragment>
     );
   }
@@ -287,7 +288,6 @@ class CreateMenuUnconnected extends React.Component {
     return (
       <React.Fragment>
         <LibraryContainer />
-        <hr />
         <NewLoop />
         <TrashButton />
       </React.Fragment>
@@ -454,7 +454,7 @@ export default class LeftNav extends React.Component {
                 width: "7.5rem",
                 margin: "0",
                 display: "block",
-                paddingBottom: "1.75rem"
+                paddingBottom: "10vh"
               }}
             />
 

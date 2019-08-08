@@ -38,8 +38,8 @@ export default function(state, action) {
         "32n": 10,
         "16n": 14,
         "8n": 16,
-        "4n": 18,
-        "2n": 20,
+        "4n": 19,
+        "2n": 22,
         "1m": 25,
         "2m": 30
       },

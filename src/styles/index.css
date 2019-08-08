@@ -141,12 +141,13 @@ code {
 .plus-icon {
   color: #808080;
   padding-right: 0.75rem;
-  padding-left: 0.75rem;
+
   right: 0px;
 }
 
 .minus-icon {
   color: #808080;
+  padding-left: 0.75rem;
   padding-right: 0.75rem;
   right: 0px;
 }

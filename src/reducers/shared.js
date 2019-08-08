@@ -33,10 +33,9 @@ export default function shared(
     volume: 0,
     tempo: 1,
     toneSizes: {
-      "32n": 10,
-      "16n": 14,
-      "8n": 16,
-      "4n": 18,
+      "16n": 13,
+      "8n": 15,
+      "4n": 17,
       "2n": 20,
       "1m": 25,
       "2m": 30
