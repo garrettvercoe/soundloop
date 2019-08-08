@@ -8,34 +8,32 @@ import { trashAllLinear, trashAllAngular } from "../actions/shared";
 const TrashButtonInactive = {
   color: "#ddd",
   position: "relative",
-  float: "right",
-  padding: "0 2rem 0rem 2rem"
+  padding: "0 0.75rem 0rem 0rem"
 };
 const TrashButtonActive = {
   color: "#692d55",
   position: "relative",
-  float: "right",
-  padding: "0 2rem 0rem 2rem"
+  padding: "0 0.75rem 0rem 0rem"
 };
 
 class TrashButton extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.playing ? (
-          <FontAwesomeIcon
-            className="inl-blk fa-lg"
-            style={TrashButtonInactive}
-            icon={faRedoAlt}
-          />
-        ) : (
-          <FontAwesomeIcon
-            className="inl-blk fa-lg"
-            style={TrashButtonActive}
-            icon={faRedoAlt}
-            onClick={this.props.mode==="angular" ? (() => this.props.dispatch(trashAllAngular())) : (() => this.props.dispatch(trashAllLinear()))}
-          />
-        )}
+        <div
+          className="tone-add plus-icon"
+          onClick={
+            this.props.mode === "angular"
+              ? () => this.props.dispatch(trashAllAngular())
+              : () => this.props.dispatch(trashAllLinear())
+          }
+        >
+          {/* <FontAwesomeIcon className="inl-blk fa-lg" icon={faRedoAlt} /> */}
+          <FontAwesomeIcon className="inl-blk fa-lg" icon={faRedoAlt} />
+          <h3 style={{ marginLeft: "1rem" }} className="inl-blk light  ">
+            RESET
+          </h3>
+        </div>
       </React.Fragment>
     );
   }

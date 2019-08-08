@@ -73,7 +73,7 @@ const MenuItemStyleActive = {
 };
 
 const LeftNavMenu = {
-  marginTop: "14.5vh"
+  marginTop: "21.5vh"
 };
 const LibListItemStyle = {
   display: "inline-block",
@@ -254,7 +254,6 @@ class LibraryUnconnected extends React.Component {
         />
         <br /> <br />
         <SustainMenu />
-        <br />
       </React.Fragment>
     );
   }
@@ -288,8 +287,10 @@ class CreateMenuUnconnected extends React.Component {
     return (
       <React.Fragment>
         <LibraryContainer />
-        <NewLoop />
-        <TrashButton />
+        <div style={{ margin: "0 auto", position: "relative" }}>
+          <NewLoop />
+          <TrashButton />
+        </div>
       </React.Fragment>
     );
   }

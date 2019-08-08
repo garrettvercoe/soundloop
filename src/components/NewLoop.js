@@ -46,22 +46,22 @@ class NewLoop extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <br />
-        <div>
-          <h3 className="light inl-blk">LOOP</h3>
+        <hr />
 
+        <div>
           <FontAwesomeIcon
-            className="minus-icon inl-blk fa-lg"
+            className="minus-icon inl-blk fa-lg "
             icon={faMinusCircle}
             onClick={this.handleMinusClick}
           />
+
           <FontAwesomeIcon
             className="plus-icon inl-blk fa-lg"
             icon={faPlusCircle}
             onClick={this.handlePlusClick}
           />
+          <h3 className="light inl-blk ">LOOP</h3>
         </div>
-        <br />
       </React.Fragment>
     );
   }
