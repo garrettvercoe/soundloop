@@ -14,13 +14,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
-import ToggleMode from "./ToggleMode";
 import { updateFilename, updateTempo, updateOctave } from "../actions/shared";
 import { cursorErase, cursorMoveUnselected } from "../actions/cursor";
 import SustainMenu from "./SustainButton";
-import SoundEffects from "./SoundEffects";
 import { ReactComponent as Move } from "../move.svg";
 import { ReactComponent as Erase } from "../erase.svg";
+import TrashButton from "./TrashButton";
 
 import {
   red,
@@ -148,53 +147,6 @@ const OctaveSlider = withStyles({
 
   valueLabel: {
     left: "calc(-50% + 11px)",
-    top: 8,
-
-    "& *": {
-      background: "transparent",
-      color: "#fff"
-    }
-  }
-})(Slider);
-
-const TempoSlider = withStyles({
-  root: {
-    color: "#692D54",
-    height: 2
-  },
-  thumb: {
-    height: 28,
-    width: 28,
-
-    marginTop: -14,
-    marginLeft: -14,
-    "&:focus,&:hover,&$active": {
-      boxShadow:
-        "0 3px 1px rgba(0,0,0,0.01),0 2px 4px rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.001)",
-      // Reset on touch devices, it doesn't add specificity
-      "@media (hover: none)": {}
-    }
-  },
-  active: {},
-  track: {
-    height: 3,
-    borderRadius: 4
-  },
-  mark: {
-    height: 7,
-    width: 2,
-    marginTop: -2
-  },
-  markActive: {
-    backgroundColor: "currentColor"
-  },
-  rail: {
-    height: 3,
-    borderRadius: 4
-  },
-
-  valueLabel: {
-    left: "calc(-50% + 12px)",
     top: 8,
 
     "& *": {
@@ -337,20 +289,7 @@ class CreateMenuUnconnected extends React.Component {
         <LibraryContainer />
         <hr />
         <NewLoop />
-        <h3 className="light inl-blk"> SPEED</h3>
-        <TempoSlider
-          defaultValue={1}
-          onChange={this.handleTempoChange}
-          aria-labelledby="continuous-slider"
-          valueLabelDisplay="on"
-          min={0.5}
-          max={2}
-          step={0.5}
-          marks
-          disabled={!this.props.playing ? false : true}
-        />
-        {/* <SoundEffects /> */}
-        <ToggleMode />
+        <TrashButton />
       </React.Fragment>
     );
   }
@@ -484,7 +423,7 @@ export default class LeftNav extends React.Component {
               icon={faPlusCircle}
               onClick={() => this.handleCreate()}
             />
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               className="inl-blk fa-lg  menu-item"
               style={
                 this.state.showing === "terminalMenu"
@@ -493,7 +432,7 @@ export default class LeftNav extends React.Component {
               }
               icon={faTerminal}
               onClick={() => this.handleTerminal()}
-            />
+            /> */}
             <FontAwesomeIcon
               className="inl-blk fa-2x  menu-item"
               style={

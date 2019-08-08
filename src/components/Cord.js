@@ -25,7 +25,7 @@ class Cord extends React.Component {
 
     this.melodyPlayer.stealVoices = false;
 
-    var max = this.props.height / 2 - 50;
+    var max = this.props.height / 2 - 75;
     var interval = max / 2;
     this.pts = [];
     var flux = 8;
@@ -87,8 +87,8 @@ class Cord extends React.Component {
   }
 
   render() {
-    var cordLength = this.props.height / 2 - 50;
-    var max = this.props.height / 2 - 50;
+    var cordLength = this.props.height / 2 - 75;
+    var max = this.props.height / 2 - 75;
     var interval = max / 2;
     var pts = [];
     var prevX = this.props.center.x;

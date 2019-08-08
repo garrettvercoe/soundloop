@@ -8,7 +8,7 @@ import { togglePlay, toggleStop } from "../actions/shared";
 const PlayButtonStyle = {
   color: "#692d55",
   position: "absolute",
-  left: "50%"
+  left: "47.5%"
 };
 
 class PlayButton extends React.Component {

@@ -28,7 +28,7 @@ export default function(state, action) {
       screenWidth: window.innerWidth,
       screenHeight: window.innerHeight,
       muted: false,
-      mode: action.data.shared.mode,
+      mode: "linear",
       octave: 4,
       selectedSustain: "8n",
       fileName: action.data.shared.fileName,
@@ -43,7 +43,6 @@ export default function(state, action) {
         "1m": 25,
         "2m": 30
       },
-
       sounds: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     };
     state.cursor = {

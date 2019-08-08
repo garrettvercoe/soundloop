@@ -20,13 +20,13 @@ export default function shared(
     playing: false,
     center: {
       x: 380 + (window.innerWidth - 380) / 2,
-      y: window.innerHeight / 2
+      y: window.innerHeight / 2 - 15
     },
     screenWidth: window.innerWidth,
     screenHeight: window.innerHeight,
     loopCount: 1,
     muted: false,
-    mode: "angular",
+    mode: "linear",
     octave: 4,
     selectedSustain: "8n",
     fileName: "MyProject",
