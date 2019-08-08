@@ -51,7 +51,7 @@ const colorHues = [
   orange,
   deepOrange
 ];
-const textLookup = [0, 600, 800, 800, 800, 200, 100, 50];
+const textLookup = [0, 600, 600, 800, 800, 200, 100, 50];
 const LibListStyle = {
   textAlign: "left",
   margin: 0,
@@ -298,8 +298,8 @@ class LibraryUnconnected extends React.Component {
           valueLabelDisplay="on"
           step={1}
           marks
-          min={1}
-          max={7}
+          min={3}
+          max={6}
         />
         <SustainMenu />
       </React.Fragment>

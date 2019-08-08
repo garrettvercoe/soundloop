@@ -1,6 +1,5 @@
 import React from "react";
 import "../styles/index.css";
-
 import { connect } from "react-redux";
 import { updateTone } from "../actions/tones";
 import { playTone } from "../actions/cord";
@@ -39,11 +38,6 @@ class ToneButton extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {/* <Draggable
-          position={this.state.deltaPosition}
-          onStop={this.handleStop}
-          onStart={this.handleDrag}
-        > */}
         <div className="outer-button">
           <div
             ref={this.selector}

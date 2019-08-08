@@ -7,28 +7,23 @@ import Tone from "tone";
 
 class Cord extends React.Component {
   componentDidMount() {
-    //playing around with creating a sound
+    this.melodyPlayer = new Tone.PolySynth(3, Tone.SimpleSynth)
+      .set({
+        volume: 0,
+        oscillator: {
+          type: "triangle"
+          // 'partials' : [16, 8, 4, 2, 1, 0.5, 1, 2]
+        },
+        envelope: {
+          attack: 0.01,
+          decay: 0.1,
+          sustain: 0.2,
+          release: 1.7
+        }
+      })
+      .toMaster();
 
-    //create a synth and connect it to the master output (your speakers)
-    // var distortion = new Tone.Distortion(1.5);
-    // var tremolo = new Tone.Tremolo().start();
-    // this.synth = new Tone.PolySynth().chain(distortion, tremolo, Tone.Master);
-
-    //some overall compression to keep the levels in check
-    // var masterCompressor = new Tone.Compressor({
-    //   threshold: -6,
-    //   ratio: 3,
-    //   attack: 0.5,
-    //   release: 0.1
-    // });
-    // //give a little boost to the lows
-    // var lowBump = new Tone.Filter(200, "lowshelf");
-    //route everything through the filter
-    //and compressor before going to the speakers
-
-    // Tone.Master.chain(lowBump, masterCompressor);
-
-    this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
+    this.melodyPlayer.stealVoices = false;
 
     var max = this.props.height / 2 - 50;
     var interval = max / 2;
@@ -75,9 +70,11 @@ class Cord extends React.Component {
       prevProps.sounds !== this.props.sounds
     ) {
       if (!this.props.muted) {
-        this.synth.triggerAttackRelease(
+        this.melodyPlayer.triggerAttackRelease(
           this.props.sounds[this.props.index].sound,
-          this.props.sounds[this.props.index].duration
+          this.props.sounds[this.props.index].duration,
+          undefined,
+          (Math.random() * 0.5 + 0.5) * 0.8
         );
       }
 

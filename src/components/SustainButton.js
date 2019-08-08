@@ -81,34 +81,31 @@ function mapStateToProps(state) {
 const ConnectedSustainButton = connect(mapStateToProps)(SustainButton);
 
 class SustainMenu extends React.Component {
-
-  
-  componentDidMount(){
-    console.log("susToPass mounted")
+  componentDidMount() {
+    console.log("susToPass mounted");
     this.susToPass = ["32n", "16n", "8n", "4n", "2n", "1m", "2m"];
   }
 
-  componentDidUpdate(prevProps){
-    if (prevProps.tempo !== this.props.tempo){
-      console.log("tempo change")
-      if (this.props.tempo === .5){
+  componentDidUpdate(prevProps) {
+    if (prevProps.tempo !== this.props.tempo) {
+      console.log("tempo change");
+      if (this.props.tempo === 0.5) {
         this.susToPass = ["16n", "8n", "4n", "2n", "1m", "2m", "4m"];
-      }
-      else if (this.props.tempo === 2){
+      } else if (this.props.tempo === 2) {
         this.susToPass = ["64n", "32n", "16n", "8n", "4n", "2n", "1m"];
       }
     }
   }
 
   render() {
-    var susToShow = ["", "16", "1/8", "1/4", "1/2", "1"];
+    var susToShow = ["16", "1/8", "1/4", "1/2", "1"];
     // if (this.props.tempo === .5){
     //   this.susToPass = ["16n", "8n", "4n", "2n", "1m", "2m", "4m"];
     // }
     // else if (this.props.tempo === 1){
     //   this.susToPass = ["64n", "32n", "16n", "8n", "4n", "2n", "1m"];
     // }
-    var susToPass = ["32n", "16n", "8n", "4n", "2n", "1m", "2m"];
+    var susToPass = ["16n", "8n", "4n", "2n", "1m"];
     return (
       <React.Fragment>
         <h4 className="light inl-blk desc"> Duration</h4>
