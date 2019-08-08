@@ -74,6 +74,7 @@ class LoopKonva extends React.Component {
     if (prevProps.tempo !== this.props.tempo){
       this.props.dispatch(updateLoopSpeed(this.props.id, this.calcTempo()))
     }
+    console.log("ROTATION ON UP: " + this.props.rotation)
 
     // on rotation update, update all tones accordingly,
     // on pause, toneKonva updateLoop, then for all toneKonvas, rotate by that updated amount
