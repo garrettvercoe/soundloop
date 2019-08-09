@@ -162,7 +162,7 @@ class LibraryUnconnected extends React.Component {
     this.buttons = [];
     this.buttonList = [];
 
-    this.octaves = [1, 2, 3, 4, 5, 6, 7];
+    this.octaves = [3, 4, 5, 6];
     for (let j = 0; j < this.octaves.length; j++) {
       for (let i = 0; i < colorHues.length; i++) {
         this.buttons.push({
@@ -200,7 +200,7 @@ class LibraryUnconnected extends React.Component {
         {/* <div className={this.state.noteSelected ? "cursor" : ""}> </div> */}
         <h3 className="light inl-blk"> NOTES</h3>
         <ul style={LibListStyle}>
-          {this.state.tones[this.props.octave - 1].map(item => (
+          {this.state.tones[this.props.octave - 3].map(item => (
             <li style={LibListItemStyle} key={item.color}>
               <ToneButton
                 color={item.color}

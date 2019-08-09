@@ -51,7 +51,7 @@ export default function(state, action) {
       mode: "empty"
     };
 
-    state.cord = {};
+    state.cord = { sounds: [] };
   }
   return appReducer(state, action);
 }

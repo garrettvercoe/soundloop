@@ -85,10 +85,12 @@ class Cord extends React.Component {
       this.props.sounds.length > 0 &&
       prevProps.sounds !== this.props.sounds
     ) {
+      // if not muted
       if (!this.props.muted) {
+        // play sound from length
         this.melodyPlayer.triggerAttackRelease(
-          this.props.sounds[this.props.index].sound,
-          this.props.sounds[this.props.index].duration,
+          this.props.sounds[this.props.sounds.length - 1].sound,
+          this.props.sounds[this.props.sounds.length - 1].duration,
           undefined,
           (Math.random() * 0.5 + 0.5) * 0.8
         );
