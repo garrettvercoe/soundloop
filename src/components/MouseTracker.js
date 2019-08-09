@@ -5,6 +5,7 @@ import {
   cursorMoveSelected,
   cursorMoveUnselected
 } from "../actions/cursor";
+import { updateOctave, updateSustain } from "../actions/shared";
 import { updateTone } from "../actions/tones";
 import {
   red,
@@ -170,10 +171,13 @@ class Cursor extends React.Component {
     //pass in data first to cursor
     if (this.props.tones[at].sound !== null) {
       var sound = this.props.tones[at].sound.replace(/[0-9]/g, "");
-
+      var octave = this.props.tones[at].sound.replace(/[A-Z]/g, "");
+      console.log("octave" + octave);
       this.props.dispatch(
         updateTone(at, "#692d54", null, this.props.screenHeight / 350)
       );
+      this.props.dispatch(updateSustain(this.props.tones[at].duration));
+      this.props.dispatch(updateOctave(octave));
       this.props.dispatch(cursorMoveSelected(sound));
     }
   }
