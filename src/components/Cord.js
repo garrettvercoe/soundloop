@@ -42,7 +42,7 @@ class Cord extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.height !== this.props.height){
+    if (prevProps.height !== this.props.height) {
       var max = this.props.height / 2 - 75;
       var interval = max / 2;
       this.pts = [];

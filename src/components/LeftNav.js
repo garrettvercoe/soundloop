@@ -84,6 +84,7 @@ const LibListItemStyle = {
 const CardStyle = {
   position: "absolute",
   top: "0%",
+  zIndex: 10,
   left: "60px",
   width: "320px",
   height: "100vh",

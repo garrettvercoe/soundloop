@@ -29,19 +29,18 @@ export default function(state, action) {
       screenHeight: window.innerHeight,
       muted: false,
       mode: "linear",
-      octave: 4,
-      selectedSustain: "8n",
+      octave: action.data.shared.octave,
+      selectedSustain: action.data.shared.selectedSustain,
       fileName: action.data.shared.fileName,
       volume: 0,
-      tempo: 1,
+      tempo: action.data.shared.tempo,
       toneSizes: {
-        "32n": 10,
-        "16n": 14,
-        "8n": 16,
-        "4n": 19,
-        "2n": 22,
-        "1m": 25,
-        "2m": 30
+        "32n": Math.round(window.innerHeight / 92),
+        "16n": Math.round(window.innerHeight / 70),
+        "8n": Math.round(window.innerHeight / 60),
+        "4n": Math.round(window.innerHeight / 52),
+        "2n": Math.round(window.innerHeight / 43),
+        "1m": Math.round(window.innerHeight / 35)
       },
       sounds: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     };
