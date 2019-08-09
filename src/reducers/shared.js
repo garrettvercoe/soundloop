@@ -33,11 +33,12 @@ export default function shared(
     volume: 0,
     tempo: 110,
     toneSizes: {
-      "16n": 13,
-      "8n": 15,
-      "4n": 17,
-      "2n": 20,
-      "1m": 25,
+      "32n": window.innerHeight/80,
+      "16n": window.innerHeight/57,
+      "8n": window.innerHeight/50,
+      "4n": window.innerHeight/45,
+      "2n": window.innerHeight/40,
+      "1m": window.innerHeight/33,
       "2m": 30
     },
     sounds: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
