@@ -31,19 +31,22 @@ class ToneKonva extends React.Component {
     var x2 = this.props.x;
     var y2 = Math.round(this.props.y + radius);
 
-    var cos = 
+    var cos =
       (2 * (radius * radius) -
         Math.abs((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))) /
-        (2 * (radius * radius))
+      (2 * (radius * radius));
 
     // some cases where cos < -1 by small float amount, this corrects it
-    if (cos < -1){
+    if (cos < -1) {
       cos = -1;
+    }
+    if (cos > 1) {
+      cos = 1;
     }
 
     var rad = Math.acos(cos);
-    
-    console.log("acos(" + cos + ")")
+
+    console.log("acos(" + cos + ")");
 
     var deg = rad * (180 / Math.PI);
 
@@ -56,7 +59,7 @@ class ToneKonva extends React.Component {
     this.angularSpeed = this.props.loops[this.props.attachedLoop].speed;
 
     this.angle = this.getAngle();
-    console.log("KONVA ANGLE for " + this.props.id + ": " + this.angle)
+    console.log("KONVA ANGLE for " + this.props.id + ": " + this.angle);
     this.timerInit = ((360 - (this.angle % 360)) / this.angularSpeed) * 1000;
     this.timerLoop = (360 / this.angularSpeed) * 1000;
 
@@ -64,16 +67,17 @@ class ToneKonva extends React.Component {
     // this.circle.rotate(this.props.rotation);
 
     this.anim = new Konva.Animation(frame => {
-      
       var tDiff = frame.timeDiff;
       var angleDiff = (tDiff * this.angularSpeed) / 1000;
       // rotate the group
       this.group.rotate(angleDiff);
-      console.log("frame.time for " + this.props.id + ": " + frame.time)
-      console.log("frame.timeDiff for " + this.props.id + ": " + frame.timeDiff)
+      console.log("frame.time for " + this.props.id + ": " + frame.time);
+      console.log(
+        "frame.timeDiff for " + this.props.id + ": " + frame.timeDiff
+      );
       this.trueTime = frame.time - this.lastTime;
-      console.log("angleDiff for " + this.props.id + ": " + angleDiff)
-      console.log("angleSpeed for " + this.props.id + ": " + this.angularSpeed)
+      console.log("angleDiff for " + this.props.id + ": " + angleDiff);
+      console.log("angleSpeed for " + this.props.id + ": " + this.angularSpeed);
 
       if (
         this.timerInit - 10 < this.trueTime &&
@@ -96,13 +100,12 @@ class ToneKonva extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-
     if (prevProps.sound !== this.props.sound && this.props.sound !== null) {
-      this.innerCircle.fill("transparent")
+      this.innerCircle.fill("transparent");
     }
 
     if (prevProps.sound !== this.props.sound && this.props.sound === null) {
-      this.innerCircle.fill("transparent")
+      this.innerCircle.fill("transparent");
     }
 
     // TEMPO CHANGE
@@ -128,16 +131,29 @@ class ToneKonva extends React.Component {
     }
 
     if (
-        prevProps.loops[this.props.attachedLoop].active !==
-          this.props.loops[this.props.attachedLoop].active
-      ) {
-        if (this.props.loops[this.props.attachedLoop].active){
-        this.props.dispatch(updateTone(this.props.id, "#692D55", null, this.props.screenHeight / 350));
-        }
-        else if (!this.props.loops[this.props.attachedLoop].active){
-          this.props.dispatch(updateTone(this.props.id, "transparent", null, this.props.screenHeight / 350));
-          }
+      prevProps.loops[this.props.attachedLoop].active !==
+      this.props.loops[this.props.attachedLoop].active
+    ) {
+      if (this.props.loops[this.props.attachedLoop].active) {
+        this.props.dispatch(
+          updateTone(
+            this.props.id,
+            "#692D55",
+            null,
+            this.props.screenHeight / 350
+          )
+        );
+      } else if (!this.props.loops[this.props.attachedLoop].active) {
+        this.props.dispatch(
+          updateTone(
+            this.props.id,
+            "transparent",
+            null,
+            this.props.screenHeight / 350
+          )
+        );
       }
+    }
 
     if (prevProps.playing !== this.props.playing) {
       if (this.props.playing) {
@@ -165,13 +181,13 @@ class ToneKonva extends React.Component {
             )
           );
         }
-        
+
         // on pause, update the rotation value of the loop in the store
         this.props.dispatch(
           updateLoop(this.props.attachedLoop, this.group.rotation())
         );
-        console.log("rotation by: " + this.group.rotation())
-        console.log("Angle for " + this.props.s)
+        console.log("rotation by: " + this.group.rotation());
+        console.log("Angle for " + this.props.s);
       }
     }
   }
